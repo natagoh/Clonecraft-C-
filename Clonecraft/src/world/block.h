@@ -1,0 +1,34 @@
+#ifndef BLOCK_HPP
+#define BLOCK_HPP
+
+#include <glad/glad.h>
+#include <glm/glm.hpp>
+
+#include "renderer/mesh.h"
+#include "renderer/texture.h"
+
+enum class BlockType {
+	GRASS,
+	AIR,
+	DIRT,
+	SAND,
+};
+
+class Block {
+private:
+	BlockType type;
+	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
+	Texture texture;
+
+	Mesh generateMesh();
+	 
+public:
+	Block(void);
+	Block(BlockType type);
+	Block(BlockType type, glm::vec3 position);
+
+	void render();
+	glm::vec3 getPosition();
+};
+
+#endif
