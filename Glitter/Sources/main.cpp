@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include <shader.h>
 
 int main(int argc, char * argv[]) {
 
@@ -52,11 +53,18 @@ int main(int argc, char * argv[]) {
     // Give our vertices to OpenGL.
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
+    // Create and compile our GLSL program from the shaders
+    GLuint programID = LoadShaders("simple.vert", "simple.frag");
 
     // Rendering Loop
     while (glfwWindowShouldClose(window) == false) {
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // Use our shader
+        glUseProgram(programID);
 
         // Background Fill Color
         glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
