@@ -1,6 +1,3 @@
-// Local Headers
-#include "glitter.hpp"
-
 // System Headers
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -12,7 +9,10 @@
 #include <cstdio>
 #include <cstdlib>
 
-#include <shader.h>
+#include "common/shader.h"
+
+const int mWidth = 1280;
+const int mHeight = 800;
 
 // camera
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
@@ -81,7 +81,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 }
 
 int main(int argc, char * argv[]) {
-
     // Load GLFW and Create a Window
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -175,7 +174,7 @@ int main(int argc, char * argv[]) {
     //glDisableVertexAttribArray(0);
 
     // Create and compile our GLSL program from the shaders
-    GLuint programID = LoadShaders("simple.vert", "simple.frag");
+    GLuint programID = LoadShaders("../Clonecraft/shaders/simple.vert", "../Clonecraft/shaders/simple.frag");
 
     // Get a handle for our "MVP" uniform
     // Only during the initialisation
@@ -227,3 +226,4 @@ int main(int argc, char * argv[]) {
     glfwTerminate();
     return EXIT_SUCCESS;
 }
+
