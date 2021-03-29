@@ -8,16 +8,19 @@
 #include "render/texture.h"
 #include "world/block.h"
 
-#define CHUNK_SIZE 16
+#define CHUNK_DIM 3
+#define NUM_BLOCKS CHUNK_DIM * CHUNK_DIM * CHUNK_DIM
 
 class Chunk {
 private:
-	Block blocks[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
+	Block blocks[NUM_BLOCKS];
 	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	std::vector<GLfloat> vertices;
 	std::vector<GLuint> indices;
 	std::vector<GLfloat> uvs;
+
+	Mesh mesh;
 
 public:
 	Chunk(void);
@@ -26,7 +29,7 @@ public:
 	Block getBlock(int x, int y, int z);
 	bool blockIsVisibleAt(int x, int y, int z);
 	void render();
-	Mesh generateMesh();
+	void generateMesh();
 	void addBlockToMesh(int x, int y, int z);
 	
 };

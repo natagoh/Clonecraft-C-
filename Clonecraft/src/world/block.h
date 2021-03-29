@@ -17,14 +17,13 @@ class Block {
 private:
 	BlockType type = BlockType::GRASS;
 	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-
-	Mesh generateMesh();
 	 
 public:
 	Block(void);
 	Block(BlockType type);
 	Block(BlockType type, glm::vec3 position);
 
+	Mesh generateMesh();
 	void render();
 	glm::vec3 getPosition();
 	bool isVisible();

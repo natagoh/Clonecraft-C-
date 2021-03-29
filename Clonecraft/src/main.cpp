@@ -67,7 +67,7 @@ int main(int argc, char * argv[]) {
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     // create block
-    const unsigned int NUM_BLOCKS = 9;
+   /* const unsigned int NUM_BLOCKS = 9;
     Block blocks[NUM_BLOCKS];
 
     for (int i = 0; i < 3; i++) {
@@ -75,12 +75,13 @@ int main(int argc, char * argv[]) {
             glm::vec3 pos = glm::vec3(i, 0.0f, j);
             blocks[i + 3 * j] = Block(BlockType::GRASS, pos);
         }
-    }
+    }*/
 
     // texture for the world
     Texture texture("../Clonecraft/resources/atlas.png");
 
-    Chunk chunk();
+    Chunk chunk = Chunk();
+    chunk.generateMesh();
 
     //Block block(BlockType::GRASS);
 
@@ -122,18 +123,28 @@ int main(int argc, char * argv[]) {
 
         // bind texture
         texture.bind();
-        for (int i = 0; i < NUM_BLOCKS; i++) {
-            // Model matrix : an identity matrix (model will be at the origin)
-            glm::mat4 model = glm::translate(glm::mat4(1.0f), blocks[i].getPosition());
-            glm::mat4 mvp = projection * view * model; // Remember, matrix multiplication is the other way around
 
-            // Send our transformation to the currently bound shader, in the "MVP" uniform
-            // This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
-            glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+        glm::mat4 model = glm::mat4(1.0f);
+        glm::mat4 mvp = projection * view * model; // Remember, matrix multiplication is the other way around
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+      
+        // render chunk
+        chunk.render();
 
-            blocks[i].render();
-        }
+        // render blocks array
+        //for (int i = 0; i < NUM_BLOCKS; i++) {
+        //    // Model matrix : an identity matrix (model will be at the origin)
+        //    glm::mat4 model = glm::translate(glm::mat4(1.0f), blocks[i].getPosition());
+        //    glm::mat4 mvp = projection * view * model; // Remember, matrix multiplication is the other way around
 
+        //    // Send our transformation to the currently bound shader, in the "MVP" uniform
+        //    // This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
+        //    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+
+        //    blocks[i].render();
+        //}
+
+        // render 1 block
        //// Model matrix : an identity matrix (model will be at the origin)
        //glm::mat4 model = glm::mat4(1.0f);
        //glm::mat4 mvp = projection * view * model; // Remember, matrix multiplication is the other way around
@@ -148,12 +159,11 @@ int main(int argc, char * argv[]) {
         glfwPollEvents();
     }   
 
-    // Cleanup VBO and shader
-    //glDeleteTextures(1, &Texture);
 
     // cleanup shader
     glDeleteProgram(programID);
 
+    // cleanup texture
     texture.cleanup();
 
     glfwTerminate();

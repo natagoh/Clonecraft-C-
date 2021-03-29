@@ -55,6 +55,5 @@ void Texture::unbind() {
 }
 
 void Texture::cleanup() {
-    GLuint textures[] = { textureId };
-    glDeleteTextures(1, textures);
+    glDeleteTextures(1, &textureId);
 }

@@ -2,27 +2,30 @@
 #include <iostream>
 
 Chunk::Chunk(void) {
-	for (int x = 0; x < CHUNK_SIZE; x++) {
-		for (int y = 0; y < CHUNK_SIZE; y++) {
-			for (int z = 0; z < CHUNK_SIZE; z++) {
-				blocks[x + CHUNK_SIZE * (y + CHUNK_SIZE * z)] = Block(BlockType::GRASS);
+	/*for (int x = 0; x < CHUNK_DIM; x++) {
+		for (int y = 0; y < CHUNK_DIM; y++) {
+			for (int z = 0; z < CHUNK_DIM; z++) {
+				blocks[x + CHUNK_DIM * (y + CHUNK_DIM * z)] = Block(BlockType::GRASS);
 			}
 		}
-	}
+	}*/
 
+    for (int i = 0; i < NUM_BLOCKS; i++) {
+        blocks[i] = Block(BlockType::GRASS);
+    }
 }
 
 // get the block at the specified chunk coordinates
 Block Chunk::getBlock(int x, int y, int z) {
-	return blocks[x + CHUNK_SIZE * (y + CHUNK_SIZE * z)];
+	return blocks[x + CHUNK_DIM * (y + CHUNK_DIM * z)];
 }
 
 // is a block in the chunk visible at this coord?
 bool Chunk::blockIsVisibleAt(int x, int y, int z) {
 	// check edge of chunk
-	bool x_in_range = x > 0 && x < CHUNK_SIZE - 1;
-	bool y_in_range = y > 0 && y < CHUNK_SIZE - 1;
-	bool z_in_range = z > 0 && z < CHUNK_SIZE - 1;
+	bool x_in_range = x > 0 && x < CHUNK_DIM - 1;
+	bool y_in_range = y > 0 && y < CHUNK_DIM - 1;
+	bool z_in_range = z > 0 && z < CHUNK_DIM - 1;
 	if (!x_in_range || !y_in_range || !z_in_range) {
 		return true;
 	}
@@ -37,25 +40,37 @@ bool Chunk::blockIsVisibleAt(int x, int y, int z) {
 	return true;
 }
 
+
+// make sure to call generateMesh at least once before render
 void Chunk::render() {
-    Mesh mesh = generateMesh();
-    mesh.render();
-    mesh.cleanup();
     mesh.render();
 }
 
 // todo implement this function
-Mesh Chunk::generateMesh() {
-	for (int x = 0; x < CHUNK_SIZE; x++) {
-		for (int y = 0; y < CHUNK_SIZE; y++) {
-			for (int z = 0; z < CHUNK_SIZE; z++) {
-				if (blockIsVisibleAt(x, y, z)) {
+void Chunk::generateMesh() {
+	for (int x = 0; x < CHUNK_DIM; x++) {
+		for (int y = 0; y < CHUNK_DIM; y++) {
+			for (int z = 0; z < CHUNK_DIM; z++) {
+				//if (blockIsVisibleAt(x, y, z)) {
                     addBlockToMesh(x, y, z);
-				}
+                    std::cout << "after iteration size of vertices " << vertices.size() << std::endl;
+				//}
 			}
 		}
 	}
-    return Mesh(vertices, uvs, indices);
+
+    std::cout << "num blocks " << sizeof(blocks) / sizeof(blocks[0]) << std::endl;
+    std::cout << "num vertices " << vertices.size() / 3 << std::endl;
+    std::cout << "num uvs " << uvs.size() / 2 << std::endl;
+    std::cout << "num indices " << indices.size() / 6 << std::endl;
+    mesh = Mesh(vertices, uvs, indices);
+
+    //mesh = Block(BlockType::GRASS).generateMesh();
+
+    // clean up buffer vectors once data already pushed to mesh
+    vertices.clear();
+    uvs.clear();
+    indices.clear();
 }
 
 // add the block at x, y, z to the chunk's mesh
@@ -98,6 +113,9 @@ void Chunk::addBlockToMesh(int x, int y, int z) {
         12, 14, 15, 13, 12, 15,	// top
         16, 19, 18, 17, 19, 16, // bot
     };
+
+   /* std::cout << "num base vertices " << base_vertices.size() << std::endl;
+    std::cout << "num base indices " << base_indices.size() << std::endl;*/
 
     GLfloat texture_size = 16.0f;
     GLfloat atlas_size = 256.0f;
@@ -173,19 +191,25 @@ void Chunk::addBlockToMesh(int x, int y, int z) {
         bbot_right_x, bbot_right_y,
     };
 
-    // should be 20
-    unsigned int num_vertex_coords = base_vertices.size() / 3;
+    // should be 20 since 1 block has 20 vertices
+    unsigned int num_vertices_per_block = base_vertices.size() / 3;
+
+    // index of block we are adding
+    unsigned int num_blocks = vertices.size() / 3;
+    unsigned int block_index = num_blocks / num_vertices_per_block;
+    std::cout << "num vertext coords " << num_vertices_per_block << std::endl;
+    std::cout << "block index " << block_index << std::endl;
 
     // add the position-offset vertices of the newly added block
-    for (size_t i = 0; i < num_vertex_coords / 3; i++) {
-        vertices.push_back(base_vertices[i] + position.x);
-        vertices.push_back(base_vertices[i + 1] + position.y);
-        vertices.push_back(base_vertices[i + 2] + position.z);
+    for (size_t i = 0; i < num_vertices_per_block; i++) {
+        vertices.push_back(base_vertices[i * 3] + position.x + x);
+        vertices.push_back(base_vertices[i * 3 + 1] + position.y + y);
+        vertices.push_back(base_vertices[i * 3 + 2] + position.z + z);
     }
 
     // add the indices of the newly added block
     for (size_t i = 0; i < base_indices.size(); i++) {
-        indices.push_back(base_indices[i] + num_vertex_coords);
+        indices.push_back(base_indices[i] + num_vertices_per_block * block_index);
     }
 
     // for now, all blocks have the same texture
