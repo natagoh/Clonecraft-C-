@@ -76,6 +76,8 @@ int main(int argc, char * argv[]) {
         }
     }
 
+    //Block block(BlockType::GRASS);
+
 
     // Create and compile our GLSL program from the shaders
     GLuint programID = LoadShaders("../Clonecraft/shaders/simple.vert", "../Clonecraft/shaders/simple.frag");
@@ -124,17 +126,25 @@ int main(int argc, char * argv[]) {
             blocks[i].render();
         }
 
+       //// Model matrix : an identity matrix (model will be at the origin)
+       //glm::mat4 model = glm::mat4(1.0f);
+       //glm::mat4 mvp = projection * view * model; // Remember, matrix multiplication is the other way around
+
+       //// Send our transformation to the currently bound shader, in the "MVP" uniform
+       //// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
+       //glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+       //block.render();
+      
         // Flip Buffers and Draw
         glfwSwapBuffers(window);
         glfwPollEvents();
     }   
 
     // Cleanup VBO and shader
-   /* glDeleteBuffers(1, &vertexbuffer);
-    glDeleteBuffers(1, &uvbuffer);
+    //glDeleteTextures(1, &Texture);
+
+    // cleanup shader
     glDeleteProgram(programID);
-    glDeleteTextures(1, &Texture);
-    glDeleteVertexArrays(1, &VertexArrayID);*/
 
     glfwTerminate();
     return EXIT_SUCCESS;

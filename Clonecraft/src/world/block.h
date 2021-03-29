@@ -16,7 +16,7 @@ enum class BlockType {
 
 class Block {
 private:
-	BlockType type;
+	BlockType type = BlockType::GRASS;
 	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
 	Texture texture;
 
@@ -29,6 +29,7 @@ public:
 
 	void render();
 	glm::vec3 getPosition();
+	bool isVisible();
 };
 
 #endif

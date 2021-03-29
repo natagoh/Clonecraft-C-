@@ -145,9 +145,15 @@ Mesh Block::generateMesh() {
 
 void Block::render() {
     texture.bind();
-    generateMesh().render();
+    Mesh mesh = generateMesh();
+    mesh.render();
+    mesh.cleanup();
 }
 
 glm::vec3 Block::getPosition() {
     return position;
+}
+
+bool Block::isVisible() {
+    return !(type == BlockType::AIR);
 }
