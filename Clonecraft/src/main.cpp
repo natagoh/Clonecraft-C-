@@ -15,7 +15,6 @@
 #include "render/shader.h"
 #include "render/texture.h"
 #include "render/mesh.h"
-#include "world/block.h"
 #include "world/chunk.h"
 
 // timing
@@ -66,24 +65,11 @@ int main(int argc, char * argv[]) {
     Input input(window, &camera);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-    // create block
-   /* const unsigned int NUM_BLOCKS = 9;
-    Block blocks[NUM_BLOCKS];
-
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            glm::vec3 pos = glm::vec3(i, 0.0f, j);
-            blocks[i + 3 * j] = Block(BlockType::GRASS, pos);
-        }
-    }*/
-
     // texture for the world
     Texture texture("../Clonecraft/resources/atlas.png");
 
     Chunk chunk = Chunk();
     chunk.generateMesh();
-
-    //Block block(BlockType::GRASS);
 
 
     // Create and compile our GLSL program from the shaders
@@ -105,7 +91,7 @@ int main(int argc, char * argv[]) {
         lastFrame = currentFrame;
 
         // update camera speed
-        camera.setSpeed(2.5 * deltaTime);
+        camera.setSpeed(16 * deltaTime);
 
         // input
         // -----
@@ -130,29 +116,6 @@ int main(int argc, char * argv[]) {
       
         // render chunk
         chunk.render();
-
-        // render blocks array
-        //for (int i = 0; i < NUM_BLOCKS; i++) {
-        //    // Model matrix : an identity matrix (model will be at the origin)
-        //    glm::mat4 model = glm::translate(glm::mat4(1.0f), blocks[i].getPosition());
-        //    glm::mat4 mvp = projection * view * model; // Remember, matrix multiplication is the other way around
-
-        //    // Send our transformation to the currently bound shader, in the "MVP" uniform
-        //    // This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
-        //    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-
-        //    blocks[i].render();
-        //}
-
-        // render 1 block
-       //// Model matrix : an identity matrix (model will be at the origin)
-       //glm::mat4 model = glm::mat4(1.0f);
-       //glm::mat4 mvp = projection * view * model; // Remember, matrix multiplication is the other way around
-
-       //// Send our transformation to the currently bound shader, in the "MVP" uniform
-       //// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
-       //glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-       //block.render();
       
         // Flip Buffers and Draw
         glfwSwapBuffers(window);

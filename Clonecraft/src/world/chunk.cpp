@@ -40,13 +40,11 @@ bool Chunk::blockIsVisibleAt(int x, int y, int z) {
 	return true;
 }
 
-
 // make sure to call generateMesh at least once before render
 void Chunk::render() {
     mesh.render();
 }
 
-// todo implement this function
 void Chunk::generateMesh() {
 	for (int x = 0; x < CHUNK_DIM; x++) {
 		for (int y = 0; y < CHUNK_DIM; y++) {
@@ -106,9 +104,6 @@ void Chunk::addBlockToMesh(int x, int y, int z) {
         12, 14, 15, 13, 12, 15,	// top
         16, 19, 18, 17, 19, 16, // bot
     };
-
-   /* std::cout << "num base vertices " << base_vertices.size() << std::endl;
-    std::cout << "num base indices " << base_indices.size() << std::endl;*/
 
     GLfloat texture_size = 16.0f;
     GLfloat atlas_size = 256.0f;
