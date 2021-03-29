@@ -5,7 +5,6 @@
 #include <glm/glm.hpp>
 
 #include "render/mesh.h"
-#include "render/texture.h"
 
 enum class BlockType {
 	GRASS,
@@ -18,7 +17,6 @@ class Block {
 private:
 	BlockType type = BlockType::GRASS;
 	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-	Texture texture;
 
 	Mesh generateMesh();
 	 

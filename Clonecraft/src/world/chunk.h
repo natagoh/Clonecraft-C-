@@ -14,16 +14,20 @@ class Chunk {
 private:
 	Block blocks[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
 	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-	//Mesh mesh;
+
+	std::vector<GLfloat> vertices;
+	std::vector<GLuint> indices;
+	std::vector<GLfloat> uvs;
 
 public:
-	Chunk();
+	Chunk(void);
 	//~Chunk();
 
-	Block getBlockAt(int x, int y, int z);
-	bool isVisibleAt(int x, int y, int z);
-	void generateMesh();
-	//void addBlockToMesh(int x, int y, int z);
+	Block getBlock(int x, int y, int z);
+	bool blockIsVisibleAt(int x, int y, int z);
+	void render();
+	Mesh generateMesh();
+	void addBlockToMesh(int x, int y, int z);
 	
 };
 

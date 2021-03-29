@@ -8,12 +8,12 @@ class Mesh {
 private:
 	GLuint vao;
 	GLuint vbos[3];
-	unsigned int num_vertices;
+	unsigned int num_vertices = 0;
 
 public:
+	Mesh(void);
 	Mesh(std::vector<GLfloat> &vertices, std::vector<GLfloat> &uvs, std::vector<GLuint> &indices);
 
-	GLuint getVao();
 	unsigned int getNumVertices();
 	void render();
 	void cleanup();

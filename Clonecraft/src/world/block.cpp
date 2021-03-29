@@ -4,17 +4,11 @@ Block::Block(void) = default;
 
 Block::Block(BlockType type) {
 	this->type = type;
-
-    Texture texture("../Clonecraft/resources/atlas.png");
-    this->texture = texture;
 }
 
 Block::Block(BlockType type, glm::vec3 position) {
 	this->type = type;
 	this->position = position;
-
-    Texture texture("../Clonecraft/resources/atlas.png");
-    this->texture = texture;
 }
 
 Mesh Block::generateMesh() {
@@ -144,7 +138,6 @@ Mesh Block::generateMesh() {
 }
 
 void Block::render() {
-    texture.bind();
     Mesh mesh = generateMesh();
     mesh.render();
     mesh.cleanup();

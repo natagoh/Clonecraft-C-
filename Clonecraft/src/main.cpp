@@ -16,6 +16,7 @@
 #include "render/texture.h"
 #include "render/mesh.h"
 #include "world/block.h"
+#include "world/chunk.h"
 
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
@@ -76,6 +77,11 @@ int main(int argc, char * argv[]) {
         }
     }
 
+    // texture for the world
+    Texture texture("../Clonecraft/resources/atlas.png");
+
+    Chunk chunk();
+
     //Block block(BlockType::GRASS);
 
 
@@ -114,7 +120,9 @@ int main(int argc, char * argv[]) {
         // camera/view transformation
         glm::mat4 view = camera.getView();
 
-       for (int i = 0; i < NUM_BLOCKS; i++) {
+        // bind texture
+        texture.bind();
+        for (int i = 0; i < NUM_BLOCKS; i++) {
             // Model matrix : an identity matrix (model will be at the origin)
             glm::mat4 model = glm::translate(glm::mat4(1.0f), blocks[i].getPosition());
             glm::mat4 mvp = projection * view * model; // Remember, matrix multiplication is the other way around
@@ -145,6 +153,8 @@ int main(int argc, char * argv[]) {
 
     // cleanup shader
     glDeleteProgram(programID);
+
+    texture.cleanup();
 
     glfwTerminate();
     return EXIT_SUCCESS;
