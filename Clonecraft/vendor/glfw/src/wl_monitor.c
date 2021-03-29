@@ -1,5 +1,5 @@
 //========================================================================
-// GLFW 3.4 Wayland - www.glfw.org
+// GLFW 3.3 Wayland - www.glfw.org
 //------------------------------------------------------------------------
 // Copyright (c) 2014 Jonas Ådahl <jadahl@gmail.com>
 //
@@ -81,21 +81,20 @@ static void outputHandleMode(void* data,
     monitor->modes[monitor->modeCount - 1] = mode;
 
     if (flags & WL_OUTPUT_MODE_CURRENT)
-    {
         monitor->wl.currentMode = monitor->modeCount - 1;
-
-        if (monitor->widthMM <= 0 || monitor->heightMM <= 0)
-        {
-            // If Wayland does not provide a physical size, assume the default 96 DPI
-            monitor->widthMM  = (int) (width * 25.4f / 96.f);
-            monitor->heightMM = (int) (height * 25.4f / 96.f);
-        }
-    }
 }
 
 static void outputHandleDone(void* data, struct wl_output* output)
 {
     struct _GLFWmonitor *monitor = data;
+
+    if (monitor->widthMM <= 0 || monitor->heightMM <= 0)
+    {
+        // If Wayland does not provide a physical size, assume the default 96 DPI
+        const GLFWvidmode* mode = &monitor->modes[monitor->wl.currentMode];
+        monitor->widthMM  = (int) (mode->width * 25.4f / 96.f);
+        monitor->heightMM = (int) (mode->height * 25.4f / 96.f);
+    }
 
     _glfwInputMonitor(monitor, GLFW_CONNECTED, _GLFW_INSERT_LAST);
 }
@@ -208,7 +207,7 @@ void _glfwPlatformGetVideoMode(_GLFWmonitor* monitor, GLFWvidmode* mode)
 
 GLFWbool _glfwPlatformGetGammaRamp(_GLFWmonitor* monitor, GLFWgammaramp* ramp)
 {
-    _glfwInputError(GLFW_FEATURE_UNAVAILABLE,
+    _glfwInputError(GLFW_PLATFORM_ERROR,
                     "Wayland: Gamma ramp access is not available");
     return GLFW_FALSE;
 }
@@ -216,7 +215,7 @@ GLFWbool _glfwPlatformGetGammaRamp(_GLFWmonitor* monitor, GLFWgammaramp* ramp)
 void _glfwPlatformSetGammaRamp(_GLFWmonitor* monitor,
                                const GLFWgammaramp* ramp)
 {
-    _glfwInputError(GLFW_FEATURE_UNAVAILABLE,
+    _glfwInputError(GLFW_PLATFORM_ERROR,
                     "Wayland: Gamma ramp access is not available");
 }
 

@@ -1,4 +1,4 @@
-#include "world/block.h"
+#include "block.h"
 
 Block::Block(void) = default;
 

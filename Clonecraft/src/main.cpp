@@ -10,11 +10,11 @@
 #include <iostream>
 #include <vector>
 
-#include "common/shader.h"
-#include "common/camera.h"
-#include "common/input.h"
-#include "renderer/texture.h"
-#include "renderer/mesh.h"
+#include "camera.h"
+#include "input.h"
+#include "render/shader.h"
+#include "render/texture.h"
+#include "render/mesh.h"
 #include "world/block.h"
 
 // timing

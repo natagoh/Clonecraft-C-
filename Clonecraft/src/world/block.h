@@ -4,8 +4,8 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 
-#include "renderer/mesh.h"
-#include "renderer/texture.h"
+#include "render/mesh.h"
+#include "render/texture.h"
 
 enum class BlockType {
 	GRASS,

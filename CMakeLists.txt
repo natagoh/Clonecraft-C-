@@ -6,11 +6,6 @@ option(GLFW_BUILD_EXAMPLES OFF)
 option(GLFW_BUILD_TESTS OFF)
 add_subdirectory(Clonecraft/Vendor/glfw)
 
-option(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
-option(ASSIMP_BUILD_SAMPLES OFF)
-option(ASSIMP_BUILD_TESTS OFF)
-add_subdirectory(Clonecraft/Vendor/assimp)
-
 option(BUILD_BULLET2_DEMOS OFF)
 option(BUILD_CPU_DEMOS OFF)
 option(BUILD_EXTRAS OFF)
@@ -29,7 +24,7 @@ endif()
 
 include_directories(Clonecraft/headers/
                     Clonecraft/src/
-                    Clonecraft/vendor/assimp/include/
+                    Clonecraft/resources/
                     Clonecraft/vendor/bullet/src/
                     Clonecraft/vendor/glad/include/
                     Clonecraft/vendor/glfw/include/
@@ -38,7 +33,13 @@ include_directories(Clonecraft/headers/
 
 file(GLOB VENDORS_SOURCES Clonecraft/vendor/glad/src/glad.c)
 file(GLOB PROJECT_HEADERS Clonecraft/headers/*.hpp)
-file(GLOB PROJECT_SOURCES Clonecraft/src/*.cpp)
+file(GLOB PROJECT_RESOURCES Clonecraft/resources/*.png)
+file(GLOB PROJECT_SOURCES Clonecraft/src/*.cpp 
+                          Clonecraft/src/*.h
+                          Clonecraft/src/render/*.cpp
+                          Clonecraft/src/render/*.h 
+                          Clonecraft/src/world/*.cpp 
+                          Clonecraft/src/world/*.h)
 file(GLOB PROJECT_SHADERS Clonecraft/shaders/*.comp
                           Clonecraft/shaders/*.frag
                           Clonecraft/shaders/*.geom
@@ -50,16 +51,17 @@ file(GLOB PROJECT_CONFIGS CMakeLists.txt
                          .gitmodules)
 
 source_group("headers" FILES ${PROJECT_HEADERS})
+source_group("resources" FILES ${PROJECT_RESOURCES})
 source_group("shaders" FILES ${PROJECT_SHADERS})
 source_group("src" FILES ${PROJECT_SOURCES})
 source_group("vendors" FILES ${VENDORS_SOURCES})
 
 add_definitions(-DGLFW_INCLUDE_NONE
                 -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS}
-                               ${PROJECT_SHADERS} ${PROJECT_CONFIGS}
-                               ${VENDORS_SOURCES})
-target_link_libraries(${PROJECT_NAME} assimp glfw
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_RESOURCES} 
+                               ${PROJECT_HEADERS} ${PROJECT_SHADERS} 
+                               ${PROJECT_CONFIGS} ${VENDORS_SOURCES})
+target_link_libraries(${PROJECT_NAME} glfw
                       ${GLFW_LIBRARIES} ${GLAD_LIBRARIES}
                       BulletDynamics BulletCollision LinearMath)
 set_target_properties(${PROJECT_NAME} PROPERTIES
