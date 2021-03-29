@@ -8,7 +8,7 @@
 #include "render/texture.h"
 #include "world/block.h"
 
-#define CHUNK_DIM 3
+#define CHUNK_DIM 16
 #define NUM_BLOCKS CHUNK_DIM * CHUNK_DIM * CHUNK_DIM
 
 class Chunk {

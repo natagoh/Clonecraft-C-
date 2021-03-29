@@ -51,21 +51,14 @@ void Chunk::generateMesh() {
 	for (int x = 0; x < CHUNK_DIM; x++) {
 		for (int y = 0; y < CHUNK_DIM; y++) {
 			for (int z = 0; z < CHUNK_DIM; z++) {
-				//if (blockIsVisibleAt(x, y, z)) {
+			    if (blockIsVisibleAt(x, y, z)) {
                     addBlockToMesh(x, y, z);
-                    std::cout << "after iteration size of vertices " << vertices.size() << std::endl;
-				//}
+				}
 			}
 		}
 	}
 
-    std::cout << "num blocks " << sizeof(blocks) / sizeof(blocks[0]) << std::endl;
-    std::cout << "num vertices " << vertices.size() / 3 << std::endl;
-    std::cout << "num uvs " << uvs.size() / 2 << std::endl;
-    std::cout << "num indices " << indices.size() / 6 << std::endl;
     mesh = Mesh(vertices, uvs, indices);
-
-    //mesh = Block(BlockType::GRASS).generateMesh();
 
     // clean up buffer vectors once data already pushed to mesh
     vertices.clear();
@@ -197,8 +190,6 @@ void Chunk::addBlockToMesh(int x, int y, int z) {
     // index of block we are adding
     unsigned int num_blocks = vertices.size() / 3;
     unsigned int block_index = num_blocks / num_vertices_per_block;
-    std::cout << "num vertext coords " << num_vertices_per_block << std::endl;
-    std::cout << "block index " << block_index << std::endl;
 
     // add the position-offset vertices of the newly added block
     for (size_t i = 0; i < num_vertices_per_block; i++) {
