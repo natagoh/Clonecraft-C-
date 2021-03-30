@@ -2,6 +2,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+Camera::Camera() = default;
+
 Camera::Camera(glm::vec3 position, glm::vec3 direction, glm::vec3 up) {
 	this->position = position;
 	this->direction = direction;

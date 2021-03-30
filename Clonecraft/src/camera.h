@@ -5,12 +5,13 @@
 
 class Camera {
 private:
-	glm::vec3 position;
-	glm::vec3 direction;
-	glm::vec3 up;
+	glm::vec3 position = {};
+	glm::vec3 direction = {};
+	glm::vec3 up = {};
 	float speed;
 
 public:
+	Camera();
 	Camera(glm::vec3 position, glm::vec3 direction, glm::vec3 up);
 
 	void setPosition(glm::vec3 position);

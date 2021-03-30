@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "camera.h"
+#include "render/frustum.h"
 #include "input.h"
 #include "render/shader.h"
 #include "render/texture_atlas.h"
@@ -41,6 +42,8 @@ int main() {
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), mWidth / mHeight, 0.1f, 100.0f);
 
     Camera camera(cameraPos, cameraDir, cameraUp);
+
+    Frustum frustum(camera, projection);
 
     // keyboard + mouse input setup
     Input input(window, &camera);
