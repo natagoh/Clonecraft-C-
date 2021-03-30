@@ -22,6 +22,9 @@ private:
 
 	Mesh mesh;
 
+    static const GLfloat base_vertices[]; 
+	static const GLuint base_indices[];
+
 public:
 	Chunk(void);
 	Chunk(glm::vec3 position);

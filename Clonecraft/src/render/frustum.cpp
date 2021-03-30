@@ -18,6 +18,18 @@ Frustum::Frustum(Camera camera, glm::mat4 projection) {
 	//std::cout << "fov " << fov << " aspect " << aspect_ratio << " near " << near << " far " << far << std::endl;
 }
 
+// tests if point is inside frustum
+// true = inside, false = outside
+bool Frustum::pointTest(glm::vec3 point) {
+	int result = true;
+	for (int i = 0; i < 6; i++) {
+		/*if (planes[i].GetPointDistance(point) < 0) {
+			return false;
+		}*/
+	}
+	return result;
+}
+
 void Frustum::generateVertices() {
 	// get camera vectors
 	glm::vec3 pos = camera.getPosition();

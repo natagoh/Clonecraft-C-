@@ -35,6 +35,8 @@ public:
 	Frustum(Camera camera, glm::mat4 projection);
 
 	void generateVertices();
+	bool pointTest(glm::vec3 point);
+
 	void render();
 };
 
