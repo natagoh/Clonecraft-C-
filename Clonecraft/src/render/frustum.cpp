@@ -77,10 +77,10 @@ void Frustum::generatePlanes() {
 	//ftr = f_pos + up * (f_height / 2.0f) + right * (f_width / 2.0f);
 	//fbr = f_pos - up * (f_height / 2.0f) + right * (f_width / 2.0f);
 
-	ntl = n_pos + f_h - f_w;
-	nbl = n_pos - f_h - f_w;
-	ntr = n_pos + f_h + f_w;
-	nbr = n_pos - f_h + f_w;
+	ntl = n_pos + n_h - n_w;
+	nbl = n_pos - n_h - n_w;
+	ntr = n_pos + n_h + n_w;
+	nbr = n_pos - n_h + n_w;
 
 	ftl = f_pos + f_h - f_w;
 	fbl = f_pos - f_h - f_w;
