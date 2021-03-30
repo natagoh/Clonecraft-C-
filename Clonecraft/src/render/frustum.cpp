@@ -182,13 +182,12 @@ void Frustum::render() {
 	// render lines
 	indices.clear();
 	indices = {
-		0, 1,
-		//0, 4, 4, 6, 6, 2, 2, 0,	// top
-		//1, 2, 2, 7, 7, 3, 3, 1,	// bot
-		//1, 0,
-		//2, 4,
-		//7, 6,
-		//3, 2,
+		0, 1, 1, 3, 3, 2, 2, 0, // front
+		4, 6, 6, 7, 7, 5, 5, 4, // back
+		0, 4,
+		2, 6,
+		1, 5,
+		3, 7,
 	};
 
 	mesh = Mesh(vertices, indices);
