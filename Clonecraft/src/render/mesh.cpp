@@ -4,7 +4,7 @@
 Mesh::Mesh(void) = default;
 
 Mesh::Mesh(std::vector<GLfloat> &vertices, std::vector<GLuint> &indices) {
-    num_vertices = vertices.size();
+    num_indices = indices.size();
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -22,7 +22,7 @@ Mesh::Mesh(std::vector<GLfloat> &vertices, std::vector<GLuint> &indices) {
 }
 
 Mesh::Mesh(std::vector<GLfloat> &vertices, std::vector<GLfloat> &uvs, std::vector<GLuint> &indices) {
-    num_vertices = vertices.size();
+    num_indices = vertices.size();
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -46,14 +46,14 @@ Mesh::Mesh(std::vector<GLfloat> &vertices, std::vector<GLfloat> &uvs, std::vecto
 
 }
 
-unsigned int Mesh::getNumVertices() {
-	return num_vertices;
+unsigned int Mesh::getNumIndices() {
+	return num_indices;
 }
 
 void Mesh::render() {
     // draw mesh
     glBindVertexArray(vao);
-    glDrawElements(GL_TRIANGLES, getNumVertices(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, getNumIndices(), GL_UNSIGNED_INT, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -70,7 +70,7 @@ void Mesh::render(GLenum mode) {
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
     glPointSize(10.0f);
 
-    glDrawElements(mode, getNumVertices(), GL_UNSIGNED_INT, 0);
+    glDrawElements(mode, getNumIndices(), GL_UNSIGNED_INT, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);

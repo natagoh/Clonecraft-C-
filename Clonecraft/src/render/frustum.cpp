@@ -44,7 +44,7 @@ void Frustum::generatePlanes() {
 	glm::vec3 up = camera.getUp();
 	glm::vec3 right = glm::normalize(glm::cross(dir, up));*/
 
-	glm::vec3 pos = glm::vec3(20.0f, 20.0f, 20.0f);
+	glm::vec3 pos = glm::vec3(20.0f, 20.0f, 0.0f);
 	glm::vec3 dir = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::vec3 right = glm::normalize(glm::cross(dir, up));
@@ -88,15 +88,15 @@ void Frustum::generatePlanes() {
 	fbr = f_pos - f_h + f_w;
 
 
-	//std::cout << "ntl " << glm::to_string(ntl) << std::endl;
-	//std::cout << "nbl " << glm::to_string(nbl) << std::endl;
-	//std::cout << "ntr " << glm::to_string(ntr) << std::endl;
-	//std::cout << "nbr " << glm::to_string(nbr) << std::endl;
+	/*std::cout << "ntl " << glm::to_string(ntl) << std::endl;
+	std::cout << "nbl " << glm::to_string(nbl) << std::endl;
+	std::cout << "ntr " << glm::to_string(ntr) << std::endl;
+	std::cout << "nbr " << glm::to_string(nbr) << std::endl;
 
-	//std::cout << "ftl " << glm::to_string(ftl) << std::endl;
-	//std::cout << "fbl " << glm::to_string(fbl) << std::endl;
-	//std::cout << "ftr " << glm::to_string(ftr) << std::endl;
-	//std::cout << "fbr " << glm::to_string(fbr) << std::endl;
+	std::cout << "ftl " << glm::to_string(ftl) << std::endl;
+	std::cout << "fbl " << glm::to_string(fbl) << std::endl;
+	std::cout << "ftr " << glm::to_string(ftr) << std::endl;
+	std::cout << "fbr " << glm::to_string(fbr) << std::endl;*/
 	
 	// plane normals
 	glm::vec3 near_normal = glm::normalize(glm::cross(glm::vec3(nbl - nbr), glm::vec3(ntr - nbr)));
@@ -164,8 +164,9 @@ void Frustum::render() {
 	planes[FrustumPlane::NEAR] = Plane{ nbl, nbr, ntr };
 	planes[FrustumPlane::FAR] = Plane{ fbl, fbr, ftr };*/
 
+	// render points
 	std::vector<GLuint> indices = {
-		0,1,2,3,
+		0, 1, 2, 3, 4, 5, 6, 7,
 		//0, 4, 4, 6, 6, 2, 2, 0,	// top
 		//1, 2, 2, 7, 7, 3, 3, 1,	// bot
 		//1, 0,
@@ -176,6 +177,22 @@ void Frustum::render() {
 
 	Mesh mesh(vertices, indices);
 	mesh.render(GL_POINTS);
+	mesh.cleanup();
+
+	// render lines
+	indices.clear();
+	indices = {
+		0, 1,
+		//0, 4, 4, 6, 6, 2, 2, 0,	// top
+		//1, 2, 2, 7, 7, 3, 3, 1,	// bot
+		//1, 0,
+		//2, 4,
+		//7, 6,
+		//3, 2,
+	};
+
+	mesh = Mesh(vertices, indices);
+	mesh.render(GL_LINES);
 	mesh.cleanup();
 
 }
