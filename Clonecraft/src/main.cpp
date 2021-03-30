@@ -104,6 +104,9 @@ int main() {
 
         // render world
         world.render();
+
+        // render frustum
+        //frustum.render();
       
         // Flip Buffers and Draw
         glfwSwapBuffers(window);
