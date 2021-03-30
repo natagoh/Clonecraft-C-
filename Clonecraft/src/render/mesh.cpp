@@ -55,6 +55,8 @@ void Mesh::render() {
     glBindVertexArray(vao);
     glDrawElements(GL_TRIANGLES, getNumVertices(), GL_UNSIGNED_INT, 0);
 
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
     glFlush();
 }
 
@@ -64,8 +66,14 @@ void Mesh::render() {
 void Mesh::render(GLenum mode) {
     // draw mesh
     glBindVertexArray(vao);
+
+    glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+    glPointSize(10.0f);
+
     glDrawElements(mode, getNumVertices(), GL_UNSIGNED_INT, 0);
 
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
     glFlush();
 }
 

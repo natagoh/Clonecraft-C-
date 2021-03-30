@@ -59,6 +59,12 @@ void Frustum::generatePlanes() {
 
 	float f_height = 2 * tan(fov / 2) * far;
 	float f_width = f_height * aspect_ratio;
+	
+	glm::vec3 n_h = up * (n_height / 2.0f);
+	glm::vec3 n_w = right * (n_width / 2.0f);
+
+	glm::vec3 f_h = up * (f_height / 2.0f);
+	glm::vec3 f_w = right * (f_width / 2.0f);
 
 	// ntl = near top left
 	//ntl = n_pos + up * (n_height / 2.0f) - right * (n_width / 2.0f);
@@ -71,15 +77,15 @@ void Frustum::generatePlanes() {
 	//ftr = f_pos + up * (f_height / 2.0f) + right * (f_width / 2.0f);
 	//fbr = f_pos - up * (f_height / 2.0f) + right * (f_width / 2.0f);
 
-	ntl = n_pos + up * (f_height / 2.0f) - right * (f_width / 2.0f);
-	nbl = n_pos - up * (f_height / 2.0f) - right * (f_width / 2.0f);
-	ntr = n_pos + up * (f_height / 2.0f) + right * (f_width / 2.0f);
-	nbr = n_pos - up * (f_height / 2.0f) + right * (f_width / 2.0f);
+	ntl = n_pos + f_h - f_w;
+	nbl = n_pos - f_h - f_w;
+	ntr = n_pos + f_h + f_w;
+	nbr = n_pos - f_h + f_w;
 
-	ftl = f_pos + up * (f_height / 2.0f) - right * (f_width / 2.0f);
-	fbl = f_pos - up * (f_height / 2.0f) - right * (f_width / 2.0f);
-	ftr = f_pos + up * (f_height / 2.0f) + right * (f_width / 2.0f);
-	fbr = f_pos - up * (f_height / 2.0f) + right * (f_width / 2.0f);
+	ftl = f_pos + f_h - f_w;
+	fbl = f_pos - f_h - f_w;
+	ftr = f_pos + f_h + f_w;
+	fbr = f_pos - f_h + f_w;
 
 
 	//std::cout << "ntl " << glm::to_string(ntl) << std::endl;
@@ -159,16 +165,17 @@ void Frustum::render() {
 	planes[FrustumPlane::FAR] = Plane{ fbl, fbr, ftr };*/
 
 	std::vector<GLuint> indices = {
-		0, 1, 1, 3, 3, 2, 2, 0,	// near
-		4, 5, 5, 7, 7, 6, 6, 4,	// far
-		0, 4, 4, 6, 6, 2, 2, 0,	// top
-		1, 2, 2, 7, 7, 3, 3, 1,	// bot
-		0, 4, 4, 2, 2, 1, 1, 0,	// left
-		3, 2, 2, 6, 6, 7, 7, 3,	// right
+		0,1,2,3,
+		//0, 4, 4, 6, 6, 2, 2, 0,	// top
+		//1, 2, 2, 7, 7, 3, 3, 1,	// bot
+		//1, 0,
+		//2, 4,
+		//7, 6,
+		//3, 2,
 	};
 
 	Mesh mesh(vertices, indices);
-	mesh.render(GL_LINES);
+	mesh.render(GL_POINTS);
 	mesh.cleanup();
 
 }
