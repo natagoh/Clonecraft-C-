@@ -24,12 +24,18 @@ private:
 
 public:
 	Chunk(void);
+	Chunk(glm::vec3 position);
 	//~Chunk();
 
 	Block getBlock(int x, int y, int z);
 	void setBlock(int x, int y, int z, Block block);
+
+	void setPosition(glm::vec3 position);
+
 	bool blockIsVisibleAt(int x, int y, int z);
+
 	void render();
+
 	void generateMesh();
 	void addBlockToMesh(int x, int y, int z);
 	

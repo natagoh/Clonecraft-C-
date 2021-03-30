@@ -7,6 +7,13 @@ Chunk::Chunk(void) {
     }
 }
 
+Chunk::Chunk(glm::vec3 position) {
+    this->position = position;
+    for (int i = 0; i < NUM_BLOCKS; i++) {
+        blocks[i] = Block(BlockType::GRASS);
+    }
+}
+
 // get the block at the specified chunk coordinates
 Block Chunk::getBlock(int x, int y, int z) {
 	return blocks[x + CHUNK_DIM * (y + CHUNK_DIM * z)];
@@ -17,6 +24,11 @@ void Chunk::setBlock(int x, int y, int z, Block block) {
     blocks[x + CHUNK_DIM * (y + CHUNK_DIM * z)] = block;
 }
 
+// set the chunk's position in game world coords
+void Chunk::setPosition(glm::vec3 position) {
+    this->position = position;
+}
+ 
 // is a block in the chunk visible at this coord?
 bool Chunk::blockIsVisibleAt(int x, int y, int z) {
 	// check edge of chunk

@@ -16,6 +16,7 @@
 #include "render/texture_atlas.h"
 #include "render/mesh.h"
 #include "world/chunk.h"
+#include "world/world.h"
 
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
@@ -33,7 +34,7 @@ int main() {
     }
 
     // camera setup
-    glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 4.0f);
+    glm::vec3 cameraPos = glm::vec3(0.0f, 20.0f, 4.0f);
     glm::vec3 cameraDir = glm::vec3(0.0f, 0.0f, -1.0f);
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
     // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
@@ -48,8 +49,10 @@ int main() {
     // texture for the world
     TextureAtlas textureAtlas("../Clonecraft/resources/atlas.png");
 
-    Chunk chunk = Chunk();
-    chunk.generateMesh();
+    //Chunk chunk = Chunk();
+    //chunk.generateMesh();
+
+    World world = World();
 
     // Create and compile our GLSL program from the shaders
     GLuint programID = LoadShaders("../Clonecraft/shaders/simple.vert", "../Clonecraft/shaders/simple.frag");
@@ -93,8 +96,11 @@ int main() {
         glm::mat4 mvp = projection * view * model; // Remember, matrix multiplication is the other way around
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
       
-        // render chunk
-        chunk.render();
+        //// render chunk
+        //chunk.render();
+
+        // render world
+        world.render();
       
         // Flip Buffers and Draw
         glfwSwapBuffers(window);

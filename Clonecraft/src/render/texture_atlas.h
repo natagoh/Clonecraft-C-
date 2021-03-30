@@ -8,10 +8,11 @@
 
 class TextureAtlas {
 private:
-	Texture texture;
-	static const unsigned int TEXTURE_SIZE = 16;	// size of 1 texture in the atlas
-	static const unsigned int ATLAS_SIZE = 256;		// size of entire atlas, atlas is square
+	static const unsigned int TEXTURE_SIZE = 16;				// size of 1 texture in the atlas
+	static const unsigned int ATLAS_SIZE = 16 * TEXTURE_SIZE;	// size of entire atlas, atlas is square
 
+	Texture texture;
+	
 	// get texture atlas coords for a block type
 	static std::vector<float> getAtlasOffsets(BlockType blockType);
 
