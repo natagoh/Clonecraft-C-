@@ -44,8 +44,8 @@ void Frustum::generatePlanes() {
 	glm::vec3 up = camera.getUp();
 	glm::vec3 right = glm::normalize(glm::cross(dir, up));*/
 
-	glm::vec3 pos = glm::vec3(20.0f, 20.0f, 0.0f);
-	glm::vec3 dir = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 pos = glm::vec3(20.0f, 20.0f, 20.0f);
+	glm::vec3 dir = glm::normalize(glm::vec3(0.0f, 0.0f, -1.0f));
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::vec3 right = glm::normalize(glm::cross(dir, up));
 
@@ -86,6 +86,24 @@ void Frustum::generatePlanes() {
 	fbl = f_pos - f_h - f_w;
 	ftr = f_pos + f_h + f_w;
 	fbr = f_pos - f_h + f_w;
+
+	//// bring points into world space
+	//glm::mat4 view = glm::lookAt(pos, pos + dir, up);
+	//glm::mat4 view_inv = glm::inverse(view);
+
+	////glm::mat4 mvp = projection * view;
+
+	//ntl = view_inv * glm::vec4(ntl, 1);
+	//nbl = view_inv * glm::vec4(nbl, 1);
+	//ntr = view_inv * glm::vec4(ntr, 1);
+	//nbr = view_inv * glm::vec4(nbr, 1);
+
+
+	//ftl = view_inv * glm::vec4(ftl, 1);
+	//fbl = view_inv * glm::vec4(fbl, 1);
+	//ftr = view_inv * glm::vec4(ftr, 1);
+	//fbr = view_inv * glm::vec4(fbr, 1);
+
 
 
 	/*std::cout << "ntl " << glm::to_string(ntl) << std::endl;

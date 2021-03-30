@@ -26,6 +26,8 @@ public:
 
 	void setSpeed(float speed);
 	float getSpeed();
+
+	//void onCameraMove();
 };
 
 #endif

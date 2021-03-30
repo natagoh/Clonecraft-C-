@@ -33,8 +33,8 @@ int main() {
     }
 
     // camera setup
-    glm::vec3 cameraPos = glm::vec3(20.0f, 20.0f, 0.0f);
-    glm::vec3 cameraDir = glm::vec3(0.0f, 0.0f, 10.0f);
+    glm::vec3 cameraPos = glm::vec3(20.0f, 20.0f, 20.0f);
+    glm::vec3 cameraDir = glm::vec3(0.0f, 0.0f, -1.0f);
     // should be camera target
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
     // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
@@ -96,7 +96,7 @@ int main() {
         textureAtlas.bind();
 
         glm::mat4 model = glm::mat4(1.0f);
-        glm::mat4 mvp = projection * view * model; // Remember, matrix multiplication is the other way around
+        glm::mat4 mvp = projection * view; // Remember, matrix multiplication is the other way around
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 
         // render world
