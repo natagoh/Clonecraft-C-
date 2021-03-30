@@ -63,6 +63,11 @@ void Chunk::setBlock(int x, int y, int z, Block block) {
     blocks[x + CHUNK_DIM * (y + CHUNK_DIM * z)] = block;
 }
 
+// get the chunk's position in game world coords
+glm::vec3 Chunk::getPosition() {
+    return position;
+}
+
 // set the chunk's position in game world coords
 void Chunk::setPosition(glm::vec3 position) {
     this->position = position;

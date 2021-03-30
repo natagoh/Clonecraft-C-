@@ -33,6 +33,7 @@ public:
 	Block getBlock(int x, int y, int z);
 	void setBlock(int x, int y, int z, Block block);
 
+	glm::vec3 getPosition();
 	void setPosition(glm::vec3 position);
 
 	bool blockIsVisibleAt(int x, int y, int z);

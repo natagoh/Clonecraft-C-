@@ -7,6 +7,8 @@
 #include <memory>
 #include <unordered_map>
 #include "chunk.h"
+#include "render/frustum.h"
+
 
 class World {
 private:
@@ -18,7 +20,7 @@ private:
 public:
 	World();
 
-	void render();
+	void render(Frustum frustum);
 };
 
 #endif

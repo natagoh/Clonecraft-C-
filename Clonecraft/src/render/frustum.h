@@ -7,11 +7,11 @@
 
 class Frustum {
 private:
-	// we can define a plane with 3 points
+	// point-normal form
+	// if a point x is on the plane, then n * (x - p) = 0;
 	struct Plane {
-		glm::vec3 p0;
-		glm::vec3 p1;
-		glm::vec3 p2;
+		glm::vec3 n;
+		glm::vec3 p;
 	};
 
 	// to access frustum planes
@@ -34,7 +34,7 @@ private:
 public:
 	Frustum(Camera camera, glm::mat4 projection);
 
-	void generateVertices();
+	void generatePlanes();
 	bool pointTest(glm::vec3 point);
 
 	void render();

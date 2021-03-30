@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/string_cast.hpp>
+#include <glm/gtx/string_cast.hpp>
 
 #include <cstdio>
 #include <cstdlib>
@@ -16,17 +18,17 @@
 #include "render/shader.h"
 #include "render/texture_atlas.h"
 #include "render/mesh.h"
-#include "world/chunk.h"
 #include "world/world.h"
 
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
-GLFWwindow* initWindow();
+GLFWwindow* initWindow(bool debug);
 
 int main() {
-    GLFWwindow* window = initWindow();
+    bool debug = true;
+    GLFWwindow* window = initWindow(debug);
 
     // Check for Valid Context
     if (window == nullptr) {
@@ -35,15 +37,16 @@ int main() {
     }
 
     // camera setup
-    glm::vec3 cameraPos = glm::vec3(0.0f, 20.0f, 4.0f);
+    glm::vec3 cameraPos = glm::vec3(20.0f, 20.0f, 20.0f);
     glm::vec3 cameraDir = glm::vec3(0.0f, 0.0f, -1.0f);
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
     // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), mWidth / mHeight, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), mWidth / mHeight, 0.1f, 20.0f);
 
     Camera camera(cameraPos, cameraDir, cameraUp);
 
     Frustum frustum(camera, projection);
+    frustum.generatePlanes();
 
     // keyboard + mouse input setup
     Input input(window, &camera);
@@ -51,14 +54,13 @@ int main() {
 
     // texture for the world
     TextureAtlas textureAtlas("../Clonecraft/resources/atlas.png");
-
-    //Chunk chunk = Chunk();
-    //chunk.generateMesh();
-
+    
+    // world
     World world = World();
 
     // Create and compile our GLSL program from the shaders
     GLuint programID = LoadShaders("../Clonecraft/shaders/simple.vert", "../Clonecraft/shaders/simple.frag");
+    GLuint frustum_shader = LoadShaders("../Clonecraft/shaders/frustum.vert", "../Clonecraft/shaders/frustum.frag");
 
     // Get a handle for our "MVP" uniform
     GLuint MatrixID = glGetUniformLocation(programID, "mvp");
@@ -83,6 +85,9 @@ int main() {
         input.handleKeyboard();
         input.handleMouseCursor();
 
+        // generate planes everytime camera is changed
+        // frustum.generatePlanes();
+
         glClearColor(47.0f/256.0f, 102.0f/256.0f, 169.0f/256.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -91,22 +96,33 @@ int main() {
 
         // camera/view transformation
         glm::mat4 view = camera.getView();
+        // std::cout << "camera position " << glm::to_string(camera.getPosition()) << std::endl;
 
         // bind texture
         textureAtlas.bind();
 
-        glm::mat4 model = glm::mat4(1.0f);
-        glm::mat4 mvp = projection * view * model; // Remember, matrix multiplication is the other way around
+        //glm::mat4 model = glm::mat4(1.0f);
+        //glm::mat4 mvp = projection * view * model; // Remember, matrix multiplication is the other way around
+        glm::mat4 mvp = projection * view;
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-      
-        //// render chunk
-        //chunk.render();
+
+        glEnable(GL_DEPTH_TEST);
 
         // render world
-        world.render();
+        world.render(frustum);
+
+        // clear shader
+        glUseProgram(0);
+
+        // swap shader for frustum
+        glUseProgram(frustum_shader);
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 
         // render frustum
-        //frustum.render();
+        frustum.render();
+
+        // clear shader
+        glUseProgram(0);
       
         // Flip Buffers and Draw
         glfwSwapBuffers(window);
@@ -124,7 +140,7 @@ int main() {
     return EXIT_SUCCESS;
 }
 
-GLFWwindow* initWindow() {
+GLFWwindow* initWindow(bool debug) {
     // Load GLFW and Create a Window
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -132,6 +148,10 @@ GLFWwindow* initWindow() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+    // debug
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+
     auto window = glfwCreateWindow(mWidth, mHeight, "OpenGL", nullptr, nullptr);
 
     // Check for Valid Context
@@ -147,8 +167,6 @@ GLFWwindow* initWindow() {
     // backface culling
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
-
-    glEnable(GL_DEPTH_TEST);
 
     // wireframe mode
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

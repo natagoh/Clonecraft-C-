@@ -17,6 +17,8 @@ public:
 
 	unsigned int getNumVertices();
 	void render();
+
+	void render(GLenum mode);
 	void cleanup();
 };
 

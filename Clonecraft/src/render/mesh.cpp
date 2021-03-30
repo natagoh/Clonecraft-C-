@@ -58,6 +58,18 @@ void Mesh::render() {
     glFlush();
 }
 
+// type can be one of
+// GL_POINTS, GL_LINE_STRIP, GL_LINE_LOOP, GL_LINES, etc...
+// see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDrawElements.xhtml#:~:text=When%20glDrawElements%20is%20called%2C%20it,is%20enabled%2C%20each%20is%20used.
+void Mesh::render(GLenum mode) {
+    // draw mesh
+    glBindVertexArray(vao);
+    glDrawElements(mode, getNumVertices(), GL_UNSIGNED_INT, 0);
+
+    glFlush();
+}
+
+
 void Mesh::cleanup() {
     glDisableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
