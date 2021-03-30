@@ -21,6 +21,7 @@ public:
 	Block(void);
 	Block(BlockType type);
 
+	BlockType getType();
 	bool isVisible();
 };
 

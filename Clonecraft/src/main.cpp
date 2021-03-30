@@ -13,7 +13,7 @@
 #include "camera.h"
 #include "input.h"
 #include "render/shader.h"
-#include "render/texture.h"
+#include "render/texture_atlas.h"
 #include "render/mesh.h"
 #include "world/chunk.h"
 
@@ -21,36 +21,16 @@
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
-int main(int argc, char * argv[]) {
-    // Load GLFW and Create a Window
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-    auto window = glfwCreateWindow(mWidth, mHeight, "OpenGL", nullptr, nullptr);
+GLFWwindow* initWindow();
+
+int main() {
+    GLFWwindow* window = initWindow();
 
     // Check for Valid Context
     if (window == nullptr) {
         fprintf(stderr, "Failed to Create OpenGL Context");
         return EXIT_FAILURE;
     }
-
-    // Create Context and Load OpenGL Functions
-    glfwMakeContextCurrent(window);
-    gladLoadGL();
-
-    // backface culling
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-
-    glEnable(GL_DEPTH_TEST);
-
-    // wireframe mode
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-    fprintf(stderr, "OpenGL %s\n", glGetString(GL_VERSION));
 
     // camera setup
     glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 4.0f);
@@ -66,11 +46,10 @@ int main(int argc, char * argv[]) {
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     // texture for the world
-    Texture texture("../Clonecraft/resources/atlas.png");
+    TextureAtlas textureAtlas("../Clonecraft/resources/atlas.png");
 
     Chunk chunk = Chunk();
     chunk.generateMesh();
-
 
     // Create and compile our GLSL program from the shaders
     GLuint programID = LoadShaders("../Clonecraft/shaders/simple.vert", "../Clonecraft/shaders/simple.frag");
@@ -108,7 +87,7 @@ int main(int argc, char * argv[]) {
         glm::mat4 view = camera.getView();
 
         // bind texture
-        texture.bind();
+        textureAtlas.bind();
 
         glm::mat4 model = glm::mat4(1.0f);
         glm::mat4 mvp = projection * view * model; // Remember, matrix multiplication is the other way around
@@ -127,10 +106,41 @@ int main(int argc, char * argv[]) {
     glDeleteProgram(programID);
 
     // cleanup texture
-    texture.cleanup();
+    textureAtlas.cleanup();
 
     glfwTerminate();
     return EXIT_SUCCESS;
 }
 
+GLFWwindow* initWindow() {
+    // Load GLFW and Create a Window
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    auto window = glfwCreateWindow(mWidth, mHeight, "OpenGL", nullptr, nullptr);
 
+    // Check for Valid Context
+    if (window == nullptr) {
+        fprintf(stderr, "Failed to Create OpenGL Context");
+        return nullptr;
+    }
+
+    // Create Context and Load OpenGL Functions
+    glfwMakeContextCurrent(window);
+    gladLoadGL();
+
+    // backface culling
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+
+    glEnable(GL_DEPTH_TEST);
+
+    // wireframe mode
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    fprintf(stderr, "OpenGL %s\n", glGetString(GL_VERSION));
+    return window;
+}

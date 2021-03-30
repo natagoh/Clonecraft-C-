@@ -1,15 +1,7 @@
 #include "world/chunk.h"
-#include <iostream>
+#include "render/texture_atlas.h"
 
 Chunk::Chunk(void) {
-	/*for (int x = 0; x < CHUNK_DIM; x++) {
-		for (int y = 0; y < CHUNK_DIM; y++) {
-			for (int z = 0; z < CHUNK_DIM; z++) {
-				blocks[x + CHUNK_DIM * (y + CHUNK_DIM * z)] = Block(BlockType::GRASS);
-			}
-		}
-	}*/
-
     for (int i = 0; i < NUM_BLOCKS; i++) {
         blocks[i] = Block(BlockType::GRASS);
     }
@@ -18,6 +10,11 @@ Chunk::Chunk(void) {
 // get the block at the specified chunk coordinates
 Block Chunk::getBlock(int x, int y, int z) {
 	return blocks[x + CHUNK_DIM * (y + CHUNK_DIM * z)];
+}
+
+// set block at specified chunk coordinates
+void Chunk::setBlock(int x, int y, int z, Block block) {
+    blocks[x + CHUNK_DIM * (y + CHUNK_DIM * z)] = block;
 }
 
 // is a block in the chunk visible at this coord?
@@ -105,80 +102,6 @@ void Chunk::addBlockToMesh(int x, int y, int z) {
         16, 19, 18, 17, 19, 16, // bot
     };
 
-    GLfloat texture_size = 16.0f;
-    GLfloat atlas_size = 256.0f;
-
-    GLfloat block_size = texture_size / atlas_size;
-
-    // sides
-    GLfloat u_offset = 2 * texture_size / atlas_size;
-    GLfloat v_offset = 0 * texture_size / atlas_size;
-
-    GLfloat top_left_x = 0.0f + u_offset;
-    GLfloat top_left_y = 1.0f - v_offset;
-    GLfloat top_right_x = block_size + u_offset;
-    GLfloat top_right_y = 1.0f - v_offset;
-    GLfloat bot_left_x = 0.0f + u_offset;
-    GLfloat bot_left_y = 1.0f - block_size - v_offset;
-    GLfloat bot_right_x = block_size + u_offset;
-    GLfloat bot_right_y = 1.0f - block_size - v_offset;
-
-    // top 
-    u_offset = 0 * texture_size / atlas_size;
-    v_offset = 0 * texture_size / atlas_size;
-
-    GLfloat ttop_left_x = 0.0f + u_offset;
-    GLfloat ttop_left_y = 1.0f - v_offset;
-    GLfloat ttop_right_x = block_size + u_offset;
-    GLfloat ttop_right_y = 1.0f - v_offset;
-    GLfloat tbot_left_x = 0.0f + u_offset;
-    GLfloat tbot_left_y = 1.0f - block_size - v_offset;
-    GLfloat tbot_right_x = block_size + u_offset;
-    GLfloat tbot_right_y = 1.0f - block_size - v_offset;
-
-    // bot 
-    u_offset = 1 * texture_size / atlas_size;
-    v_offset = 0 * texture_size / atlas_size;
-
-    GLfloat btop_left_x = 0.0f + u_offset;
-    GLfloat btop_left_y = 1.0f - v_offset;
-    GLfloat btop_right_x = block_size + u_offset;
-    GLfloat btop_right_y = 1.0f - v_offset;
-    GLfloat bbot_left_x = 0.0f + u_offset;
-    GLfloat bbot_left_y = 1.0f - block_size - v_offset;
-    GLfloat bbot_right_x = block_size + u_offset;
-    GLfloat bbot_right_y = 1.0f - block_size - v_offset;
-
-
-    std::vector<GLfloat> base_uvs {
-        // front
-        top_left_x, top_left_y,
-        bot_left_x, bot_left_y,
-        bot_right_x, bot_right_y,
-        top_right_x, top_right_y,
-        // back
-        top_left_x, top_left_y,
-        top_right_x, top_right_y,
-        bot_left_x, bot_left_y,
-        bot_right_x, bot_right_y,
-        // right
-        top_left_x, top_left_y,
-        bot_left_x, bot_left_y,
-        // left
-        top_right_x, top_right_y,
-        bot_right_x, bot_right_y,
-        // top
-        ttop_left_x, ttop_left_y,
-        ttop_right_x, ttop_right_y,
-        tbot_left_x, tbot_left_y,
-        tbot_right_x, tbot_right_y,
-        // bot
-        btop_left_x, btop_left_y,
-        btop_right_x, btop_right_y,
-        bbot_left_x, bbot_left_y,
-        bbot_right_x, bbot_right_y,
-    };
-
     // should be 20 since 1 block has 20 vertices
     unsigned int num_vertices_per_block = base_vertices.size() / 3;
 
@@ -198,7 +121,9 @@ void Chunk::addBlockToMesh(int x, int y, int z) {
         indices.push_back(base_indices[i] + num_vertices_per_block * block_index);
     }
 
-    // for now, all blocks have the same texture
-    uvs.insert(std::end(uvs), std::begin(base_uvs), std::end(base_uvs));
+    // get uvs from texture atlas
+    Block block = getBlock(x, y, z);
+    std::vector<GLfloat> texture_uvs = TextureAtlas::getUVs(block.getType());
+    uvs.insert(std::end(uvs), std::begin(texture_uvs), std::end(texture_uvs));
 }
 

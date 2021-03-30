@@ -27,6 +27,7 @@ public:
 	//~Chunk();
 
 	Block getBlock(int x, int y, int z);
+	void setBlock(int x, int y, int z, Block block);
 	bool blockIsVisibleAt(int x, int y, int z);
 	void render();
 	void generateMesh();
