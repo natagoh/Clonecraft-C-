@@ -19,6 +19,9 @@ Mesh::Mesh(std::vector<GLfloat> &vertices, std::vector<GLuint> &indices) {
     // indices vbo (element buffer)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
 Mesh::Mesh(std::vector<GLfloat> &vertices, std::vector<GLfloat> &uvs, std::vector<GLuint> &indices) {
@@ -42,8 +45,10 @@ Mesh::Mesh(std::vector<GLfloat> &vertices, std::vector<GLfloat> &uvs, std::vecto
     glBindBuffer(GL_ARRAY_BUFFER, vbos[2]);
     glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(GLfloat), uvs.data(), GL_STATIC_DRAW);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*) 0);
 
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
 unsigned int Mesh::getNumIndices() {
@@ -53,9 +58,11 @@ unsigned int Mesh::getNumIndices() {
 void Mesh::render() {
     // draw mesh
     glBindVertexArray(vao);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbos[1]);
     glDrawElements(GL_TRIANGLES, getNumIndices(), GL_UNSIGNED_INT, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
     glFlush();
 }
