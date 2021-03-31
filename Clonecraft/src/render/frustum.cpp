@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-Frustum::Frustum(Camera camera, glm::mat4 projection) {
+Frustum::Frustum(Camera* camera, glm::mat4 projection) {
 	this->camera = camera;
 	this->projection = projection;
 
@@ -43,15 +43,16 @@ bool Frustum::cubeIntersection(std::vector<glm::vec3> vertices) {
 
 void Frustum::generatePlanes() {
 	// get camera vectors
-	/*glm::vec3 pos = camera.getPosition();
-	glm::vec3 dir = camera.getDirection();
-	glm::vec3 up = camera.getUp();
-	glm::vec3 right = glm::normalize(glm::cross(dir, up));*/
-
-	glm::vec3 pos = glm::vec3(20.0f, 20.0f, 20.0f);
-	glm::vec3 dir = glm::normalize(glm::vec3(0.0f, 0.0f, -1.0f));
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::vec3 pos = camera->getPosition();
+	glm::vec3 dir = camera->getDirection();
+	glm::vec3 up = camera->getUp();
 	glm::vec3 right = glm::normalize(glm::cross(dir, up));
+
+	// fixed frustum positions for debugging
+	//glm::vec3 pos = glm::vec3(20.0f, 20.0f, 20.0f);
+	//glm::vec3 dir = glm::normalize(glm::vec3(0.0f, 0.0f, -1.0f));
+	//glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+	//glm::vec3 right = glm::normalize(glm::cross(dir, up));
 
 	// near and far coords
 	glm::vec3 n_pos = pos + near * dir;

@@ -42,7 +42,7 @@ int main() {
 
     Camera camera(cameraPos, cameraDir, cameraUp);
 
-    Frustum frustum(camera, projection);
+    Frustum frustum(&camera, projection);
     frustum.generatePlanes();
 
     // keyboard + mouse input setup
@@ -82,6 +82,8 @@ int main() {
         // -----
         input.handleKeyboard();
         input.handleMouseCursor();
+
+        frustum.generatePlanes();
 
         glClearColor(47.0f / 256.0f, 102.0f / 256.0f, 169.0f / 256.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

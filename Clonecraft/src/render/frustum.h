@@ -25,7 +25,7 @@ private:
 		FAR,
 	};
 
-	Camera camera;
+	Camera* camera;
 	glm::mat4 projection;
 
 	float fov, aspect_ratio, near, far;
@@ -33,7 +33,7 @@ private:
 	Plane planes[6] = {};
 
 public:
-	Frustum(Camera camera, glm::mat4 projection);
+	Frustum(Camera* camera, glm::mat4 projection);
 
 	void generatePlanes();
 
