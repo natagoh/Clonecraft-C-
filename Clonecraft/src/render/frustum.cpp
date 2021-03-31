@@ -24,9 +24,7 @@ bool Frustum::pointIntersection(glm::vec3 point) {
 	for (int i = FrustumPlane::TOP; i <= FrustumPlane::FAR; i++) {
 		Plane plane = planes[i];
 		float dist = glm::dot(plane.n, point - plane.p);
-		//std::cout << "distance from point " << glm::to_string(point) << " to plane " << i << " is: " << dist << std::endl;
 		if (dist < 0.0f) return false;
-		//std::cout << "distance from point to plane: " << dist << std::endl;
 	}
 	return true;
 }
@@ -83,12 +81,12 @@ void Frustum::generatePlanes() {
 	fbr = f_pos - f_h + f_w;
 	
 	// plane normals
-	glm::vec3 near_normal = glm::normalize(glm::cross(glm::vec3(nbl - nbr), glm::vec3(ntr - nbr)));
-	glm::vec3 far_normal = glm::normalize(glm::cross(glm::vec3(fbr - fbl), glm::vec3(ftl - fbl)));
-	glm::vec3 left_normal = glm::normalize(glm::cross(glm::vec3(ftl - fbl), glm::vec3(nbl - fbl)));
-	glm::vec3 right_normal = glm::normalize(glm::cross(glm::vec3(nbr - fbr), glm::vec3(ftr - fbr)));
-	glm::vec3 top_normal = glm::normalize(glm::cross(glm::vec3(ntl - ntr), glm::vec3(ftr - ntr)));
-	glm::vec3 bottom_normal = glm::normalize(glm::cross(glm::vec3(fbl - fbr), glm::vec3(nbr - fbr)));
+	glm::vec3 near_normal = glm::normalize(glm::cross(nbl - nbr, ntr - nbr));
+	glm::vec3 far_normal = glm::normalize(glm::cross(fbr - fbl, ftl - fbl));
+	glm::vec3 left_normal = glm::normalize(glm::cross(ftl - fbl, nbl - fbl));
+	glm::vec3 right_normal = glm::normalize(glm::cross(nbr - fbr, ftr - fbr));
+	glm::vec3 top_normal = glm::normalize(glm::cross(ntl - ntr, ftr - ntr));
+	glm::vec3 bottom_normal = glm::normalize(glm::cross(fbl - fbr, nbr - fbr));
 
 	// construct frustum planes
 	planes[FrustumPlane::NEAR] = Plane{ near_normal, nbr };
@@ -100,7 +98,6 @@ void Frustum::generatePlanes() {
 }
 
 // render frustum for debugging
-// todo: currently very broken
 void Frustum::render() {
 	std::vector<GLfloat> vertices;
 
@@ -116,7 +113,6 @@ void Frustum::render() {
 	for (int i = 0; i < 3; i++) {
 		vertices.push_back(nbr[i]);
 	}
-
 	for (int i = 0; i < 3; i++) {
 		vertices.push_back(ftl[i]);
 	}

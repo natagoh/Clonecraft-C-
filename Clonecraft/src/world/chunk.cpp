@@ -1,5 +1,7 @@
 #include "world/chunk.h"
 #include "render/texture_atlas.h"
+#include "world/block.h"
+#include <iostream>
 
 const GLfloat Chunk::base_vertices[] = {
     // front
@@ -43,7 +45,7 @@ const GLuint Chunk::base_indices[] = {
 Chunk::Chunk(glm::vec3 position) {
     this->position = position;
     for (int i = 0; i < NUM_BLOCKS; i++) {
-        blocks[i] = Block(BlockType::GRASS);
+        blocks[i] = Block(BlockType::AIR);
     }
 }
 
@@ -86,22 +88,29 @@ void Chunk::setPosition(glm::vec3 position) {
  
 // is a block in the chunk visible at this coord?
 bool Chunk::blockIsVisibleAt(int x, int y, int z) {
+    // don't render air blocks
+    if (getBlock(x, y, z).getType() == BlockType::AIR) {
+        return false;
+    }
+
 	// check edge of chunk
 	bool x_in_range = x > 0 && x < CHUNK_DIM - 1;
 	bool y_in_range = y > 0 && y < CHUNK_DIM - 1;
 	bool z_in_range = z > 0 && z < CHUNK_DIM - 1;
+
 	if (!x_in_range || !y_in_range || !z_in_range) {
 		return true;
 	}
 
 	// check if neighboring blocks exist
-	if (getBlock(x + 1, y, z).isVisible() && getBlock(x - 1, y, z).isVisible() &&
-		getBlock(x, y + 1, z).isVisible() && getBlock(x, y - 1, z).isVisible() &&
-		getBlock(x, y, z + 1).isVisible() && getBlock(x, y, z - 1).isVisible()) {
-		return false;
-	}
+    bool surrounded = getBlock(x + 1, y, z).isVisible() && 
+        getBlock(x - 1, y, z).isVisible() &&
+        getBlock(x, y + 1, z).isVisible() && 
+        getBlock(x, y - 1, z).isVisible() &&
+        getBlock(x, y, z + 1).isVisible() && 
+        getBlock(x, y, z - 1).isVisible();
 
-	return true;
+	return !surrounded;
 }
 
 // make sure to call generateMesh at least once before render
@@ -130,6 +139,10 @@ void Chunk::generateMesh() {
 
 // add the block at x, y, z to the chunk's mesh
 void Chunk::addBlockToMesh(int x, int y, int z) {
+    if (getBlock(x, y, z).getType() == BlockType::AIR) {
+        std::cout << "Error: (Chunk) AIR block should not be added to mesh" << std::endl;
+    }
+    
     // should be 20 since 1 block has 20 vertices
     unsigned int num_vertices_per_block = sizeof(base_vertices) / sizeof(base_vertices[0]) / 3;
 

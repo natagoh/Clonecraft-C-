@@ -38,7 +38,7 @@ int main() {
     // should be camera target
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
     // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), mWidth / mHeight, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), mWidth / mHeight, 0.1f, 1000.0f);
 
     Camera camera(cameraPos, cameraDir, cameraUp);
 
@@ -106,11 +106,11 @@ int main() {
 
         glUseProgram(0);
 
-        // render frustum
-        glUseProgram(frustum_shader);
-        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-        frustum.render();
-        glUseProgram(0);
+        //// debug render frustum
+        //glUseProgram(frustum_shader);
+        //glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+        //frustum.render();
+        //glUseProgram(0);
 
         // Flip Buffers and Draw
         glfwSwapBuffers(window);

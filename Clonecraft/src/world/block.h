@@ -15,7 +15,7 @@ enum class BlockType {
 
 class Block {
 private:
-	BlockType type = BlockType::GRASS;
+	BlockType type = BlockType::AIR;
 	 
 public:
 	Block(void);
