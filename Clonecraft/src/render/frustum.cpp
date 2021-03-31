@@ -3,7 +3,6 @@
 #include <glm/gtc/constants.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <glad/glad.h>
-#include <vector>
 
 #include <iostream>
 
@@ -21,17 +20,23 @@ Frustum::Frustum(Camera camera, glm::mat4 projection) {
 
 // tests if point is inside frustum
 // true = inside, false = outside
-bool Frustum::pointTest(glm::vec3 point) {
-	for (int i = FrustumPlane::TOP; i != FrustumPlane::FAR; i++) {
-	//for (int i = FrustumPlane::TOP; i != FrustumPlane::BOTTOM; i++) {
-		/*if (planes[i].GetPointDistance(point) < 0) {
-			return false;
-		}*/
+bool Frustum::pointIntersection(glm::vec3 point) {
+	for (int i = FrustumPlane::TOP; i <= FrustumPlane::FAR; i++) {
 		Plane plane = planes[i];
 		float dist = glm::dot(plane.n, point - plane.p);
 		//std::cout << "distance from point " << glm::to_string(point) << " to plane " << i << " is: " << dist << std::endl;
-		if (dist > 0.0f) return true;
+		if (dist < 0.0f) return false;
 		//std::cout << "distance from point to plane: " << dist << std::endl;
+	}
+	return true;
+}
+
+// for cube to be inside frustum, at least 1 vertex should be inside
+bool Frustum::cubeIntersection(std::vector<glm::vec3> vertices) {
+	for (glm::vec3& vertex : vertices) {
+		if (pointIntersection(vertex)) {
+			return true;
+		}
 	}
 	return false;
 }
@@ -52,8 +57,6 @@ void Frustum::generatePlanes() {
 	glm::vec3 n_pos = pos + near * dir;
 	glm::vec3 f_pos = pos + far * dir;
 
-	std::cout << "near position " << glm::to_string(n_pos) << std::endl;
-
 	// dimensions of near and far planes
 	float n_height = 2 * tan(fov / 2) * near;
 	float n_width = n_height * aspect_ratio;
@@ -67,19 +70,7 @@ void Frustum::generatePlanes() {
 	glm::vec3 f_h = up * (f_height / 2.0f);
 	glm::vec3 f_w = right * (f_width / 2.0f);
 
-	std::cout << "near height " << glm::to_string(n_h) << std::endl;
-
-	// ntl = near top left
-	//ntl = n_pos + up * (n_height / 2.0f) - right * (n_width / 2.0f);
-	//nbl = n_pos - up * (n_height / 2.0f) - right * (n_width / 2.0f);
-	//ntr = n_pos + up * (n_height / 2.0f) + right * (n_width / 2.0f);
-	//nbr = n_pos - up * (n_height / 2.0f) + right * (n_width / 2.0f);
-
-	//ftl = f_pos + up * (f_height / 2.0f) - right * (f_width / 2.0f);
-	//fbl = f_pos - up * (f_height / 2.0f) - right * (f_width / 2.0f);
-	//ftr = f_pos + up * (f_height / 2.0f) + right * (f_width / 2.0f);
-	//fbr = f_pos - up * (f_height / 2.0f) + right * (f_width / 2.0f);
-
+	// frustum vertices
 	ntl = n_pos + n_h - n_w;
 	nbl = n_pos - n_h - n_w;
 	ntr = n_pos + n_h + n_w;
@@ -89,35 +80,6 @@ void Frustum::generatePlanes() {
 	fbl = f_pos - f_h - f_w;
 	ftr = f_pos + f_h + f_w;
 	fbr = f_pos - f_h + f_w;
-
-	//// bring points into world space
-	//glm::mat4 view = glm::lookAt(pos, pos + dir, up);
-	//glm::mat4 view_inv = glm::inverse(view);
-
-	////glm::mat4 mvp = projection * view;
-
-	//ntl = view_inv * glm::vec4(ntl, 1);
-	//nbl = view_inv * glm::vec4(nbl, 1);
-	//ntr = view_inv * glm::vec4(ntr, 1);
-	//nbr = view_inv * glm::vec4(nbr, 1);
-
-
-	//ftl = view_inv * glm::vec4(ftl, 1);
-	//fbl = view_inv * glm::vec4(fbl, 1);
-	//ftr = view_inv * glm::vec4(ftr, 1);
-	//fbr = view_inv * glm::vec4(fbr, 1);
-
-
-
-	/*std::cout << "ntl " << glm::to_string(ntl) << std::endl;
-	std::cout << "nbl " << glm::to_string(nbl) << std::endl;
-	std::cout << "ntr " << glm::to_string(ntr) << std::endl;
-	std::cout << "nbr " << glm::to_string(nbr) << std::endl;
-
-	std::cout << "ftl " << glm::to_string(ftl) << std::endl;
-	std::cout << "fbl " << glm::to_string(fbl) << std::endl;
-	std::cout << "ftr " << glm::to_string(ftr) << std::endl;
-	std::cout << "fbr " << glm::to_string(fbr) << std::endl;*/
 	
 	// plane normals
 	glm::vec3 near_normal = glm::normalize(glm::cross(glm::vec3(nbl - nbr), glm::vec3(ntr - nbr)));
@@ -126,8 +88,6 @@ void Frustum::generatePlanes() {
 	glm::vec3 right_normal = glm::normalize(glm::cross(glm::vec3(nbr - fbr), glm::vec3(ftr - fbr)));
 	glm::vec3 top_normal = glm::normalize(glm::cross(glm::vec3(ntl - ntr), glm::vec3(ftr - ntr)));
 	glm::vec3 bottom_normal = glm::normalize(glm::cross(glm::vec3(fbl - fbr), glm::vec3(nbr - fbr)));
-
-	//std::cout << "bottom_normal " << glm::to_string(bottom_normal) << std::endl;
 
 	// construct frustum planes
 	planes[FrustumPlane::NEAR] = Plane{ near_normal, nbr };
@@ -192,5 +152,4 @@ void Frustum::render() {
 	mesh = Mesh(vertices, indices);
 	mesh.render(GL_LINES);
 	mesh.cleanup();
-
 }

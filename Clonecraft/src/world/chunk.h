@@ -14,11 +14,11 @@
 class Chunk {
 private:
 	Block blocks[NUM_BLOCKS];
-	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 position = {};
 
-	std::vector<GLfloat> vertices;
-	std::vector<GLuint> indices;
-	std::vector<GLfloat> uvs;
+	std::vector<GLfloat> vertices = {};
+	std::vector<GLuint> indices = {};
+	std::vector<GLfloat> uvs = {};
 
 	Mesh mesh;
 
@@ -26,7 +26,6 @@ private:
 	static const GLuint base_indices[];
 
 public:
-	Chunk(void);
 	Chunk(glm::vec3 position);
 	//~Chunk();
 
@@ -35,6 +34,9 @@ public:
 
 	glm::vec3 getPosition();
 	void setPosition(glm::vec3 position);
+
+	// get world space coords of chunk mesh vertices
+	std::vector<glm::vec3> getVertexCoords();
 
 	bool blockIsVisibleAt(int x, int y, int z);
 

@@ -2,6 +2,7 @@
 #define FRUSTUM_HPP
 
 #include <glm/glm.hpp>
+#include <vector>
 
 #include "camera.h"
 
@@ -35,7 +36,9 @@ public:
 	Frustum(Camera camera, glm::mat4 projection);
 
 	void generatePlanes();
-	bool pointTest(glm::vec3 point);
+
+	bool pointIntersection(glm::vec3 point);
+	bool cubeIntersection(std::vector<glm::vec3> vertices);
 
 	void render();
 };

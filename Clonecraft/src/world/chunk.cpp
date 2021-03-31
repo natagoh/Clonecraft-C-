@@ -40,17 +40,28 @@ const GLuint Chunk::base_indices[] = {
         16, 19, 18, 17, 19, 16, // bot
 };
 
-Chunk::Chunk(void) {
-    for (int i = 0; i < NUM_BLOCKS; i++) {
-        blocks[i] = Block(BlockType::GRASS);
-    }
-}
-
 Chunk::Chunk(glm::vec3 position) {
     this->position = position;
     for (int i = 0; i < NUM_BLOCKS; i++) {
         blocks[i] = Block(BlockType::GRASS);
     }
+}
+
+// get world space coords of chunk vertices (for frustum culling)
+std::vector<glm::vec3> Chunk::getVertexCoords() {
+    std::vector<glm::vec3> vertex_coords;
+
+    vertex_coords.push_back(position);  
+    vertex_coords.push_back(position + glm::vec3(CHUNK_DIM, 0, 0));  
+    vertex_coords.push_back(position + glm::vec3(0, 0, CHUNK_DIM));
+    vertex_coords.push_back(position + glm::vec3(CHUNK_DIM, 0, CHUNK_DIM));
+
+    vertex_coords.push_back(position + glm::vec3(0, CHUNK_DIM, 0));
+    vertex_coords.push_back(position + glm::vec3(CHUNK_DIM, CHUNK_DIM, 0));
+    vertex_coords.push_back(position + glm::vec3(0, CHUNK_DIM, CHUNK_DIM));
+    vertex_coords.push_back(position + glm::vec3(CHUNK_DIM, CHUNK_DIM, CHUNK_DIM));
+
+    return vertex_coords;
 }
 
 // get the block at the specified chunk coordinates

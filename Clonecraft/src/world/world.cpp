@@ -30,9 +30,10 @@ void World::render(Frustum frustum) {
 			std::cout << "Error: (World) chunk not found" << std::endl;
 		} else {
 			// check if chunk is inside frustum
-			glm::vec3 pos = map_item->second->getPosition();
-			//if (frustum.pointTest(pos))
+			std::vector<glm::vec3> vertex_coords = map_item->second->getVertexCoords();
+			if (frustum.cubeIntersection(vertex_coords)) {
 				map_item->second->render();
+			}
 		}
 	}
 }
