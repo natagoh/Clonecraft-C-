@@ -12,7 +12,7 @@ private:
 
 public:
 	Mesh(void);
-	Mesh(std::vector<GLfloat>& vertices, std::vector<GLuint>& indices);
+	Mesh(std::vector<GLfloat> &vertices, std::vector<GLuint> &indices);
 	Mesh(std::vector<GLfloat> &vertices, std::vector<GLfloat> &uvs, std::vector<GLuint> &indices);
 
 	unsigned int getNumIndices();

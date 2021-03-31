@@ -1,17 +1,11 @@
 #include "world.h"
 #include <iostream>
 
-#define STB_PERLIN_IMPLEMENTATION
-#include "stb_perlin.h"
-
 World::World() {
 	// prepare RENDER_DISTANCE * RENDER_DISTANCE chunks
 	chunks_to_render = new glm::vec3[RENDER_DISTANCE * RENDER_DISTANCE];
 	for (int x = 0; x < RENDER_DISTANCE; x++) {
 		for (int z = 0; z < RENDER_DISTANCE; z++) {
-			// perlin noise to generate height
-			float height = stb_perlin_noise3(x, 0, z, 0, 0, 0);
- 
 			// for now only add chunks horizontally
 			// todo: add vertical chunking
 			glm::vec3 position = glm::vec3(x * CHUNK_DIM, 0.0f, z * CHUNK_DIM);

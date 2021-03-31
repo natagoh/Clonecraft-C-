@@ -2,6 +2,8 @@
 #include "render/texture_atlas.h"
 #include "world/block.h"
 #include <iostream>
+#include <stdlib.h>
+#include "FastNoiseLite.h"
 
 const GLfloat Chunk::base_vertices[] = {
     // front
@@ -33,7 +35,7 @@ const GLfloat Chunk::base_vertices[] = {
 
 };
 
-const GLuint Chunk::base_indices[] = {
+const GLushort Chunk::base_indices[] = {
         0, 1, 3, 3, 1, 2,		// front
         4, 7, 6, 5, 7, 4,		// back
         8, 9, 7, 5, 8, 7,	    // right
@@ -42,11 +44,36 @@ const GLuint Chunk::base_indices[] = {
         16, 19, 18, 17, 19, 16, // bot
 };
 
+// constructor
 Chunk::Chunk(glm::vec3 position) {
     this->position = position;
-    for (int i = 0; i < NUM_BLOCKS; i++) {
-        blocks[i] = Block(BlockType::AIR);
+
+    // perlin noise to generate height
+    //float height = stb_perlin_noise3(x, 0, z, 0, 0, 0);
+   
+    // simplex noise [0, 1]
+    FastNoiseLite noise;
+    noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+
+    for (int x = 0; x < CHUNK_DIM; x++) {
+        for (int y = 0; y < CHUNK_DIM; y++) {
+            for (int z = 0; z < CHUNK_DIM; z++) {
+                float height = noise.GetNoise(x + position.x, z + position.z);
+                //std::cout << "simplexnoise " << height << std::endl;
+                if (y < height * CHUNK_DIM && y != 0)
+                    setBlock(x, y, z, Block(BlockType::GRASS));
+                else if (y == 0)
+                    setBlock(x, y, z, Block(BlockType::SAND));
+                else
+                    setBlock(x, y, z, Block(BlockType::AIR));
+            }
+        }
+
     }
+    
+    //for (int i = 0; i < NUM_BLOCKS; i++) {
+    //    blocks[i] = Block(BlockType::AIR);
+    //}
 }
 
 // get world space coords of chunk vertices (for frustum culling)

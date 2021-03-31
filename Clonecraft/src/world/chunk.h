@@ -23,7 +23,9 @@ private:
 	Mesh mesh;
 
     static const GLfloat base_vertices[]; 
-	static const GLuint base_indices[];
+	static const GLushort base_indices[];
+
+	void addBlockToMesh(int x, int y, int z);
 
 public:
 	Chunk(glm::vec3 position);
@@ -41,10 +43,7 @@ public:
 	bool blockIsVisibleAt(int x, int y, int z);
 
 	void render();
-
 	void generateMesh();
-	void addBlockToMesh(int x, int y, int z);
-	
 };
 
 #endif
