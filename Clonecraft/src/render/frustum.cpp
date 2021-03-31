@@ -13,11 +13,10 @@ Frustum::Frustum(Camera camera, glm::mat4 projection) {
 
 	// extract info from projection matrix
 	fov = 2.0f * atan(1.0f / projection[1][1]) * 180.0f / glm::pi<float>();
-	fov = glm::radians(10.0f);
 	aspect_ratio = projection[1][1] / projection[0][0];
 	near = projection[3][2] / (projection[2][2] - 1.0f);
 	far = projection[3][2] / (projection[2][2] + 1.0f);
-	//std::cout << "fov " << fov << " aspect " << aspect_ratio << " near " << near << " far " << far << std::endl;
+	std::cout << "fov " << fov << " aspect " << aspect_ratio << " near " << near << " far " << far << std::endl;
 }
 
 // tests if point is inside frustum
@@ -53,6 +52,8 @@ void Frustum::generatePlanes() {
 	glm::vec3 n_pos = pos + near * dir;
 	glm::vec3 f_pos = pos + far * dir;
 
+	std::cout << "near position " << glm::to_string(n_pos) << std::endl;
+
 	// dimensions of near and far planes
 	float n_height = 2 * tan(fov / 2) * near;
 	float n_width = n_height * aspect_ratio;
@@ -65,6 +66,8 @@ void Frustum::generatePlanes() {
 
 	glm::vec3 f_h = up * (f_height / 2.0f);
 	glm::vec3 f_w = right * (f_width / 2.0f);
+
+	std::cout << "near height " << glm::to_string(n_h) << std::endl;
 
 	// ntl = near top left
 	//ntl = n_pos + up * (n_height / 2.0f) - right * (n_width / 2.0f);
@@ -166,31 +169,9 @@ void Frustum::render() {
 		vertices.push_back(fbr[i]);
 	}
 
-	// ntl 0
-	// nbl 1
-	// ntr 2
-	// nbr 3
-	// ftl 4
-	// fbl 5
-	// ftr 6
-	// fbr 7
-
-	/*planes[FrustumPlane::BOTTOM] = Plane{ nbl, nbr, fbr };
-	planes[FrustumPlane::TOP] = Plane{ ntl, ntr, ftr };
-	planes[FrustumPlane::LEFT] = Plane{ nbl, ntl, fbl };
-	planes[FrustumPlane::RIGHT] = Plane{ nbr, ntr, fbr };
-	planes[FrustumPlane::NEAR] = Plane{ nbl, nbr, ntr };
-	planes[FrustumPlane::FAR] = Plane{ fbl, fbr, ftr };*/
-
 	// render points
 	std::vector<GLuint> indices = {
 		0, 1, 2, 3, 4, 5, 6, 7,
-		//0, 4, 4, 6, 6, 2, 2, 0,	// top
-		//1, 2, 2, 7, 7, 3, 3, 1,	// bot
-		//1, 0,
-		//2, 4,
-		//7, 6,
-		//3, 2,
 	};
 
 	Mesh mesh(vertices, indices);
