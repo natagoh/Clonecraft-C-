@@ -16,6 +16,7 @@
 #include "render/texture_atlas.h"
 #include "render/frustum.h"
 #include "world/world.h"
+#include "world/chunk.h"
 
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
@@ -53,6 +54,9 @@ int main() {
     TextureAtlas textureAtlas("../Clonecraft/resources/atlas.png");
 
     World world = World();
+
+    Chunk chunk = Chunk(glm::vec3(0, 0, 0));
+    chunk.generateMesh();
 
     // Create and compile our GLSL program from the shaders
     GLuint programID = LoadShaders("../Clonecraft/shaders/simple.vert", "../Clonecraft/shaders/simple.frag");
@@ -103,7 +107,7 @@ int main() {
 
         // render world
         world.render(frustum);
-
+        //chunk.render();
         glUseProgram(0);
 
         //// debug render frustum
@@ -155,7 +159,7 @@ GLFWwindow* initWindow() {
     glEnable(GL_DEPTH_TEST);
 
     // wireframe mode
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     fprintf(stderr, "OpenGL %s\n", glGetString(GL_VERSION));
     return window;
