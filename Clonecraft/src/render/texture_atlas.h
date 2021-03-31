@@ -14,7 +14,7 @@ private:
 	Texture texture;
 	
 	// get texture atlas coords for a block type
-	static std::vector<float> getAtlasOffsets(BlockType blockType);
+	static std::vector<GLubyte> getAtlasOffsets(BlockType blockType);
 
 public:
 	TextureAtlas(const char* file_path);
