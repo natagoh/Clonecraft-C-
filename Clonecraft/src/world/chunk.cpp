@@ -7,35 +7,35 @@
 
 const GLfloat Chunk::base_vertices[] = {
     // front
-    -0.5f, 0.5f, 0.5f,		// V0
-    -0.5f, -0.5f, 0.5f,		// V1
-    0.5f, -0.5f, 0.5f,		// V1
-    0.5f, 0.5f, 0.5f,		// V3
+    -0.5, 0.5, 0.5,		// V0
+    -0.5, -0.5, 0.5,	// V1
+    0.5, -0.5, 0.5,		// V1
+    0.5, 0.5, 0.5,		// V3
     // back
-    -0.5f, 0.5f, -0.5f,		// V4
-    0.5f, 0.5f, -0.5f,		// V5
-    -0.5f, -0.5f, -0.5f,	// V6
-    0.5f, -0.5f, -0.5f,		// V7
+    -0.5, 0.5, -0.5,	// V4
+    0.5, 0.5, -0.5,		// V5
+    -0.5, -0.5, -0.5,	// V6
+    0.5, -0.5, -0.5,	// V7
     // right
-    0.5f, 0.5f, 0.5f,		// V8: V3 repeated
-    0.5f, -0.5f, 0.5f,		// V9: V2 repeated
-    0.5f, -0.5f, -0.5f,		// V10: V7 repeated
-    0.5f, 0.5f, -0.5f,		// V11: V5 repeated
+    0.5, 0.5, 0.5,		// V8: V3 repeated
+    0.5, -0.5, 0.5,		// V9: V2 repeated
+    0.5, -0.5, -0.5,	// V10: V7 repeated
+    0.5, 0.5, -0.5,		// V11: V5 repeated
     // left
-    -0.5f, 0.5f, -0.5f,		// V12: V4 repeated
-    -0.5f, -0.5f, -0.5f,	// V13: V6 repeated
-     -0.5f, 0.5f, 0.5f,		// V14: V0 repeated
-    -0.5f, -0.5f, 0.5f,		// V15: V1 repeated
+    -0.5, 0.5, -0.5,	// V12: V4 repeated
+    -0.5, -0.5, -0.5,	// V13: V6 repeated
+     -0.5, 0.5, 0.5,	// V14: V0 repeated
+    -0.5, -0.5, 0.5,	// V15: V1 repeated
     // top
-    -0.5f, 0.5f, -0.5f,		// V16: V4 repeated
-    0.5f, 0.5f, -0.5f,		// V17: V5 repeated
-    -0.5f, 0.5f, 0.5f,		// V18: V0 repeated
-    0.5f, 0.5f, 0.5f,		// V19: V3 repeated
+    -0.5, 0.5, -0.5,	// V16: V4 repeated
+    0.5, 0.5, -0.5,		// V17: V5 repeated
+    -0.5, 0.5, 0.5,		// V18: V0 repeated
+    0.5, 0.5, 0.5,		// V19: V3 repeated
     // bot
-    -0.5f, -0.5f, -0.5f,	// V20: V6 repeated
-    0.5f, -0.5f, -0.5f,		// V21: V7 repeated
-    -0.5f, -0.5f, 0.5f,		// V22: V1 repeated
-    0.5f, -0.5f, 0.5f,		// V23: V2 repeated
+    -0.5, -0.5, -0.5,	// V20: V6 repeated
+    0.5, -0.5, -0.5,	// V21: V7 repeated
+    -0.5, -0.5, 0.5,	// V22: V1 repeated
+    0.5, -0.5, 0.5,		// V23: V2 repeated
 };
 
 const GLushort Chunk::base_indices[] = {
@@ -115,33 +115,6 @@ glm::vec3 Chunk::getPosition() {
 void Chunk::setPosition(glm::vec3 position) {
     this->position = position;
 }
- 
-// is a block in the chunk visible at this coord?
-bool Chunk::blockIsVisibleAt(int x, int y, int z) {
-    // don't render air blocks
-    if (getBlock(x, y, z).getType() == BlockType::AIR) {
-        return false;
-    }
-
-	// check edge of chunk
-	bool x_in_range = x > 0 && x < CHUNK_DIM - 1;
-	bool y_in_range = y > 0 && y < CHUNK_DIM - 1;
-	bool z_in_range = z > 0 && z < CHUNK_DIM - 1;
-
-	if (!x_in_range || !y_in_range || !z_in_range) {
-		return true;
-	}
-
-	// check if neighboring blocks exist
-    bool surrounded = getBlock(x + 1, y, z).isVisible() && 
-        getBlock(x - 1, y, z).isVisible() &&
-        getBlock(x, y + 1, z).isVisible() && 
-        getBlock(x, y - 1, z).isVisible() &&
-        getBlock(x, y, z + 1).isVisible() && 
-        getBlock(x, y, z - 1).isVisible();
-
-	return !surrounded;
-}
 
 // make sure to call generateMesh at least once before render
 void Chunk::render() {
@@ -152,19 +125,107 @@ void Chunk::generateMesh() {
 	for (int x = 0; x < CHUNK_DIM; x++) {
 		for (int y = 0; y < CHUNK_DIM; y++) {
 			for (int z = 0; z < CHUNK_DIM; z++) {
-			    if (blockIsVisibleAt(x, y, z)) {
+			  /*  if (blockIsVisibleAt(x, y, z)) {
                     addBlockToMesh(x, y, z);
-				}
+				}*/
+                addVisibleBlockFacesToMesh(x, y, z);
 			}
 		}
 	}
 
     mesh = Mesh(vertices, uvs, indices);
 
+    std::cout << "num vertices " << vertices.size() << " num indices " << indices.size() << std::endl;
+
     // clean up buffer vectors once data already pushed to mesh
     vertices.clear();
     uvs.clear();
     indices.clear();
+}
+
+// add visible block faces to mesh
+void Chunk::addVisibleBlockFacesToMesh(int x, int y, int z) {
+    if (!isBlockVisible(x, y, z)) return;
+
+    // check if faces are visible
+    if (!getBlock(x + 1, y, z).isVisible()) {
+        addBlockFaceToMesh(x, y, z, BlockFace::RIGHT);
+    }
+    if (!getBlock(x - 1, y, z).isVisible()) {
+        addBlockFaceToMesh(x, y, z, BlockFace::LEFT);
+    }
+    if (!getBlock(x, y + 1, z).isVisible()) {
+        addBlockFaceToMesh(x, y, z, BlockFace::TOP);
+    }
+    if (!getBlock(x, y - 1, z).isVisible()) {
+        addBlockFaceToMesh(x, y, z, BlockFace::BOTTOM);
+    }
+    if (!getBlock(x, y, z + 1).isVisible()) {
+        addBlockFaceToMesh(x, y, z, BlockFace::BACK);
+    }
+    if (!getBlock(x, y, z - 1).isVisible()) {
+        addBlockFaceToMesh(x, y, z, BlockFace::FRONT);
+    }
+}
+
+// is a block in the chunk visible at this coord?
+bool Chunk::isBlockVisible(int x, int y, int z) {
+    // don't render air blocks
+    if (getBlock(x, y, z).getType() == BlockType::AIR) {
+        return false;
+    }
+
+    // check edge of chunk
+    bool x_in_range = x > 0 && x < CHUNK_DIM - 1;
+    bool y_in_range = y > 0 && y < CHUNK_DIM - 1;
+    bool z_in_range = z > 0 && z < CHUNK_DIM - 1;
+
+    if (!x_in_range || !y_in_range || !z_in_range) {
+        return true;
+    }
+}
+
+// add the block face at x, y, z to the chunk's mesh
+void Chunk::addBlockFaceToMesh(int x, int y, int z, BlockFace face) {
+    if (getBlock(x, y, z).getType() == BlockType::AIR) {
+        std::cout << "Error: (Chunk) AIR block face should not be added to mesh" << std::endl;
+    }
+
+    // each face has 4 coords, each coord has 3 values (x, y, z)
+    // using char since its only 8 bits
+    const unsigned short NUM_POINTS_PER_FACE = 4;
+    const unsigned short FACE_VERTICES_OFFSET = 12; // because there are 4*3 vertex entries for each face
+    const unsigned short FACE_INDICES_OFFSET = 6;   // because there are 3*2 index entries for each face
+    const unsigned short FACE_UV_OFFSET = 8;        // because there are 2*4 uv entries for each face
+
+    // index of block we are adding
+    unsigned short num_points = vertices.size() / 3;
+    unsigned short face_index = num_points / NUM_POINTS_PER_FACE;
+
+    // add the position-offset vertices of the newly added block
+    unsigned short start_idx = FACE_VERTICES_OFFSET * face;
+    for (char i = 0; i < NUM_POINTS_PER_FACE; i++) {
+        vertices.push_back(base_vertices[start_idx + i * 3] + position.x + x);
+        vertices.push_back(base_vertices[start_idx + i * 3 + 1] + position.y + y);
+        vertices.push_back(base_vertices[start_idx + i * 3 + 2] + position.z + z);
+    }
+
+    // add the indices of the newly added block
+    start_idx = FACE_INDICES_OFFSET * face;
+    unsigned short end_idx = start_idx + FACE_INDICES_OFFSET;
+    for (char i = start_idx; i < end_idx; i++) {
+        indices.push_back(base_indices[i] + NUM_POINTS_PER_FACE * face_index);
+    }
+
+    // get uvs from texture atlas
+    std::vector<GLfloat> texture_uvs = TextureAtlas::getUVs(getBlock(x, y, z).getType());
+    start_idx = FACE_UV_OFFSET * face;
+    for (char i = 0; i < NUM_POINTS_PER_FACE; i++) {
+        uvs.push_back(texture_uvs[start_idx + i * 2]);
+        uvs.push_back(texture_uvs[start_idx + i * 2 + 1]);
+    }
+
+    //uvs.insert(std::end(uvs), std::begin(texture_uvs), std::end(texture_uvs));
 }
 
 // add the block at x, y, z to the chunk's mesh

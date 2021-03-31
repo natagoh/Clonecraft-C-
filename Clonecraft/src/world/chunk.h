@@ -13,6 +13,15 @@
 
 class Chunk {
 private:
+	enum BlockFace {
+		FRONT = 0,
+		BACK,
+		RIGHT,
+		LEFT,
+		TOP,
+		BOTTOM,
+	};
+
 	Block blocks[NUM_BLOCKS];
 	glm::vec3 position = {};
 
@@ -25,7 +34,11 @@ private:
     static const GLfloat base_vertices[]; 
 	static const GLushort base_indices[];
 
+	bool isBlockVisible(int x, int y, int z);
+	
 	void addBlockToMesh(int x, int y, int z);
+	void addBlockFaceToMesh(int x, int y, int z, BlockFace face);
+	void addVisibleBlockFacesToMesh(int x, int y, int z);
 
 public:
 	Chunk(glm::vec3 position);
@@ -39,8 +52,6 @@ public:
 
 	// get world space coords of chunk mesh vertices
 	std::vector<glm::vec3> getVertexCoords();
-
-	bool blockIsVisibleAt(int x, int y, int z);
 
 	void render();
 	void generateMesh();

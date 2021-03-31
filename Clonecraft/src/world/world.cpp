@@ -3,15 +3,15 @@
 
 World::World() {
 	// prepare RENDER_DISTANCE * RENDER_DISTANCE chunks
-	chunks_to_render = new glm::vec3[RENDER_DISTANCE * RENDER_DISTANCE];
-	for (int x = 0; x < RENDER_DISTANCE; x++) {
-		for (int z = 0; z < RENDER_DISTANCE; z++) {
+	chunks_to_render = new glm::vec3[RENDER_DISTANCE * RENDER_DISTANCE * 4];
+	for (int x = 0; x < RENDER_DISTANCE * 2; x++) {
+		for (int z = 0; z < RENDER_DISTANCE * 2; z++) {
 			// for now only add chunks horizontally
 			// todo: add vertical chunking
 			glm::vec3 position = glm::vec3(x * CHUNK_DIM, 0.0f, z * CHUNK_DIM);
 			auto chunk = std::make_shared<Chunk>(position);
 			chunks.insert({ {position, chunk} });
-			chunks_to_render[x + RENDER_DISTANCE * z] = position;
+			chunks_to_render[x + RENDER_DISTANCE * 2 * z] = position;
 
 			// only need to generate meshes once since we don't change the mesh at all for now...
 			chunk->generateMesh();
@@ -20,7 +20,7 @@ World::World() {
 }
 
 void World::render(Frustum frustum) {
-	for (int i = 0; i < RENDER_DISTANCE * RENDER_DISTANCE; i++) {
+	for (int i = 0; i < RENDER_DISTANCE * RENDER_DISTANCE * 4; i++) {
 		glm::vec3 chunk_coord = chunks_to_render[i];
 		
 		// find chunk in the unordered_map

@@ -48,15 +48,6 @@ std::vector<GLfloat> TextureAtlas::getUVs(BlockType blockType) {
     glm::vec2 tl = glm::vec2(0.0f + u_offset, 1.0f - v_offset);
     glm::vec2 tr = glm::vec2(block_size + u_offset, 1.0f - v_offset);
 
-  /*  GLfloat top_left_x = 0.0f + u_offset;
-    GLfloat top_left_y = 1.0f - v_offset;
-    GLfloat top_right_x = block_size + u_offset;
-    GLfloat top_right_y = 1.0f - v_offset;
-    GLfloat bot_left_x = 0.0f + u_offset;
-    GLfloat bot_left_y = 1.0f - block_size - v_offset;
-    GLfloat bot_right_x = block_size + u_offset;
-    GLfloat bot_right_y = 1.0f - block_size - v_offset;*/
-
     // top 
     u_offset = (float) atlas_offsets[2] * TEXTURE_SIZE / ATLAS_SIZE;
     v_offset = (float) atlas_offsets[3] * TEXTURE_SIZE / ATLAS_SIZE;
