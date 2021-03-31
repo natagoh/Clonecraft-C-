@@ -92,9 +92,13 @@ std::vector<GLfloat> TextureAtlas::getUVs(BlockType blockType) {
         // right
         top_left_x, top_left_y,
         bot_left_x, bot_left_y,
+        bot_right_x, bot_right_y,
+        top_right_x, top_right_y,
         // left
         top_right_x, top_right_y,
         bot_right_x, bot_right_y,
+        top_left_x, top_left_y,
+        bot_left_x, bot_left_y,
         // top
         ttop_left_x, ttop_left_y,
         ttop_right_x, ttop_right_y,

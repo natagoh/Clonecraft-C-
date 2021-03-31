@@ -19,29 +19,32 @@ const GLfloat Chunk::base_vertices[] = {
     // right
     0.5f, 0.5f, 0.5f,		// V8: V3 repeated
     0.5f, -0.5f, 0.5f,		// V9: V2 repeated
+    0.5f, -0.5f, -0.5f,		// V10: V7 repeated
+    0.5f, 0.5f, -0.5f,		// V11: V5 repeated
     // left
-    -0.5f, 0.5f, -0.5f,		// V10: V4 repeated
-    -0.5f, -0.5f, -0.5f,	// V11: V6 repeated
-    // top
     -0.5f, 0.5f, -0.5f,		// V12: V4 repeated
-    0.5f, 0.5f, -0.5f,		// V13: V5 repeated
-    -0.5f, 0.5f, 0.5f,		// V14: V0 repeated
-    0.5f, 0.5f, 0.5f,		// V15: V3 repeated
+    -0.5f, -0.5f, -0.5f,	// V13: V6 repeated
+     -0.5f, 0.5f, 0.5f,		// V14: V0 repeated
+    -0.5f, -0.5f, 0.5f,		// V15: V1 repeated
+    // top
+    -0.5f, 0.5f, -0.5f,		// V16: V4 repeated
+    0.5f, 0.5f, -0.5f,		// V17: V5 repeated
+    -0.5f, 0.5f, 0.5f,		// V18: V0 repeated
+    0.5f, 0.5f, 0.5f,		// V19: V3 repeated
     // bot
-    -0.5f, -0.5f, -0.5f,	// V16: V6 repeated
-    0.5f, -0.5f, -0.5f,		// V17: V7 repeated
-    -0.5f, -0.5f, 0.5f,		// V18: V1 repeated
-    0.5f, -0.5f, 0.5f,		// V19: V2 repeated
-
+    -0.5f, -0.5f, -0.5f,	// V20: V6 repeated
+    0.5f, -0.5f, -0.5f,		// V21: V7 repeated
+    -0.5f, -0.5f, 0.5f,		// V22: V1 repeated
+    0.5f, -0.5f, 0.5f,		// V23: V2 repeated
 };
 
 const GLushort Chunk::base_indices[] = {
         0, 1, 3, 3, 1, 2,		// front
         4, 7, 6, 5, 7, 4,		// back
-        8, 9, 7, 5, 8, 7,	    // right
-        10, 11, 0, 0, 11, 1,	// left
-        12, 14, 15, 13, 12, 15,	// top
-        16, 19, 18, 17, 19, 16, // bot
+        8, 9, 10, 11, 8, 10,    // right
+        12, 13, 14, 14, 13, 15,	// left
+        16, 18, 19, 17, 16, 19,	// top
+        20, 23, 22, 21, 23, 20, // bot
 };
 
 // constructor
