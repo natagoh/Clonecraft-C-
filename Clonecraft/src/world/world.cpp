@@ -1,42 +1,14 @@
 #include "world.h"
-#include "FastNoiseLite.h"
-
+#include "biome.h"
 #include <iostream>
 
 World::World() {
-	// simplex noise [0, 1]
-	FastNoiseLite noise;
-	noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
-	float amplitude[] = {
-		1.0f,
-	};
-
-
 	// prepare RENDER_DISTANCE * RENDER_DISTANCE chunks
 	chunks_to_render = new glm::vec3[RENDER_DISTANCE * RENDER_DISTANCE * 4 * MAX_HEIGHT / CHUNK_DIM];
 	for (int x = 0; x < RENDER_DISTANCE * 2; x++) {
 		for (int z = 0; z < RENDER_DISTANCE * 2; z++) {
 			glm::vec3 position = glm::vec3(x * CHUNK_DIM, 0.0f, z * CHUNK_DIM);
-			GLubyte height_map[CHUNK_DIM * CHUNK_DIM];
-
-			// get height from noise function
-			for (int xx = 0; xx < CHUNK_DIM; xx++) {
-				for (int zz = 0; zz < CHUNK_DIM; zz++) {
-					int world_x = xx + position.x;
-					int world_z = zz + position.z;
-
-					float height = 0;
-					float amplitude_sum = 0;
-					for (int i = 0; i < sizeof(amplitude) / sizeof(amplitude[0]); i++) {
-						noise.SetSeed(i + 666);
-						height += amplitude[i] * noise.GetNoise((float) world_x * 1.0f / amplitude[i], (float) world_z * 1.0f / amplitude[i]);
-						amplitude_sum += amplitude[i];
-					}
-					height /= amplitude_sum;
-
-					height_map[xx + CHUNK_DIM * zz] = height * (float) MAX_HEIGHT;
-				}
-			}
+			GLubyte* height_map = Biome::generateHeightMap(position);
 
 			for (int y = 0; y < MAX_HEIGHT / CHUNK_DIM; y++) {
 				// add chunk to world
@@ -45,7 +17,7 @@ World::World() {
 				chunks.insert({ {position, chunk} });
 
 				// Flat[x + WIDTH * (y + DEPTH * z)] = Original[x, y, z]
-				chunks_to_render[x + RENDER_DISTANCE * 2 * (y + MAX_HEIGHT / CHUNK_DIM * z)] = position;
+				chunks_to_render[x + RENDER_DISTANCE * 2 * (y + (int) MAX_HEIGHT / CHUNK_DIM * z)] = position;
 
 				// only need to generate meshes once since we don't change the mesh at all for now...
 				// todo: allow player to interact with world
@@ -55,8 +27,9 @@ World::World() {
 	}
 }
 
+
 void World::render(Frustum frustum) {
-	for (int i = 0; i < RENDER_DISTANCE * RENDER_DISTANCE * 4; i++) {
+	for (int i = 0; i < RENDER_DISTANCE * RENDER_DISTANCE * 4 * MAX_HEIGHT / CHUNK_DIM; i++) {
 		glm::vec3 chunk_coord = chunks_to_render[i];
 		
 		// find chunk in the unordered_map

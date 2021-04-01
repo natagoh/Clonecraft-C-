@@ -57,15 +57,14 @@ Chunk::Chunk(glm::vec3 position, GLubyte* height_map) {
     for (int x = 0; x < CHUNK_DIM; x++) {
         for (int y = 0; y < CHUNK_DIM; y++) {
             for (int z = 0; z < CHUNK_DIM; z++) {
-                GLubyte height = height_map[x + CHUNK_DIM * z];
-                //std::cout << "height" << height << std::endl;
+                int height = height_map[x + CHUNK_DIM * z];
+                //std::cout << "height" << height << std::endl;std::cout << "height" << height << std::endl;
                 if (y <= height && y != 0)
                     setBlock(x, y, z, Block(BlockType::GRASS));
                 else if (y == 0)
-                    setBlock(x, y, z, Block(BlockType::DIRT));
+                    setBlock(x, y, z, Block(BlockType::SAND));
                 else
                     setBlock(x, y, z, Block(BlockType::AIR));
-                //setBlock(x, y, z, Block(BlockType::GRASS));
             }
         }
 

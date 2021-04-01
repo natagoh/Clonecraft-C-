@@ -1,12 +1,8 @@
 #ifndef BIOME_HPP
 #define BIOME_HPP
 
-#include <glad/glad.h>
 #include <glm/glm.hpp>
-
-#include "render/mesh.h"
-#include "render/texture.h"
-#include "world/block.h"
+#include <glad/glad.h>
 
 class Biome {
 private:
@@ -16,8 +12,10 @@ private:
 		DESERT,
 	};
 
+	Biome() {};
+
 public:
-	Biome();
+	static GLubyte* generateHeightMap(glm::vec3 position);
 };
 
 #endif
