@@ -34,7 +34,7 @@ int main() {
     }
 
     // camera setup
-    glm::vec3 cameraPos = glm::vec3(World::RENDER_DISTANCE * CHUNK_DIM, 20.0f, World::RENDER_DISTANCE * CHUNK_DIM);
+    glm::vec3 cameraPos = glm::vec3(RENDER_DISTANCE * CHUNK_DIM, 20.0f, RENDER_DISTANCE * CHUNK_DIM);
     glm::vec3 cameraDir = glm::vec3(0.0f, 0.0f, -1.0f);
     // should be camera target
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -159,7 +159,7 @@ GLFWwindow* initWindow() {
     glEnable(GL_DEPTH_TEST);
 
     // wireframe mode
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     fprintf(stderr, "OpenGL %s\n", glGetString(GL_VERSION));
     return window;

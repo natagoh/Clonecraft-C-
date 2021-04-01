@@ -1,5 +1,6 @@
-#include "world/chunk.h"
 #include "render/texture_atlas.h"
+#include "world/world.h"
+#include "world/chunk.h"
 #include "world/block.h"
 #include <iostream>
 #include <stdlib.h>
@@ -48,21 +49,20 @@ const GLushort Chunk::base_indices[] = {
 };
 
 // constructor
-Chunk::Chunk(glm::vec3 position) {
+Chunk::Chunk(glm::vec3 position, std::vector<GLubyte> height_map) {
     this->position = position;
+    this->height_map = height_map;
 
-    // perlin noise to generate height
-    //float height = stb_perlin_noise3(x, 0, z, 0, 0, 0);
-   
     // simplex noise [0, 1]
-    FastNoiseLite noise;
-    noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+    //FastNoiseLite noise;
+    //noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
 
     for (int x = 0; x < CHUNK_DIM; x++) {
         for (int y = 0; y < CHUNK_DIM; y++) {
             for (int z = 0; z < CHUNK_DIM; z++) {
-                float height = noise.GetNoise(x + position.x, z + position.z);
-                if (y < height * CHUNK_DIM && y != 0)
+                //float height = noise.GetNoise(x + position.x, z + position.z);
+                float height = height_map[x + (int) CHUNK_DIM * z];
+                if (y < height && y != 0)
                     setBlock(x, y, z, Block(BlockType::GRASS));
                 else if (y == 0)
                     setBlock(x, y, z, Block(BlockType::SAND));
@@ -147,27 +147,27 @@ void Chunk::addVisibleBlockFacesToMesh(int x, int y, int z) {
 
     // check if faces are visible
     if (x == 0 || !getBlock(x - 1, y, z).isVisible()) {
-        addBlockFaceToMesh(x, y, z, BlockFace::LEFT);
+        addBlockFaceToMesh(x, y, z, Face::LEFT);
     }
     if (x == CHUNK_DIM - 1 || !getBlock(x + 1, y, z).isVisible()) {
-        addBlockFaceToMesh(x, y, z, BlockFace::RIGHT);
+        addBlockFaceToMesh(x, y, z, Face::RIGHT);
     }
     if (y == 0 || !getBlock(x, y - 1, z).isVisible()) {
-        addBlockFaceToMesh(x, y, z, BlockFace::BOTTOM);
+        addBlockFaceToMesh(x, y, z, Face::BOTTOM);
     }
     if (y == CHUNK_DIM - 1 || !getBlock(x, y + 1, z).isVisible()) {
-        addBlockFaceToMesh(x, y, z, BlockFace::TOP);
+        addBlockFaceToMesh(x, y, z, Face::TOP);
     }
     if (z == 0 || !getBlock(x, y, z - 1).isVisible()) {
-        addBlockFaceToMesh(x, y, z, BlockFace::BACK);
+        addBlockFaceToMesh(x, y, z, Face::BACK);
     }
     if (z == CHUNK_DIM - 1 || !getBlock(x, y, z + 1).isVisible()) {
-        addBlockFaceToMesh(x, y, z, BlockFace::FRONT);
+        addBlockFaceToMesh(x, y, z, Face::FRONT);
     }
 }
 
 // add the block face at x, y, z to the chunk's mesh
-void Chunk::addBlockFaceToMesh(int x, int y, int z, BlockFace face) {
+void Chunk::addBlockFaceToMesh(int x, int y, int z, Face face) {
     if (getBlock(x, y, z).getType() == BlockType::AIR) {
         std::cout << "Error: (Chunk) AIR block face should not be added to mesh" << std::endl;
     }

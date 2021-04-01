@@ -13,7 +13,7 @@
 
 class Chunk {
 private:
-	enum BlockFace {
+	enum Face {
 		FRONT = 0,
 		BACK,
 		RIGHT,
@@ -40,13 +40,15 @@ private:
 	std::vector<GLuint> indices = {};
 	std::vector<GLfloat> uvs = {};
 
+	std::vector<GLubyte> height_map;
+
 	Mesh mesh;	
-	void addBlockFaceToMesh(int x, int y, int z, BlockFace face);
+	void addBlockFaceToMesh(int x, int y, int z, Face face);
 	void addVisibleBlockFacesToMesh(int x, int y, int z);
 
 
 public:
-	Chunk(glm::vec3 position);
+	Chunk(glm::vec3 position, std::vector<GLubyte> height_map);
 	//~Chunk();
 
 	Block getBlock(int x, int y, int z);
