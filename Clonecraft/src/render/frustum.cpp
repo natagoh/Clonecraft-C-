@@ -96,30 +96,15 @@ void Frustum::generatePlanes() {
 // render frustum for debugging
 void Frustum::render() {
 	std::vector<GLfloat> vertices;
+	glm::vec3 frustum_vertices[8] = {
+		ntl, nbl, ntr, nbr,
+		ftl, fbl, ftr, fbr,
+	};
 
-	for (int i = 0; i < 3; i++) {
-		vertices.push_back(ntl[i]);
-	}
-	for (int i = 0; i < 3; i++) {
-		vertices.push_back(nbl[i]);
-	}
-	for (int i = 0; i < 3; i++) {
-		vertices.push_back(ntr[i]);
-	}
-	for (int i = 0; i < 3; i++) {
-		vertices.push_back(nbr[i]);
-	}
-	for (int i = 0; i < 3; i++) {
-		vertices.push_back(ftl[i]);
-	}
-	for (int i = 0; i < 3; i++) {
-		vertices.push_back(fbl[i]);
-	}
-	for (int i = 0; i < 3; i++) {
-		vertices.push_back(ftr[i]);
-	}
-	for (int i = 0; i < 3; i++) {
-		vertices.push_back(fbr[i]);
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 3; j++) {
+			vertices.push_back(frustum_vertices[i][j]);
+		}
 	}
 
 	// render points
@@ -145,4 +130,7 @@ void Frustum::render() {
 	mesh = Mesh(vertices, indices);
 	mesh.render(GL_LINES);
 	mesh.cleanup();
+
+	vertices.clear();
+	indices.clear();
 }

@@ -63,7 +63,6 @@ int main() {
     GLuint programID = LoadShaders("../Clonecraft/shaders/simple.vert", "../Clonecraft/shaders/simple.frag");
 
     GLuint frustum_shader = LoadShaders("../Clonecraft/shaders/frustum.vert", "../Clonecraft/shaders/frustum.frag");
-    frustum.generatePlanes();
 
     // Get a handle for our "MVP" uniform
     GLuint MatrixID = glGetUniformLocation(programID, "mvp");
