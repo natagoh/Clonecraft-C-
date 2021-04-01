@@ -16,7 +16,7 @@ private:
 	std::unordered_map<glm::vec3, std::shared_ptr<Chunk>> chunks;	// map containing all chunks
 	glm::vec3* chunks_to_render;	// array of chunks to be rendered
 
-	static const GLubyte MAX_HEIGHT = 255;
+	static const GLubyte MAX_HEIGHT = 16; // ideally 255
 	
 public:
 	World();

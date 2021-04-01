@@ -4,7 +4,6 @@
 #include "world/block.h"
 #include <iostream>
 #include <stdlib.h>
-#include "FastNoiseLite.h"
 
 const GLfloat Chunk::base_vertices[] = {
     // front
@@ -53,19 +52,15 @@ Chunk::Chunk(glm::vec3 position, std::vector<GLubyte> height_map) {
     this->position = position;
     this->height_map = height_map;
 
-    // simplex noise [0, 1]
-    //FastNoiseLite noise;
-    //noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
-
     for (int x = 0; x < CHUNK_DIM; x++) {
         for (int y = 0; y < CHUNK_DIM; y++) {
             for (int z = 0; z < CHUNK_DIM; z++) {
-                //float height = noise.GetNoise(x + position.x, z + position.z);
-                float height = height_map[x + (int) CHUNK_DIM * z];
+                GLubyte height = height_map[x + CHUNK_DIM * z];
+                //std::cout << "height" << height << std::endl;
                 if (y < height && y != 0)
                     setBlock(x, y, z, Block(BlockType::GRASS));
                 else if (y == 0)
-                    setBlock(x, y, z, Block(BlockType::SAND));
+                    setBlock(x, y, z, Block(BlockType::DIRT));
                 else
                     setBlock(x, y, z, Block(BlockType::AIR));
                 //setBlock(x, y, z, Block(BlockType::GRASS));
