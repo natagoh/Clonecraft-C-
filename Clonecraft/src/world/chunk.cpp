@@ -125,9 +125,6 @@ void Chunk::generateMesh() {
 	for (int x = 0; x < CHUNK_DIM; x++) {
 		for (int y = 0; y < CHUNK_DIM; y++) {
 			for (int z = 0; z < CHUNK_DIM; z++) {
-			   // if (isBlockVisible(x, y, z)) {
-               //     addBlockToMesh(x, y, z);
-				//}
                 addVisibleBlockFacesToMesh(x, y, z);
                 //std::cout << "num vertices " << vertices.size() << " num indices " << indices.size() << std::endl;
 			}
@@ -147,53 +144,34 @@ void Chunk::generateMesh() {
 // add visible block faces to mesh
 void Chunk::addVisibleBlockFacesToMesh(int x, int y, int z) {
     // don't add AIR blocks
-    if (!isBlockVisible(x, y, z)) return;
+    if (!getBlock(x, y, z).isVisible()) return;
 
-    addBlockFaceToMesh(x, y, z, BlockFace::FRONT);
+   /* addBlockFaceToMesh(x, y, z, BlockFace::FRONT);
     addBlockFaceToMesh(x, y, z, BlockFace::BACK);
     addBlockFaceToMesh(x, y, z, BlockFace::RIGHT);
     addBlockFaceToMesh(x, y, z, BlockFace::LEFT);
     addBlockFaceToMesh(x, y, z, BlockFace::TOP);
-    addBlockFaceToMesh(x, y, z, BlockFace::BOTTOM);
+    addBlockFaceToMesh(x, y, z, BlockFace::BOTTOM);*/
 
     // check if faces are visible
-    //if (!getBlock(x + 1, y, z).isVisible()) {
-    //    addBlockFaceToMesh(x, y, z, BlockFace::RIGHT);
-    //}
-    //if (!getBlock(x - 1, y, z).isVisible()) {
-    //    addBlockFaceToMesh(x, y, z, BlockFace::LEFT);
-    //}
-    //if (!getBlock(x, y + 1, z).isVisible()) {
-    //    addBlockFaceToMesh(x, y, z, BlockFace::TOP);
-    //}
-    //if (!getBlock(x, y - 1, z).isVisible()) {
-    //    addBlockFaceToMesh(x, y, z, BlockFace::BOTTOM);
-    //}
-    //if (!getBlock(x, y, z + 1).isVisible()) {
-    //    addBlockFaceToMesh(x, y, z, BlockFace::FRONT);
-    //}
-    //if (!getBlock(x, y, z - 1).isVisible()) {
-    //    addBlockFaceToMesh(x, y, z, BlockFace::BACK);
-    //}
-}
-
-// is a block in the chunk visible at this coord?
-bool Chunk::isBlockVisible(int x, int y, int z) {
-    // don't render air blocks
-    if (getBlock(x, y, z).getType() == BlockType::AIR) {
-        return false;
+    if (x == 0 || !getBlock(x - 1, y, z).isVisible()) {
+        addBlockFaceToMesh(x, y, z, BlockFace::LEFT);
     }
-
-    // check edge of chunk
-    bool x_in_range = x > 0 && x < CHUNK_DIM - 1;
-    bool y_in_range = y > 0 && y < CHUNK_DIM - 1;
-    bool z_in_range = z > 0 && z < CHUNK_DIM - 1;
-
-    if (!x_in_range || !y_in_range || !z_in_range) {
-        return true;
+    if (x == CHUNK_DIM - 1 || !getBlock(x + 1, y, z).isVisible()) {
+        addBlockFaceToMesh(x, y, z, BlockFace::RIGHT);
     }
-
-    return true;
+    if (y == 0 || !getBlock(x, y - 1, z).isVisible()) {
+        addBlockFaceToMesh(x, y, z, BlockFace::BOTTOM);
+    }
+    if (y == CHUNK_DIM - 1 || !getBlock(x, y + 1, z).isVisible()) {
+        addBlockFaceToMesh(x, y, z, BlockFace::TOP);
+    }
+    if (z == 0 || !getBlock(x, y, z + 1).isVisible()) {
+        addBlockFaceToMesh(x, y, z, BlockFace::BACK);
+    }
+    if (z == CHUNK_DIM - 1 || !getBlock(x, y, z - 1).isVisible()) {
+        addBlockFaceToMesh(x, y, z, BlockFace::FRONT);
+    }
 }
 
 // add the block face at x, y, z to the chunk's mesh
@@ -225,41 +203,7 @@ void Chunk::addBlockFaceToMesh(int x, int y, int z, BlockFace face) {
     std::vector<GLfloat> texture_uvs = TextureAtlas::getUVs(getBlock(x, y, z).getType());
     start_idx = FACE_UV_OFFSET * face;
     for (unsigned int i = 0; i < NUM_POINTS_PER_FACE; i++) {
-        uvs.push_back(texture_uvs[start_idx + (int) i * 2]);
-        uvs.push_back(texture_uvs[start_idx + (int) i * 2 + 1]);
+        uvs.push_back(texture_uvs[start_idx + i * 2]);
+        uvs.push_back(texture_uvs[start_idx + i * 2 + 1]);
     }
-
-    //uvs.insert(std::end(uvs), std::begin(texture_uvs), std::end(texture_uvs));
 }
-
-// add the block at x, y, z to the chunk's mesh
-void Chunk::addBlockToMesh(int x, int y, int z) {
-    if (getBlock(x, y, z).getType() == BlockType::AIR) {
-        std::cout << "Error: (Chunk) AIR block should not be added to mesh" << std::endl;
-    }
-    
-    // should be 20 since 1 block has 20 vertices
-    unsigned int num_vertices_per_block = sizeof(base_vertices) / sizeof(base_vertices[0]) / 3;
-
-    // index of block we are adding
-    unsigned int num_blocks = vertices.size() / 3;
-    unsigned int block_index = num_blocks / num_vertices_per_block;
-
-    // add the position-offset vertices of the newly added block
-    for (size_t i = 0; i < num_vertices_per_block; i++) {
-        vertices.push_back(base_vertices[i * 3] + position.x + x);
-        vertices.push_back(base_vertices[i * 3 + 1] + position.y + y);
-        vertices.push_back(base_vertices[i * 3 + 2] + position.z + z);
-    }
-
-    // add the indices of the newly added block
-    for (size_t i = 0; i < sizeof(base_indices) / sizeof(base_indices[0]); i++) {
-        indices.push_back(base_indices[i] + num_vertices_per_block * block_index);
-    }
-
-    // get uvs from texture atlas
-    Block block = getBlock(x, y, z);
-    std::vector<GLfloat> texture_uvs = TextureAtlas::getUVs(block.getType());
-    uvs.insert(std::end(uvs), std::begin(texture_uvs), std::end(texture_uvs));
-}
-

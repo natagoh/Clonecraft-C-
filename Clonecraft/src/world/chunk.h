@@ -40,11 +40,7 @@ private:
 	std::vector<GLuint> indices = {};
 	std::vector<GLfloat> uvs = {};
 
-	Mesh mesh;
-
-	bool isBlockVisible(int x, int y, int z);
-	
-	void addBlockToMesh(int x, int y, int z);
+	Mesh mesh;	
 	void addBlockFaceToMesh(int x, int y, int z, BlockFace face);
 	void addVisibleBlockFacesToMesh(int x, int y, int z);
 
