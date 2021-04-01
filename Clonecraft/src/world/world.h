@@ -16,7 +16,7 @@ private:
 	glm::vec3* chunks_to_render;	// array of chunks to be rendered
 
 public:
-	static const unsigned int RENDER_DISTANCE = 1;	// how many chunks can be seen on a screen in one direction
+	static const unsigned int RENDER_DISTANCE = 12;	// how many chunks can be seen on a screen in one direction
 
 	World();
 	void render(Frustum frustum);

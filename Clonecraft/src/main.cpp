@@ -55,8 +55,8 @@ int main() {
 
     World world = World();
 
-    Chunk chunk = Chunk(glm::vec3(0, 0, 0));
-    chunk.generateMesh();
+   /* Chunk chunk = Chunk(glm::vec3(0, 0, 0));
+    chunk.generateMesh();*/
 
     // Create and compile our GLSL program from the shaders
     GLuint programID = LoadShaders("../Clonecraft/shaders/simple.vert", "../Clonecraft/shaders/simple.frag");
@@ -159,7 +159,7 @@ GLFWwindow* initWindow() {
     glEnable(GL_DEPTH_TEST);
 
     // wireframe mode
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     fprintf(stderr, "OpenGL %s\n", glGetString(GL_VERSION));
     return window;

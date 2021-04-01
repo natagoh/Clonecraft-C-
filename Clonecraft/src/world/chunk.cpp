@@ -61,14 +61,14 @@ Chunk::Chunk(glm::vec3 position) {
     for (int x = 0; x < CHUNK_DIM; x++) {
         for (int y = 0; y < CHUNK_DIM; y++) {
             for (int z = 0; z < CHUNK_DIM; z++) {
-               /* float height = noise.GetNoise(x + position.x, z + position.z);
+                float height = noise.GetNoise(x + position.x, z + position.z);
                 if (y < height * CHUNK_DIM && y != 0)
                     setBlock(x, y, z, Block(BlockType::GRASS));
                 else if (y == 0)
                     setBlock(x, y, z, Block(BlockType::SAND));
                 else
-                    setBlock(x, y, z, Block(BlockType::AIR));*/
-                setBlock(x, y, z, Block(BlockType::GRASS));
+                    setBlock(x, y, z, Block(BlockType::AIR));
+                //setBlock(x, y, z, Block(BlockType::GRASS));
             }
         }
 
@@ -126,14 +126,13 @@ void Chunk::generateMesh() {
 		for (int y = 0; y < CHUNK_DIM; y++) {
 			for (int z = 0; z < CHUNK_DIM; z++) {
                 addVisibleBlockFacesToMesh(x, y, z);
-                //std::cout << "num vertices " << vertices.size() << " num indices " << indices.size() << std::endl;
 			}
 		}
 	}
 
     mesh = Mesh(vertices, uvs, indices);
 
-    std::cout << "num vertices " << vertices.size() << " num indices " << indices.size() << std::endl;
+    // std::cout << "num vertices " << vertices.size() << " num indices " << indices.size() << std::endl;
 
     // clean up buffer vectors once data already pushed to mesh
     vertices.clear();
@@ -145,13 +144,6 @@ void Chunk::generateMesh() {
 void Chunk::addVisibleBlockFacesToMesh(int x, int y, int z) {
     // don't add AIR blocks
     if (!getBlock(x, y, z).isVisible()) return;
-
-   /* addBlockFaceToMesh(x, y, z, BlockFace::FRONT);
-    addBlockFaceToMesh(x, y, z, BlockFace::BACK);
-    addBlockFaceToMesh(x, y, z, BlockFace::RIGHT);
-    addBlockFaceToMesh(x, y, z, BlockFace::LEFT);
-    addBlockFaceToMesh(x, y, z, BlockFace::TOP);
-    addBlockFaceToMesh(x, y, z, BlockFace::BOTTOM);*/
 
     // check if faces are visible
     if (x == 0 || !getBlock(x - 1, y, z).isVisible()) {
@@ -166,10 +158,10 @@ void Chunk::addVisibleBlockFacesToMesh(int x, int y, int z) {
     if (y == CHUNK_DIM - 1 || !getBlock(x, y + 1, z).isVisible()) {
         addBlockFaceToMesh(x, y, z, BlockFace::TOP);
     }
-    if (z == 0 || !getBlock(x, y, z + 1).isVisible()) {
+    if (z == 0 || !getBlock(x, y, z - 1).isVisible()) {
         addBlockFaceToMesh(x, y, z, BlockFace::BACK);
     }
-    if (z == CHUNK_DIM - 1 || !getBlock(x, y, z - 1).isVisible()) {
+    if (z == CHUNK_DIM - 1 || !getBlock(x, y, z + 1).isVisible()) {
         addBlockFaceToMesh(x, y, z, BlockFace::FRONT);
     }
 }
