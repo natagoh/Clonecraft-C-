@@ -4,6 +4,7 @@
 #include "world/block.h"
 #include <iostream>
 #include <stdlib.h>
+#include <bitset>
 
 const GLfloat Chunk::base_vertices[] = {
     // front
@@ -52,6 +53,7 @@ Chunk::Chunk(glm::vec3 position, GLubyte* height_map) {
     this->position = position;
     this->height_map = height_map;
 
+    // generating block array
     for (int x = 0; x < CHUNK_DIM; x++) {
         for (int y = 0; y < CHUNK_DIM; y++) {
             for (int z = 0; z < CHUNK_DIM; z++) {
@@ -69,9 +71,40 @@ Chunk::Chunk(glm::vec3 position, GLubyte* height_map) {
 
     }
     
-    //for (int i = 0; i < NUM_BLOCKS; i++) {
-    //    blocks[i] = Block(BlockType::AIR);
-    //}
+    // encode block array 
+    // we can store block face data 16*16 in a single int
+    std::vector<GLubyte> rle[CHUNK_DIM];
+    for (int y = 0; y < CHUNK_DIM; y++) {
+        std::vector<GLubyte> data;
+        for (int x = 0; x < CHUNK_DIM; x++) {
+            for (int z = 0; z < CHUNK_DIM; z++) {
+                BlockType blocktype = getBlock(x, y, z).getType();  // 8 bits
+                GLubyte count = 1;  // 8 bits
+                while (z < CHUNK_DIM - 1 && blocktype == getBlock(x, y, z + 1).getType()) {
+                    count++;
+                    z++;
+                }
+                data.push_back(blocktype);
+                data.push_back(count);
+            }
+        }
+        rle[y] = data;
+    }
+
+    for (int j = 0; j < CHUNK_DIM; j++) {
+        std::cout << "=================CHUNK===================" << std::endl;
+        for (int i = 0; i < CHUNK_DIM; i++) {
+            for (int k = 0; k < CHUNK_DIM; k++) {
+                std::cout << static_cast<unsigned>(getBlock(i, j, k).getType()) << " ";
+            }
+            std::cout << std::endl;
+        }
+        std::cout << "=================CHUNK ENCODING===================" << std::endl;
+        for (int k = 0; k < rle[j].size(); k++) {
+            std::cout << static_cast<unsigned>(rle[j][k]) << " ";
+        }
+        std::cout << std::endl;
+    }
 }
 
 // get world space coords of chunk vertices (for frustum culling)
