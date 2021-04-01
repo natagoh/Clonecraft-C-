@@ -35,7 +35,8 @@ int main() {
 
     // camera setup
     glm::vec3 cameraPos = glm::vec3(RENDER_DISTANCE * CHUNK_DIM, 20.0f, RENDER_DISTANCE * CHUNK_DIM);
-    glm::vec3 cameraDir = glm::vec3(0.0f, 0.0f, -1.0f);
+    glm::vec3 cameraDir = glm::vec3(0.0f, -0.8f, 0.2f);
+    //glm::vec3 cameraDir = glm::vec3(0.004045, -0.999848, -0.016977);
     // should be camera target
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
     // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
@@ -44,7 +45,7 @@ int main() {
     Camera camera(cameraPos, cameraDir, cameraUp);
 
     Frustum frustum(&camera, projection);
-    frustum.generatePlanes();
+    //frustum.generatePlanes();
 
     // keyboard + mouse input setup
     Input input(window, &camera);
@@ -62,7 +63,7 @@ int main() {
     GLuint programID = LoadShaders("../Clonecraft/shaders/simple.vert", "../Clonecraft/shaders/simple.frag");
 
     GLuint frustum_shader = LoadShaders("../Clonecraft/shaders/frustum.vert", "../Clonecraft/shaders/frustum.frag");
-
+    frustum.generatePlanes();
 
     // Get a handle for our "MVP" uniform
     GLuint MatrixID = glGetUniformLocation(programID, "mvp");

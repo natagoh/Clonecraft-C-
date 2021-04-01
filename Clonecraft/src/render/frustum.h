@@ -29,6 +29,7 @@ private:
 	glm::mat4 projection;
 
 	float fov, aspect_ratio, near, far;
+	float n_width, n_height, f_width, f_height;
 	glm::vec3 ntl, nbl, ntr, nbr, ftl, fbl, ftr, fbr;
 	Plane planes[6] = {};
 

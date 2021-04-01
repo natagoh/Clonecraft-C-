@@ -5,7 +5,6 @@
 #include <iostream>
 #include <stdlib.h>
 #include <bitset>
-#include "IntervalTree.h"
 
 const GLfloat Chunk::base_vertices[] = {
     // front
@@ -72,39 +71,38 @@ Chunk::Chunk(glm::vec3 position, GLubyte* height_map) {
 
     }
     
-    // encode block array 
-    // we can store block face data 16*16 in a single int
-    std::vector<GLubyte> rle[CHUNK_DIM];
-    for (int y = 0; y < CHUNK_DIM; y++) {
-        std::vector<GLubyte> data;
-        for (int x = 0; x < CHUNK_DIM; x++) {
-            for (int z = 0; z < CHUNK_DIM; z++) {
-                BlockType blocktype = getBlock(x, y, z).getType();  // 8 bits
-                GLubyte count = 1;  // 8 bits
-                while (z < CHUNK_DIM - 1 && blocktype == getBlock(x, y, z + 1).getType()) {
-                    count++;
-                    z++;
-                }
-                data.push_back(blocktype);
-                data.push_back(count);
-            }
-        }
-        rle[y] = data;
-    }
+    //// encode block array 
+    //// we can store block face data 16*16 in a single int
+    //std::vector<GLubyte> rle[CHUNK_DIM];
+    //for (int y = 0; y < CHUNK_DIM; y++) {
+    //    std::vector<GLubyte> data;
+    //    for (int x = 0; x < CHUNK_DIM; x++) {
+    //        for (int z = 0; z < CHUNK_DIM; z++) {
+    //            BlockType blocktype = getBlock(x, y, z).getType();  // 8 bits
+    //            GLubyte count = 1;  // 8 bits
+    //            while (z < CHUNK_DIM - 1 && blocktype == getBlock(x, y, z + 1).getType()) {
+    //                count++;
+    //                z++;
+    //            }
+    //            data.push_back(blocktype);
+    //            data.push_back(count);
+    //        }
+    //    }
+    //    rle[y] = data;
+    //}
 
-    // build interval tree
-    std::vector<Interval<GLubyte> > blocktype_tree;
-    for (int y = 0; y < CHUNK_DIM; y++) {
-        int idx = 0;
-        for (int i = 0; i < rle[y].size() / 2; i += 2) {
-            GLubyte blocktype = rle[y][i];
-            GLubyte count = rle[y][i + 1];
-            int start_idx = idx + CHUNK_DIM * y;
-            int end_idx = start_idx + count;
-            blocktype_tree.push_back(Interval<GLubyte>(start_idx, end_idx, blocktype));
-            idx++;
-        }
-    }
+    //// build interval tree
+    //for (int y = 0; y < CHUNK_DIM; y++) {
+    //    int idx = 0;
+    //    for (int i = 0; i < rle[y].size() / 2; i += 2) {
+    //        GLubyte blocktype = rle[y][i];
+    //        GLubyte count = rle[y][i + 1];
+    //        int start_idx = idx + CHUNK_DIM * y;
+    //        int end_idx = start_idx + count;
+
+    //        idx++;
+    //    }
+    //}
 
 
     //std::cout << sizeof(blocks) << " " << sizeof(rle) << std::endl;

@@ -11,10 +11,18 @@ Frustum::Frustum(Camera* camera, glm::mat4 projection) {
 	this->projection = projection;
 
 	// extract info from projection matrix
-	fov = 2.0f * atan(1.0f / projection[1][1]) * 180.0f / glm::pi<float>();
+	fov = 2.0f * atan(1.0f / projection[1][1]); // in radians
 	aspect_ratio = projection[1][1] / projection[0][0];
 	near = projection[3][2] / (projection[2][2] - 1.0f);
 	far = projection[3][2] / (projection[2][2] + 1.0f);
+
+	// dimensions of near and far planes
+	n_height = 2.0f * tan(fov / 2.0f) * near;
+	n_width = n_height * aspect_ratio;
+
+	f_height = 2.0f * tan(fov / 2.0f) * far;
+	f_width = f_height * aspect_ratio;
+
 	std::cout << "fov " << fov << " aspect " << aspect_ratio << " near " << near << " far " << far << std::endl;
 }
 
@@ -40,28 +48,16 @@ bool Frustum::cubeIntersection(std::vector<glm::vec3> vertices) {
 }
 
 void Frustum::generatePlanes() {
-	// get camera vectors
 	glm::vec3 pos = camera->getPosition();
 	glm::vec3 dir = camera->getDirection();
-	glm::vec3 up = camera->getUp();
-	glm::vec3 right = glm::normalize(glm::cross(dir, up));
-
-	// fixed frustum positions for debugging
-	//glm::vec3 pos = glm::vec3(20.0f, 20.0f, 20.0f);
-	//glm::vec3 dir = glm::normalize(glm::vec3(0.0f, 0.0f, -1.0f));
-	//glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	//glm::vec3 right = glm::normalize(glm::cross(dir, up));
+	glm::vec3 neg_dir = glm::vec3(0.0f) - dir;
+	glm::vec3 right = glm::normalize(glm::cross(neg_dir, camera->getUp()));
+	// actual camera up vector
+	glm::vec3 up = glm::normalize(glm::cross(neg_dir, right));
 
 	// near and far coords
 	glm::vec3 n_pos = pos + near * dir;
 	glm::vec3 f_pos = pos + far * dir;
-
-	// dimensions of near and far planes
-	float n_height = 2 * tan(fov / 2) * near;
-	float n_width = n_height * aspect_ratio;
-
-	float f_height = 2 * tan(fov / 2) * far;
-	float f_width = f_height * aspect_ratio;
 	
 	glm::vec3 n_h = up * (n_height / 2.0f);
 	glm::vec3 n_w = right * (n_width / 2.0f);
