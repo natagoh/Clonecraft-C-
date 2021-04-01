@@ -5,6 +5,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <bitset>
+#include "IntervalTree.h"
 
 const GLfloat Chunk::base_vertices[] = {
     // front
@@ -91,6 +92,21 @@ Chunk::Chunk(glm::vec3 position, GLubyte* height_map) {
         rle[y] = data;
     }
 
+    // build interval tree
+    std::vector<Interval<GLubyte> > blocktype_tree;
+    for (int y = 0; y < CHUNK_DIM; y++) {
+        int idx = 0;
+        for (int i = 0; i < rle[y].size() / 2; i += 2) {
+            GLubyte blocktype = rle[y][i];
+            GLubyte count = rle[y][i + 1];
+            int start_idx = idx + CHUNK_DIM * y;
+            int end_idx = start_idx + count;
+            blocktype_tree.push_back(Interval<GLubyte>(start_idx, end_idx, blocktype));
+            idx++;
+        }
+    }
+
+
     //std::cout << sizeof(blocks) << " " << sizeof(rle) << std::endl;
 
   /*  for (int j = 0; j < CHUNK_DIM; j++) {
@@ -152,6 +168,8 @@ void Chunk::render() {
 }
 
 void Chunk::generateMesh() {
+    // decompress block data
+
 	for (int x = 0; x < CHUNK_DIM; x++) {
 		for (int y = 0; y < CHUNK_DIM; y++) {
 			for (int z = 0; z < CHUNK_DIM; z++) {
