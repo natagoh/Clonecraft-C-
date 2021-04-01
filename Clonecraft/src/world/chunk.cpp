@@ -91,7 +91,9 @@ Chunk::Chunk(glm::vec3 position, GLubyte* height_map) {
         rle[y] = data;
     }
 
-    for (int j = 0; j < CHUNK_DIM; j++) {
+    //std::cout << sizeof(blocks) << " " << sizeof(rle) << std::endl;
+
+  /*  for (int j = 0; j < CHUNK_DIM; j++) {
         std::cout << "=================CHUNK===================" << std::endl;
         for (int i = 0; i < CHUNK_DIM; i++) {
             for (int k = 0; k < CHUNK_DIM; k++) {
@@ -104,7 +106,7 @@ Chunk::Chunk(glm::vec3 position, GLubyte* height_map) {
             std::cout << static_cast<unsigned>(rle[j][k]) << " ";
         }
         std::cout << std::endl;
-    }
+    }*/
 }
 
 // get world space coords of chunk vertices (for frustum culling)
@@ -159,8 +161,6 @@ void Chunk::generateMesh() {
 	}
 
     mesh = Mesh(vertices, uvs, indices);
-
-    // std::cout << "num vertices " << vertices.size() << " num indices " << indices.size() << std::endl;
 
     // clean up buffer vectors once data already pushed to mesh
     vertices.clear();
