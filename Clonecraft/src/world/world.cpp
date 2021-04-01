@@ -13,7 +13,6 @@ World::World() {
 
 
 	// prepare RENDER_DISTANCE * RENDER_DISTANCE chunks
-	//std::vector<GLubyte> height_map;
 	chunks_to_render = new glm::vec3[RENDER_DISTANCE * RENDER_DISTANCE * 4 * MAX_HEIGHT / CHUNK_DIM];
 	for (int x = 0; x < RENDER_DISTANCE * 2; x++) {
 		for (int z = 0; z < RENDER_DISTANCE * 2; z++) {
@@ -36,7 +35,6 @@ World::World() {
 					height /= amplitude_sum;
 
 					height_map[xx + CHUNK_DIM * zz] = height * (float) MAX_HEIGHT;
-					//height_map.push_back(height * (float) 15);
 				}
 			}
 
@@ -53,8 +51,6 @@ World::World() {
 				// todo: allow player to interact with world
 				chunk->generateMesh();
 			}
-			
-			//height_map.clear();
 		}
 	}
 }

@@ -6,7 +6,7 @@
 
 #include "render/mesh.h"
 
-enum class BlockType {
+enum class BlockType: GLubyte {
 	GRASS,
 	AIR,
 	DIRT,
