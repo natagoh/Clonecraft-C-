@@ -13,15 +13,16 @@ World::World() {
 
 
 	// prepare RENDER_DISTANCE * RENDER_DISTANCE chunks
-	std::vector<GLubyte> height_map;
+	//std::vector<GLubyte> height_map;
 	chunks_to_render = new glm::vec3[RENDER_DISTANCE * RENDER_DISTANCE * 4 * MAX_HEIGHT / CHUNK_DIM];
 	for (int x = 0; x < RENDER_DISTANCE * 2; x++) {
 		for (int z = 0; z < RENDER_DISTANCE * 2; z++) {
 			glm::vec3 position = glm::vec3(x * CHUNK_DIM, 0.0f, z * CHUNK_DIM);
-		
+			GLubyte height_map[CHUNK_DIM * CHUNK_DIM];
+
 			// get height from noise function
-			for (int zz = 0; zz < CHUNK_DIM; zz++) {
-				for (int xx = 0; xx < CHUNK_DIM; xx++) {
+			for (int xx = 0; xx < CHUNK_DIM; xx++) {
+				for (int zz = 0; zz < CHUNK_DIM; zz++) {
 					int world_x = xx + position.x;
 					int world_z = zz + position.z;
 
@@ -34,8 +35,8 @@ World::World() {
 					}
 					height /= amplitude_sum;
 
-					/*height_map[xx + CHUNK_DIM * zz] = height * (float) MAX_HEIGHT;*/
-					height_map.push_back(height * (float) 16);
+					height_map[xx + CHUNK_DIM * zz] = height * (float) MAX_HEIGHT;
+					//height_map.push_back(height * (float) 15);
 				}
 			}
 
@@ -53,7 +54,7 @@ World::World() {
 				chunk->generateMesh();
 			}
 			
-			height_map.clear();
+			//height_map.clear();
 		}
 	}
 }

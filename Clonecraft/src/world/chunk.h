@@ -40,7 +40,7 @@ private:
 	std::vector<GLuint> indices = {};
 	std::vector<GLfloat> uvs = {};
 
-	std::vector<GLubyte> height_map;
+	GLubyte* height_map;
 
 	Mesh mesh;	
 	void addBlockFaceToMesh(int x, int y, int z, Face face);
@@ -48,7 +48,7 @@ private:
 
 
 public:
-	Chunk(glm::vec3 position, std::vector<GLubyte> height_map);
+	Chunk(glm::vec3 position, GLubyte* height_map);
 	//~Chunk();
 
 	Block getBlock(int x, int y, int z);
