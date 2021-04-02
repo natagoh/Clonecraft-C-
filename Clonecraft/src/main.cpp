@@ -92,6 +92,12 @@ int main() {
         glClearColor(47.0f / 256.0f, 102.0f / 256.0f, 169.0f / 256.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // check OpenGL error
+        GLenum err;
+        while ((err = glGetError()) != GL_NO_ERROR) {
+            std::cerr << "OpenGL error: " << err << std::endl;
+        }
+
         // Use our shader
         glUseProgram(programID);
 
@@ -159,7 +165,7 @@ GLFWwindow* initWindow() {
     glEnable(GL_DEPTH_TEST);
 
     // wireframe mode
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     fprintf(stderr, "OpenGL %s\n", glGetString(GL_VERSION));
     return window;
