@@ -225,7 +225,8 @@ void Chunk::addVisibleBlockFacesToMesh(int x, int y, int z) {
 
 // add the block face at x, y, z to the chunk's mesh
 void Chunk::addBlockFaceToMesh(int x, int y, int z, Face face) {
-    if (getBlock(x, y, z).getType() == BlockType::AIR) {
+    BlockType blocktype = getBlock(x, y, z).getType();
+    if (blocktype == BlockType::AIR) {
         std::cout << "Error: (Chunk) AIR block face should not be added to mesh" << std::endl;
     }
 
@@ -234,10 +235,16 @@ void Chunk::addBlockFaceToMesh(int x, int y, int z, Face face) {
     unsigned int face_index = num_points / NUM_POINTS_PER_FACE;
 
     // add the position-offset vertices of the newly added block face
+    // for water, make block slightly shorter
+    float water_height_offset = 1.0f / 8.0f;
     unsigned int start_idx = FACE_VERTICES_OFFSET * face;
     for (unsigned int i = 0; i < NUM_POINTS_PER_FACE; i++) {
         vertices.push_back(base_vertices[start_idx + i * 3] + position.x + x);
-        vertices.push_back(base_vertices[start_idx + i * 3 + 1] + position.y + y);
+        if (blocktype == BlockType::WATER && base_vertices[start_idx + i * 3 + 1] > 0) {
+            vertices.push_back(base_vertices[start_idx + i * 3 + 1] + position.y + y - water_height_offset);
+        } else {
+            vertices.push_back(base_vertices[start_idx + i * 3 + 1] + position.y + y);
+        }
         vertices.push_back(base_vertices[start_idx + i * 3 + 2] + position.z + z);
     }
 
