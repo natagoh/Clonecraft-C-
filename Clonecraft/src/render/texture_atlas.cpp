@@ -30,6 +30,15 @@ std::vector<GLubyte> TextureAtlas::getAtlasOffsets(BlockType blockType) {
         case BlockType::SAND:
             atlas_offsets = { 3, 0, 3, 0, 3, 0 };
             break;
+        case BlockType::STONE:
+            atlas_offsets = { 4, 0, 4, 0, 4, 0 };
+            break;
+        case BlockType::SNOW:
+            atlas_offsets = { 5, 0, 5, 0, 5, 0 };
+            break;
+        case BlockType::WATER:
+            atlas_offsets = { 6, 0, 6, 0, 6, 0 };
+            break;
     }
     return atlas_offsets;
 }

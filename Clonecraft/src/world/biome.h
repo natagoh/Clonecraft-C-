@@ -1,6 +1,7 @@
 #ifndef BIOME_HPP
 #define BIOME_HPP
 
+#include "world/block.h"
 #include <glm/glm.hpp>
 #include <glad/glad.h>
 
@@ -15,7 +16,8 @@ private:
 	Biome() {};
 
 public:
-	static GLubyte* generateHeightMap(glm::vec3 position);
+	static GLshort* generateHeightMap(glm::vec3 position);
+	static BlockType getBlockType(int elevation);
 };
 
 #endif

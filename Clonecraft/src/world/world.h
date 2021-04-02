@@ -9,7 +9,7 @@
 #include "chunk.h"
 #include "render/frustum.h"
 
-#define RENDER_DISTANCE 4	// how many chunks can be seen on a screen in one direction
+#define RENDER_DISTANCE 12	// how many chunks can be seen on a screen in one direction
 
 class World {
 private:
@@ -17,7 +17,7 @@ private:
 	glm::vec3* chunks_to_render;	// array of chunks to be rendered
 	
 public:
-	static const GLushort MAX_HEIGHT = 256; // ideally 256
+	static const GLushort MAX_HEIGHT = 64; // ideally 256
 
 	World();
 	void render(Frustum frustum);

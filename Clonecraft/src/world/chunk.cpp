@@ -2,9 +2,10 @@
 #include "world/world.h"
 #include "world/chunk.h"
 #include "world/block.h"
+#include "world/biome.h"
 #include <iostream>
+#include <glm/gtx/string_cast.hpp>
 #include <stdlib.h>
-#include <bitset>
 
 const GLfloat Chunk::base_vertices[] = {
     // front
@@ -49,22 +50,31 @@ const GLushort Chunk::base_indices[] = {
 };
 
 // constructor
-Chunk::Chunk(glm::vec3 position, GLubyte* height_map) {
+Chunk::Chunk(glm::vec3 position, GLshort* height_map) {
     this->position = position;
     this->height_map = height_map;
 
+    //std::cout << "chunk position" << glm::to_string(position) << std::endl;
+
     // generating block array
     for (int x = 0; x < CHUNK_DIM; x++) {
-        for (int y = 0; y < CHUNK_DIM; y++) {
-            for (int z = 0; z < CHUNK_DIM; z++) {
-                int height = height_map[x + CHUNK_DIM * z];
-                //std::cout << "height" << height << std::endl;std::cout << "height" << height << std::endl;
-                if (y <= height && y != 0)
+        for (int z = 0; z < CHUNK_DIM; z++) {
+            int height = height_map[x + CHUNK_DIM * z];
+            //std::cout << "height" << height << std::endl;std::cout << "height" << height << std::endl;
+            for (int y = 0; y < CHUNK_DIM; y++) {
+                int world_y = position.y + y;
+                //std::cout << "height: " << height << " world y: " << world_y << std::endl;
+                if (world_y >= height) {
+                    setBlock(x, y, z, BlockType::AIR);
+                } else {
+                    setBlock(x, y, z, Biome::getBlockType(world_y));
+                }
+              /*  if (world_y <= height && world_y != 0)
                     setBlock(x, y, z, Block(BlockType::GRASS));
-                else if (y == 0)
+                else if (world_y == 0)
                     setBlock(x, y, z, Block(BlockType::SAND));
                 else
-                    setBlock(x, y, z, Block(BlockType::AIR));
+                    setBlock(x, y, z, Block(BlockType::AIR));*/
             }
         }
 

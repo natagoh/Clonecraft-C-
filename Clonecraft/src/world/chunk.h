@@ -8,6 +8,8 @@
 #include "render/texture.h"
 #include "world/block.h"
 
+#include <memory>
+
 #define CHUNK_DIM 16
 #define NUM_BLOCKS CHUNK_DIM * CHUNK_DIM * CHUNK_DIM
 
@@ -40,7 +42,8 @@ private:
 	std::vector<GLuint> indices = {};
 	std::vector<GLfloat> uvs = {};
 
-	GLubyte* height_map;
+	GLshort* height_map;
+	//std::shared_ptr<GLshort[]> height_map;
 
 	Mesh mesh;	
 	void addBlockFaceToMesh(int x, int y, int z, Face face);
@@ -48,7 +51,7 @@ private:
 
 
 public:
-	Chunk(glm::vec3 position, GLubyte* height_map);
+	Chunk(glm::vec3 position, GLshort* height_map);
 	//~Chunk();
 
 	Block getBlock(int x, int y, int z);

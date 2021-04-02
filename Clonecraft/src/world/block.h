@@ -11,6 +11,9 @@ enum BlockType: GLubyte {
 	AIR,
 	DIRT,
 	SAND,
+	STONE,
+	SNOW,
+	WATER,
 };
 
 class Block {
