@@ -34,6 +34,7 @@ private:
 
 	static const GLfloat base_vertices[];
 	static const GLushort base_indices[];
+	static const GLfloat base_normals[];
 
 	Block blocks[NUM_BLOCKS];
 	glm::vec3 position = {};
@@ -41,6 +42,7 @@ private:
 	std::vector<GLfloat> vertices = {};
 	std::vector<GLuint> indices = {};
 	std::vector<GLfloat> uvs = {};
+	std::vector<GLfloat> normals = {};
 
 	GLshort* height_map;
 	//std::shared_ptr<GLshort[]> height_map;

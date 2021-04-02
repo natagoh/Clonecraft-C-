@@ -33,20 +33,29 @@ const GLfloat Chunk::base_vertices[] = {
     0.5, 0.5, -0.5,		// V17: V5 repeated
     -0.5, 0.5, 0.5,		// V18: V0 repeated
     0.5, 0.5, 0.5,		// V19: V3 repeated
-    // bot
+    // bottom
     -0.5, -0.5, -0.5,	// V20: V6 repeated
     0.5, -0.5, -0.5,	// V21: V7 repeated
     -0.5, -0.5, 0.5,	// V22: V1 repeated
     0.5, -0.5, 0.5,		// V23: V2 repeated
 };
 
+const GLfloat Chunk::base_normals[] = {
+    0.0, 0.0, 1.0,  // front
+    0.0, 0.0, -1.0, // back
+    1.0, 0.0, 0.0,  // right
+    -1.0, 0.0, 0.0, // left
+    0.0, 1.0, 0.0,  // top
+    0.0, -1.0, 0.0, // bottom
+};
+
 const GLushort Chunk::base_indices[] = {
-        0, 1, 3, 3, 1, 2,   // front
-        0, 3, 2, 1, 3, 0,	// back
-        0, 1, 2, 3, 0, 2,   // right
-        0, 1, 2, 2, 1, 3,	// left
-        0, 2, 3, 1, 0, 3,	// top
-        0, 3, 2, 1, 3, 0,   // bot
+    0, 1, 3, 3, 1, 2,   // front
+    0, 3, 2, 1, 3, 0,	// back
+    0, 1, 2, 3, 0, 2,   // right
+    0, 1, 2, 2, 1, 3,	// left
+    0, 2, 3, 1, 0, 3,	// top
+    0, 3, 2, 1, 3, 0,   // bottom
 };
 
 // constructor
@@ -175,12 +184,14 @@ void Chunk::generateMesh() {
 		}
 	}
 
+    //mesh = Mesh(vertices, uvs, normals, indices);
     mesh = Mesh(vertices, uvs, indices);
 
     // clean up buffer vectors once data already pushed to mesh
     vertices.clear();
     uvs.clear();
     indices.clear();
+    normals.clear();
 }
 
 // add visible block faces to mesh
@@ -240,5 +251,14 @@ void Chunk::addBlockFaceToMesh(int x, int y, int z, Face face) {
     for (unsigned int i = 0; i < NUM_POINTS_PER_FACE; i++) {
         uvs.push_back(texture_uvs[start_idx + i * 2]);
         uvs.push_back(texture_uvs[start_idx + i * 2 + 1]);
+    }
+
+    // put in normals
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < NUM_POINTS_PER_FACE; j++) {
+            normals.push_back(base_normals[i * 3]);
+            normals.push_back(base_normals[i * 3 + 1]);
+            normals.push_back(base_normals[i * 3 + 2]);
+        }
     }
 }
