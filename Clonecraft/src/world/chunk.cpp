@@ -184,8 +184,11 @@ void Chunk::generateMesh() {
 		}
 	}
 
-    //mesh = Mesh(vertices, uvs, normals, indices);
-    mesh = Mesh(vertices, uvs, indices);
+    mesh = Mesh(vertices, uvs, normals, indices);
+
+    //for (int i = 0; i < uvs.size() / 2; i++) {
+    //    std::cout << uvs[i * 2] << " " << uvs[i*2 + 1] << std::endl;
+    //}
 
     // clean up buffer vectors once data already pushed to mesh
     vertices.clear();
@@ -256,8 +259,8 @@ void Chunk::addBlockFaceToMesh(int x, int y, int z, Face face) {
     // put in normals
     start_idx = FACE_NORMAL_OFFSET * face;
     for (int j = 0; j < NUM_POINTS_PER_FACE; j++) {
-        normals.push_back(base_normals[start_idx * 3]);
-        normals.push_back(base_normals[start_idx * 3 + 1]);
-        normals.push_back(base_normals[start_idx * 3 + 2]);
+        normals.push_back(base_normals[start_idx]);
+        normals.push_back(base_normals[start_idx + 1]);
+        normals.push_back(base_normals[start_idx + 2]);
     }
 }
