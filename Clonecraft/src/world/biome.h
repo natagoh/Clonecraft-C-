@@ -17,7 +17,7 @@ private:
 
 public:
 	static GLshort* generateHeightMap(glm::vec3 position);
-	static BlockType getBlockType(int elevation);
+	static BlockType getBlockType(int elevation, int height);
 };
 
 #endif

@@ -42,16 +42,22 @@ GLshort* Biome::generateHeightMap(glm::vec3 position) {
 	return height_map;
 }
 
-BlockType Biome::getBlockType(int elevation) {
+BlockType Biome::getBlockType(int elevation, int height) {
 	int height_limit = 64; // todo: make this biome specific
-	if (elevation <= (float)height_limit * 0.3)
-		return BlockType::WATER;
-	else if (elevation <= (float)height_limit * 0.35)
+	int water_level = (float)height_limit * 0.3;
+	if (elevation > height) {
+		if (elevation <= water_level) {
+			return BlockType::WATER;
+		} else {
+			return BlockType::AIR;
+		}
+	} else if (elevation <= (float)height_limit * 0.35) {
 		return BlockType::SAND;
-	else if (elevation <= (float)height_limit * 0.5)
+	} else if (elevation <= (float)height_limit * 0.5) {
 		return BlockType::GRASS;
-	else if (elevation <= (float)height_limit * 0.7)
+	} else if (elevation <= (float)height_limit * 0.7) {
 		return BlockType::STONE;
-	else 
+	} else {
 		return BlockType::SNOW;
+	}
 }

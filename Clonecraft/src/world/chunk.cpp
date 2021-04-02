@@ -64,17 +64,7 @@ Chunk::Chunk(glm::vec3 position, GLshort* height_map) {
             for (int y = 0; y < CHUNK_DIM; y++) {
                 int world_y = position.y + y;
                 //std::cout << "height: " << height << " world y: " << world_y << std::endl;
-                if (world_y >= height) {
-                    setBlock(x, y, z, BlockType::AIR);
-                } else {
-                    setBlock(x, y, z, Biome::getBlockType(world_y));
-                }
-              /*  if (world_y <= height && world_y != 0)
-                    setBlock(x, y, z, Block(BlockType::GRASS));
-                else if (world_y == 0)
-                    setBlock(x, y, z, Block(BlockType::SAND));
-                else
-                    setBlock(x, y, z, Block(BlockType::AIR));*/
+                setBlock(x, y, z, Biome::getBlockType(world_y, height));
             }
         }
 
