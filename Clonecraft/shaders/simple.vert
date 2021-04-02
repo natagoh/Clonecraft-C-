@@ -13,7 +13,7 @@ uniform mat4 mvp;	// model view projection matrix
 void main() {
 	gl_Position = mvp * vec4(position, 1);
 	frag_uv = uv;
-	frag_normal = normal;
+	frag_normal = normalize(mat3(mvp) * normal);
 	// ambient occlusion
 	//ao = 0.3 + (1.0 - uv.z) * 0.7;
 }

@@ -16,12 +16,14 @@ void main() {
     vec3 ambient = ambient_strength * light_color;
 
 	// difuse
-	vec3 normal = normalize(frag_normal);
-	float diff = clamp(dot(normal, light_direction), 0.0, 1.0);
+	float diff = clamp(dot(frag_normal, light_direction), 0.0, 1.0);
 	vec3 diffuse = diff * light_color;
 
 	// color from the texture
 	vec4 object_color = texture(texture_sampler, frag_uv);
 	vec3 result = (ambient + diffuse) * vec3(object_color);
 	out_color = vec4(result, object_color[3]);
-}
+	
+	// debugging normals
+	//out_color.rgb = 0.5 + 0.5 * frag_normal; 
+  }
