@@ -165,7 +165,7 @@ GLFWwindow* initWindow() {
     glEnable(GL_DEPTH_TEST);
 
     // wireframe mode
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     fprintf(stderr, "OpenGL %s\n", glGetString(GL_VERSION));
     return window;
