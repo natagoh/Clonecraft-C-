@@ -31,6 +31,8 @@ private:
 	static const unsigned char FACE_VERTICES_OFFSET = 12; // because there are 4*3 vertex entries for each face
 	static const unsigned char FACE_INDICES_OFFSET = 6;   // because there are 3*2 index entries for each face
 	static const unsigned char FACE_UV_OFFSET = 8;        // because there are 2*4 uv entries for each face
+	static const unsigned char FACE_NORMAL_OFFSET = 3;  // because there are 1*3 normal entries for each face
+
 
 	static const GLfloat base_vertices[];
 	static const GLushort base_indices[];

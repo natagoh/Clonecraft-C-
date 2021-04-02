@@ -254,11 +254,10 @@ void Chunk::addBlockFaceToMesh(int x, int y, int z, Face face) {
     }
 
     // put in normals
-    for (int i = 0; i < 6; i++) {
-        for (int j = 0; j < NUM_POINTS_PER_FACE; j++) {
-            normals.push_back(base_normals[i * 3]);
-            normals.push_back(base_normals[i * 3 + 1]);
-            normals.push_back(base_normals[i * 3 + 2]);
-        }
+    start_idx = FACE_NORMAL_OFFSET * face;
+    for (int j = 0; j < NUM_POINTS_PER_FACE; j++) {
+        normals.push_back(base_normals[start_idx * 3]);
+        normals.push_back(base_normals[start_idx * 3 + 1]);
+        normals.push_back(base_normals[start_idx * 3 + 2]);
     }
 }

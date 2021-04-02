@@ -9,7 +9,7 @@
 #include "chunk.h"
 #include "render/frustum.h"
 
-#define RENDER_DISTANCE 12	// how many chunks can be seen on a screen in one direction
+#define RENDER_DISTANCE 1	// how many chunks can be seen on a screen in one direction
 
 class World {
 private:
