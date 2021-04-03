@@ -49,6 +49,7 @@ std::vector<GLfloat> TextureAtlas::getUVs(BlockType blockType) {
     GLfloat block_size = (GLfloat) TEXTURE_SIZE / (GLfloat) ATLAS_SIZE;
 
     // sides
+    // half pixel correction
     GLfloat u_offset = (float) atlas_offsets[0] * block_size;
     GLfloat v_offset = (float) atlas_offsets[1] * block_size;
 

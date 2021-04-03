@@ -169,11 +169,18 @@ void Chunk::setPosition(glm::vec3 position) {
 }
 
 // make sure to call generateMesh at least once before render
-void Chunk::render() {
+void Chunk::renderSolidBlocks() {
     // render solid blocks
     mesh.render();
 
     // render water
+    // Enable blending
+   // glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //water_mesh.render();
+}
+
+void Chunk::renderWater() {
     water_mesh.render();
 }
 
@@ -215,8 +222,6 @@ void Chunk::addVisibleBlockFacesToMesh(int x, int y, int z) {
     if (getBlock(x, y, z).getType() == BlockType::AIR) return;
 
     // render face if block is not water, but neighbor is WATER
-    //bool self_opaque_and_neighbor_water = getBlock(x, y, z).getType() != BlockType::WATER
-    // check if neighbors are visible
     if (x == 0 || !getBlock(x - 1, y, z).isVisible() || getBlock(x - 1, y, z).getType() == BlockType::WATER) {
         addBlockFaceToMesh(x, y, z, Face::LEFT, MeshType::SOLID_BLOCK);
     }
@@ -269,7 +274,7 @@ void Chunk::addBlockFaceToMesh(int x, int y, int z, Face face, MeshType meshType
 
     // add the position-offset vertices of the newly added block face
     // for water, make block slightly shorter
-    float water_height_offset = 1.0f / 8.0f;
+    float water_height_offset = 1.0f / 16.0f;
     unsigned int start_idx = FACE_VERTICES_OFFSET * face;
     for (unsigned int i = 0; i < NUM_POINTS_PER_FACE; i++) {
         mesh_vertices->push_back(base_vertices[start_idx + i * 3] + position.x + x);

@@ -26,6 +26,15 @@ Frustum::Frustum(Camera* camera, glm::mat4 projection) {
 	std::cout << "fov " << fov << " aspect " << aspect_ratio << " near " << near << " far " << far << std::endl;
 }
 
+glm::mat4 Frustum::getView() {
+	return this->camera->getView();
+}
+
+glm::mat4 Frustum::getProjection() {
+	return projection;
+}
+
+
 // tests if point is inside frustum
 // true = inside, false = outside
 bool Frustum::pointIntersection(glm::vec3 point) {

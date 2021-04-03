@@ -1,6 +1,8 @@
 #include "world.h"
 #include "biome.h"
+#include "render/shader.h"
 #include <iostream>
+#include "debug.h"
 
 World::World() {
 	// prepare RENDER_DISTANCE * RENDER_DISTANCE chunks
@@ -26,6 +28,16 @@ World::World() {
 			}
 		}
 	}
+
+	// bind shaders
+	block_shader = LoadShaders("../Clonecraft/shaders/simple.vert", "../Clonecraft/shaders/simple.frag");
+	water_shader = LoadShaders("../Clonecraft/shaders/water.vert", "../Clonecraft/shaders/water.frag");
+	glCheckError();
+
+	// shader uniforms
+	block_mvp_uniform = glGetUniformLocation(block_shader, "mvp");
+	water_mvp_uniform = glGetUniformLocation(water_shader, "mvp");
+	glCheckError();
 }
 
 
@@ -42,7 +54,20 @@ void World::render(Frustum frustum) {
 			// check if chunk is inside frustum
 			std::vector<glm::vec3> vertex_coords = map_item->second->getVertexCoords();
 			if (frustum.cubeIntersection(vertex_coords)) {
-				map_item->second->render();
+				std::shared_ptr<Chunk> chunk_ptr = map_item->second;
+				glm::mat4 mvp = frustum.getProjection() * frustum.getView();
+
+				// render solid blocks
+				glUseProgram(block_shader);
+				glUniformMatrix4fv(block_mvp_uniform, 1, GL_FALSE, &mvp[0][0]);
+				chunk_ptr->renderSolidBlocks();
+				glUseProgram(0);
+
+				// render water
+				glUseProgram(water_shader);
+				glUniformMatrix4fv(water_mvp_uniform, 1, GL_FALSE, &mvp[0][0]);
+				chunk_ptr->renderWater();
+				glUseProgram(0);
 			}
 		}
 	}

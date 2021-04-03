@@ -79,7 +79,9 @@ public:
 	// get world space coords of chunk mesh vertices
 	std::vector<glm::vec3> getVertexCoords();
 
-	void render();
+	void renderSolidBlocks();
+	void renderWater();
+
 	void generateMesh();
 };
 

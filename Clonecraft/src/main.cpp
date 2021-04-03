@@ -34,15 +34,13 @@ int main() {
     }
 
     // camera setup
-    glm::vec3 cameraPos = glm::vec3(RENDER_DISTANCE * CHUNK_DIM, 20.0f, RENDER_DISTANCE * CHUNK_DIM);
-    glm::vec3 cameraDir = glm::vec3(0.0f, -0.8f, 0.2f);
-    //glm::vec3 cameraDir = glm::vec3(0.004045, -0.999848, -0.016977);
-    // should be camera target
-    glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 camera_pos = glm::vec3(RENDER_DISTANCE * CHUNK_DIM, 20.0f, RENDER_DISTANCE * CHUNK_DIM);
+    glm::vec3 camera_dir = glm::vec3(0.0f, -0.8f, 0.2f);
+    glm::vec3 camera_up = glm::vec3(0.0f, 1.0f, 0.0f);
     // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), mWidth / mHeight, 0.1f, 1000.0f);
 
-    Camera camera(cameraPos, cameraDir, cameraUp);
+    Camera camera(camera_pos, camera_dir, camera_up);
 
     Frustum frustum(&camera, projection);
     //frustum.generatePlanes();
@@ -60,13 +58,7 @@ int main() {
     chunk.generateMesh();*/
 
     // Create and compile our GLSL program from the shaders
-    GLuint programID = LoadShaders("../Clonecraft/shaders/simple.vert", "../Clonecraft/shaders/simple.frag");
-
     GLuint frustum_shader = LoadShaders("../Clonecraft/shaders/frustum.vert", "../Clonecraft/shaders/frustum.frag");
-
-    // Get a handle for our "MVP" uniform
-    GLuint MatrixID = glGetUniformLocation(programID, "mvp");
-    //GLuint textureID = glGetUniformLocation(programID, "texture_sampler");
 
     // Rendering Loop
     while (!glfwWindowShouldClose(window)) {
@@ -92,29 +84,18 @@ int main() {
         glClearColor(47.0f / 256.0f, 102.0f / 256.0f, 169.0f / 256.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // check OpenGL error
-        GLenum err;
-        while ((err = glGetError()) != GL_NO_ERROR) {
-            std::cerr << "OpenGL error: " << err << std::endl;
-        }
-
-        // Use our shader
-        glUseProgram(programID);
-
-        // camera/view transformation
-        glm::mat4 view = camera.getView();
+        //// check OpenGL error
+        //GLenum err;
+        //while ((err = glGetError()) != GL_NO_ERROR) {
+        //    std::cerr << "OpenGL error: " << err << std::endl;
+        //}
 
         // bind texture
         textureAtlas.bind();
 
-        glm::mat4 model = glm::mat4(1.0f);
-        glm::mat4 mvp = projection * view; // Remember, matrix multiplication is the other way around
-        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-
         // render world
         world.render(frustum);
         //chunk.render();
-        glUseProgram(0);
 
         //// debug render frustum
         //glUseProgram(frustum_shader);
@@ -129,7 +110,7 @@ int main() {
 
 
     // cleanup shader
-    glDeleteProgram(programID);
+    //glDeleteProgram(block_shader);
 
     // cleanup texture
     textureAtlas.cleanup();
@@ -146,6 +127,9 @@ GLFWwindow* initWindow() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    
+    //glfwWindowHint(GLFW_SAMPLES, 2);
+
     auto window = glfwCreateWindow(mWidth, mHeight, "OpenGL", nullptr, nullptr);
 
     // Check for Valid Context
@@ -163,6 +147,9 @@ GLFWwindow* initWindow() {
     glCullFace(GL_BACK);
 
     glEnable(GL_DEPTH_TEST);
+
+    // MSAA anti aliasing
+    //glEnable(GL_MULTISAMPLE);
 
     // wireframe mode
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

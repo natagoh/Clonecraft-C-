@@ -36,6 +36,9 @@ private:
 public:
 	Frustum(Camera* camera, glm::mat4 projection);
 
+	glm::mat4 getView();
+	glm::mat4 getProjection();
+
 	void generatePlanes();
 
 	bool pointIntersection(glm::vec3 point);
