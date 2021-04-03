@@ -24,6 +24,11 @@ private:
 		BOTTOM,
 	};
 
+	enum class MeshType {
+		SOLID_BLOCK,
+		WATER,
+	};
+
 	// using char since its only 16 bits
 	static const unsigned char NUM_POINTS_PER_BLOCK = 24; // 6*4 points per block
 	static const unsigned char NUM_POINTS_PER_FACE = 4;   // 4 points per face
@@ -32,7 +37,6 @@ private:
 	static const unsigned char FACE_INDICES_OFFSET = 6;   // because there are 3*2 index entries for each face
 	static const unsigned char FACE_UV_OFFSET = 8;        // because there are 2*4 uv entries for each face
 	static const unsigned char FACE_NORMAL_OFFSET = 3;  // because there are 1*3 normal entries for each face
-
 
 	static const GLfloat base_vertices[];
 	static const GLushort base_indices[];
@@ -54,10 +58,11 @@ private:
 	std::vector<GLfloat> water_normals = {};
 
 	GLshort* height_map;
-	//std::shared_ptr<GLshort[]> height_map;
 
-	Mesh mesh;	
-	void addBlockFaceToMesh(int x, int y, int z, Face face);
+	Mesh mesh;			// solid blocks
+	Mesh water_mesh;	// water
+
+	void addBlockFaceToMesh(int x, int y, int z, Face face, MeshType meshType);
 	void addVisibleBlockFacesToMesh(int x, int y, int z);
 	void addVisibleWaterFacesToMesh(int x, int y, int z);
 

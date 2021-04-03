@@ -170,7 +170,11 @@ void Chunk::setPosition(glm::vec3 position) {
 
 // make sure to call generateMesh at least once before render
 void Chunk::render() {
+    // render solid blocks
     mesh.render();
+
+    // render water
+    water_mesh.render();
 }
 
 void Chunk::generateMesh() {
@@ -189,17 +193,20 @@ void Chunk::generateMesh() {
 		}
 	}
 
-    mesh = Mesh(vertices, uvs, normals, indices);
-
-    //for (int i = 0; i < uvs.size() / 2; i++) {
-    //    std::cout << uvs[i * 2] << " " << uvs[i*2 + 1] << std::endl;
-    //}
+    // solid blocks mesh
+    mesh = Mesh(vertices, uvs, normals, indices); 
+    water_mesh = Mesh(water_vertices, water_uvs, water_normals, water_indices);
 
     // clean up buffer vectors once data already pushed to mesh
     vertices.clear();
     uvs.clear();
     indices.clear();
     normals.clear();
+
+    water_vertices.clear();
+    water_uvs.clear();
+    water_indices.clear();
+    water_normals.clear();
 }
 
 // add visible block faces to mesh
@@ -211,41 +218,53 @@ void Chunk::addVisibleBlockFacesToMesh(int x, int y, int z) {
     //bool self_opaque_and_neighbor_water = getBlock(x, y, z).getType() != BlockType::WATER
     // check if neighbors are visible
     if (x == 0 || !getBlock(x - 1, y, z).isVisible() || getBlock(x - 1, y, z).getType() == BlockType::WATER) {
-        addBlockFaceToMesh(x, y, z, Face::LEFT);
+        addBlockFaceToMesh(x, y, z, Face::LEFT, MeshType::SOLID_BLOCK);
     }
     if (x == CHUNK_DIM - 1 || !getBlock(x + 1, y, z).isVisible() || getBlock(x + 1, y, z).getType() == BlockType::WATER) {
-        addBlockFaceToMesh(x, y, z, Face::RIGHT);
+        addBlockFaceToMesh(x, y, z, Face::RIGHT, MeshType::SOLID_BLOCK);
     }
     if (y == 0 || !getBlock(x,  y - 1, z).isVisible()) {
-        addBlockFaceToMesh(x, y, z, Face::BOTTOM);
+        addBlockFaceToMesh(x, y, z, Face::BOTTOM, MeshType::SOLID_BLOCK);
     }
     if (y == CHUNK_DIM - 1 || !getBlock(x, y + 1, z).isVisible() || getBlock(x, y + 1, z).getType() == BlockType::WATER) {
-        addBlockFaceToMesh(x, y, z, Face::TOP);
+        addBlockFaceToMesh(x, y, z, Face::TOP, MeshType::SOLID_BLOCK);
     }
     if (z == 0 || !getBlock(x, y, z - 1).isVisible() || getBlock(x, y, z - 1).getType() == BlockType::WATER) {
-        addBlockFaceToMesh(x, y, z, Face::BACK);
+        addBlockFaceToMesh(x, y, z, Face::BACK, MeshType::SOLID_BLOCK);
     }
     if (z == CHUNK_DIM - 1 || !getBlock(x, y, z + 1).isVisible() || getBlock(x, y, z + 1).getType() == BlockType::WATER) {
-        addBlockFaceToMesh(x, y, z, Face::FRONT);
+        addBlockFaceToMesh(x, y, z, Face::FRONT, MeshType::SOLID_BLOCK);
     }
 }
 
 // add visible water block faces to mesh
 void Chunk::addVisibleWaterFacesToMesh(int x, int y, int z) {
     if (y == CHUNK_DIM - 1 || !getBlock(x, y + 1, z).isVisible()) {
-        addBlockFaceToMesh(x, y, z, Face::TOP);
+        addBlockFaceToMesh(x, y, z, Face::TOP, MeshType::WATER);
     }
 }
 
 // add the block face at x, y, z to the chunk's mesh
-void Chunk::addBlockFaceToMesh(int x, int y, int z, Face face) {
+void Chunk::addBlockFaceToMesh(int x, int y, int z, Face face, MeshType meshType) {
     BlockType blocktype = getBlock(x, y, z).getType();
     if (blocktype == BlockType::AIR) {
         std::cout << "Error: (Chunk) AIR block face should not be added to mesh" << std::endl;
     }
 
+    std::vector<GLfloat>* mesh_vertices = &vertices;
+    std::vector<GLuint>* mesh_indices = &indices;
+    std::vector<GLfloat>* mesh_uvs = &uvs;
+    std::vector<GLfloat>* mesh_normals = &normals;
+
+    if (meshType == MeshType::WATER) {
+        mesh_vertices = &water_vertices;
+        mesh_indices = &water_indices;
+        mesh_uvs = &water_uvs;
+        mesh_normals = &water_normals;
+    }
+   
     // index of block we are adding
-    unsigned int num_points = vertices.size() / 3;
+    unsigned int num_points = mesh_vertices->size() / 3;
     unsigned int face_index = num_points / NUM_POINTS_PER_FACE;
 
     // add the position-offset vertices of the newly added block face
@@ -253,35 +272,35 @@ void Chunk::addBlockFaceToMesh(int x, int y, int z, Face face) {
     float water_height_offset = 1.0f / 8.0f;
     unsigned int start_idx = FACE_VERTICES_OFFSET * face;
     for (unsigned int i = 0; i < NUM_POINTS_PER_FACE; i++) {
-        vertices.push_back(base_vertices[start_idx + i * 3] + position.x + x);
+        mesh_vertices->push_back(base_vertices[start_idx + i * 3] + position.x + x);
         if (blocktype == BlockType::WATER && base_vertices[start_idx + i * 3 + 1] > 0) {
-            vertices.push_back(base_vertices[start_idx + i * 3 + 1] + position.y + y - water_height_offset);
+            mesh_vertices->push_back(base_vertices[start_idx + i * 3 + 1] + position.y + y - water_height_offset);
         } else {
-            vertices.push_back(base_vertices[start_idx + i * 3 + 1] + position.y + y);
+            mesh_vertices->push_back(base_vertices[start_idx + i * 3 + 1] + position.y + y);
         }
-        vertices.push_back(base_vertices[start_idx + i * 3 + 2] + position.z + z);
+        mesh_vertices->push_back(base_vertices[start_idx + i * 3 + 2] + position.z + z);
     }
 
     // add the indices of the newly added block face
     start_idx = FACE_INDICES_OFFSET * face;
     unsigned int end_idx = start_idx + FACE_INDICES_OFFSET;
     for (unsigned int i = start_idx; i < end_idx; i++) {
-        indices.push_back(base_indices[i] + NUM_POINTS_PER_FACE * face_index);
+        mesh_indices->push_back(base_indices[i] + NUM_POINTS_PER_FACE * face_index);
     }
 
     // get uvs from texture atlas
     std::vector<GLfloat> texture_uvs = TextureAtlas::getUVs(getBlock(x, y, z).getType());
     start_idx = FACE_UV_OFFSET * face;
     for (unsigned int i = 0; i < NUM_POINTS_PER_FACE; i++) {
-        uvs.push_back(texture_uvs[start_idx + i * 2]);
-        uvs.push_back(texture_uvs[start_idx + i * 2 + 1]);
+        mesh_uvs->push_back(texture_uvs[start_idx + i * 2]);
+        mesh_uvs->push_back(texture_uvs[start_idx + i * 2 + 1]);
     }
 
     // put in normals
     start_idx = FACE_NORMAL_OFFSET * face;
     for (int j = 0; j < NUM_POINTS_PER_FACE; j++) {
-        normals.push_back(base_normals[start_idx]);
-        normals.push_back(base_normals[start_idx + 1]);
-        normals.push_back(base_normals[start_idx + 2]);
+        mesh_normals->push_back(base_normals[start_idx]);
+        mesh_normals->push_back(base_normals[start_idx + 1]);
+        mesh_normals->push_back(base_normals[start_idx + 2]);
     }
 }
