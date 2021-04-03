@@ -179,7 +179,12 @@ void Chunk::generateMesh() {
 	for (int x = 0; x < CHUNK_DIM; x++) {
 		for (int y = 0; y < CHUNK_DIM; y++) {
 			for (int z = 0; z < CHUNK_DIM; z++) {
-                addVisibleBlockFacesToMesh(x, y, z);
+                if (getBlock(x, y, z).getType() == BlockType::WATER) {
+                    addVisibleWaterFacesToMesh(x, y, z);
+                } else {
+                    addVisibleBlockFacesToMesh(x, y, z);
+                }
+                
 			}
 		}
 	}
@@ -200,26 +205,35 @@ void Chunk::generateMesh() {
 // add visible block faces to mesh
 void Chunk::addVisibleBlockFacesToMesh(int x, int y, int z) {
     // don't add AIR blocks
-    if (!getBlock(x, y, z).isVisible()) return;
+    if (getBlock(x, y, z).getType() == BlockType::AIR) return;
 
-    // check if faces are visible
-    if (x == 0 || !getBlock(x - 1, y, z).isVisible()) {
+    // render face if block is not water, but neighbor is WATER
+    //bool self_opaque_and_neighbor_water = getBlock(x, y, z).getType() != BlockType::WATER
+    // check if neighbors are visible
+    if (x == 0 || !getBlock(x - 1, y, z).isVisible() || getBlock(x - 1, y, z).getType() == BlockType::WATER) {
         addBlockFaceToMesh(x, y, z, Face::LEFT);
     }
-    if (x == CHUNK_DIM - 1 || !getBlock(x + 1, y, z).isVisible()) {
+    if (x == CHUNK_DIM - 1 || !getBlock(x + 1, y, z).isVisible() || getBlock(x + 1, y, z).getType() == BlockType::WATER) {
         addBlockFaceToMesh(x, y, z, Face::RIGHT);
     }
-    if (y == 0 || !getBlock(x, y - 1, z).isVisible()) {
+    if (y == 0 || !getBlock(x,  y - 1, z).isVisible()) {
         addBlockFaceToMesh(x, y, z, Face::BOTTOM);
     }
-    if (y == CHUNK_DIM - 1 || !getBlock(x, y + 1, z).isVisible()) {
+    if (y == CHUNK_DIM - 1 || !getBlock(x, y + 1, z).isVisible() || getBlock(x, y + 1, z).getType() == BlockType::WATER) {
         addBlockFaceToMesh(x, y, z, Face::TOP);
     }
-    if (z == 0 || !getBlock(x, y, z - 1).isVisible()) {
+    if (z == 0 || !getBlock(x, y, z - 1).isVisible() || getBlock(x, y, z - 1).getType() == BlockType::WATER) {
         addBlockFaceToMesh(x, y, z, Face::BACK);
     }
-    if (z == CHUNK_DIM - 1 || !getBlock(x, y, z + 1).isVisible()) {
+    if (z == CHUNK_DIM - 1 || !getBlock(x, y, z + 1).isVisible() || getBlock(x, y, z + 1).getType() == BlockType::WATER) {
         addBlockFaceToMesh(x, y, z, Face::FRONT);
+    }
+}
+
+// add visible water block faces to mesh
+void Chunk::addVisibleWaterFacesToMesh(int x, int y, int z) {
+    if (y == CHUNK_DIM - 1 || !getBlock(x, y + 1, z).isVisible()) {
+        addBlockFaceToMesh(x, y, z, Face::TOP);
     }
 }
 

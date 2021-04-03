@@ -41,10 +41,17 @@ private:
 	Block blocks[NUM_BLOCKS];
 	glm::vec3 position = {};
 
+	// solid block face mesh
 	std::vector<GLfloat> vertices = {};
 	std::vector<GLuint> indices = {};
 	std::vector<GLfloat> uvs = {};
 	std::vector<GLfloat> normals = {};
+
+	// water face mesh
+	std::vector<GLfloat> water_vertices = {};
+	std::vector<GLuint> water_indices = {};
+	std::vector<GLfloat> water_uvs = {};
+	std::vector<GLfloat> water_normals = {};
 
 	GLshort* height_map;
 	//std::shared_ptr<GLshort[]> height_map;
@@ -52,7 +59,7 @@ private:
 	Mesh mesh;	
 	void addBlockFaceToMesh(int x, int y, int z, Face face);
 	void addVisibleBlockFacesToMesh(int x, int y, int z);
-
+	void addVisibleWaterFacesToMesh(int x, int y, int z);
 
 public:
 	Chunk(glm::vec3 position, GLshort* height_map);
