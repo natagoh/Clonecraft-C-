@@ -62,7 +62,7 @@ private:
 	Mesh mesh;			// solid blocks
 	Mesh water_mesh;	// water
 
-	void addBlockFaceToMesh(int x, int y, int z, Face face, MeshType meshType);
+	void addFaceToMesh(int x, int y, int z, Face face, MeshType meshType);
 	void addVisibleBlockFacesToMesh(int x, int y, int z);
 	void addVisibleWaterFacesToMesh(int x, int y, int z);
 

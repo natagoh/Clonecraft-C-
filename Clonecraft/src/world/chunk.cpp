@@ -170,17 +170,13 @@ void Chunk::setPosition(glm::vec3 position) {
 
 // make sure to call generateMesh at least once before render
 void Chunk::renderSolidBlocks() {
-    // render solid blocks
     mesh.render();
-
-    // render water
-    // Enable blending
-   // glEnable(GL_BLEND);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    //water_mesh.render();
 }
 
 void Chunk::renderWater() {
+    // enable blending
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     water_mesh.render();
 }
 
@@ -223,34 +219,34 @@ void Chunk::addVisibleBlockFacesToMesh(int x, int y, int z) {
 
     // render face if block is not water, but neighbor is WATER
     if (x == 0 || !getBlock(x - 1, y, z).isVisible() || getBlock(x - 1, y, z).getType() == BlockType::WATER) {
-        addBlockFaceToMesh(x, y, z, Face::LEFT, MeshType::SOLID_BLOCK);
+        addFaceToMesh(x, y, z, Face::LEFT, MeshType::SOLID_BLOCK);
     }
     if (x == CHUNK_DIM - 1 || !getBlock(x + 1, y, z).isVisible() || getBlock(x + 1, y, z).getType() == BlockType::WATER) {
-        addBlockFaceToMesh(x, y, z, Face::RIGHT, MeshType::SOLID_BLOCK);
+        addFaceToMesh(x, y, z, Face::RIGHT, MeshType::SOLID_BLOCK);
     }
     if (y == 0 || !getBlock(x,  y - 1, z).isVisible()) {
-        addBlockFaceToMesh(x, y, z, Face::BOTTOM, MeshType::SOLID_BLOCK);
+        addFaceToMesh(x, y, z, Face::BOTTOM, MeshType::SOLID_BLOCK);
     }
     if (y == CHUNK_DIM - 1 || !getBlock(x, y + 1, z).isVisible() || getBlock(x, y + 1, z).getType() == BlockType::WATER) {
-        addBlockFaceToMesh(x, y, z, Face::TOP, MeshType::SOLID_BLOCK);
+        addFaceToMesh(x, y, z, Face::TOP, MeshType::SOLID_BLOCK);
     }
     if (z == 0 || !getBlock(x, y, z - 1).isVisible() || getBlock(x, y, z - 1).getType() == BlockType::WATER) {
-        addBlockFaceToMesh(x, y, z, Face::BACK, MeshType::SOLID_BLOCK);
+        addFaceToMesh(x, y, z, Face::BACK, MeshType::SOLID_BLOCK);
     }
     if (z == CHUNK_DIM - 1 || !getBlock(x, y, z + 1).isVisible() || getBlock(x, y, z + 1).getType() == BlockType::WATER) {
-        addBlockFaceToMesh(x, y, z, Face::FRONT, MeshType::SOLID_BLOCK);
+        addFaceToMesh(x, y, z, Face::FRONT, MeshType::SOLID_BLOCK);
     }
 }
 
 // add visible water block faces to mesh
 void Chunk::addVisibleWaterFacesToMesh(int x, int y, int z) {
     if (y == CHUNK_DIM - 1 || !getBlock(x, y + 1, z).isVisible()) {
-        addBlockFaceToMesh(x, y, z, Face::TOP, MeshType::WATER);
+        addFaceToMesh(x, y, z, Face::TOP, MeshType::WATER);
     }
 }
 
 // add the block face at x, y, z to the chunk's mesh
-void Chunk::addBlockFaceToMesh(int x, int y, int z, Face face, MeshType meshType) {
+void Chunk::addFaceToMesh(int x, int y, int z, Face face, MeshType meshType) {
     BlockType blocktype = getBlock(x, y, z).getType();
     if (blocktype == BlockType::AIR) {
         std::cout << "Error: (Chunk) AIR block face should not be added to mesh" << std::endl;
