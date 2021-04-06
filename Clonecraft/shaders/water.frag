@@ -1,6 +1,6 @@
 #version 430 core
 
-in vec2 frag_uv;
+centroid in vec2 frag_uv;
 in vec3 frag_normal;
 
 out vec4 out_color;

@@ -130,7 +130,8 @@ GLFWwindow* initWindow() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
     
-    //glfwWindowHint(GLFW_SAMPLES, 2);
+    // MSAA
+    glfwWindowHint(GLFW_SAMPLES, 8);
 
     auto window = glfwCreateWindow(mWidth, mHeight, "OpenGL", nullptr, nullptr);
 
@@ -151,7 +152,7 @@ GLFWwindow* initWindow() {
     glEnable(GL_DEPTH_TEST);
 
     // MSAA anti aliasing
-    //glEnable(GL_MULTISAMPLE);
+    glEnable(GL_MULTISAMPLE);
 
     // wireframe mode
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

@@ -15,7 +15,6 @@ GLshort* Biome::generateHeightMap(glm::vec3 position) {
 	// get height from noise function
 	int height_limit = 64; // can be different from world limit
 	GLshort* height_map = new GLshort[CHUNK_DIM * CHUNK_DIM];
-	//std::cout << "====================" << std::endl; 
 	for (int x = 0; x < CHUNK_DIM; x++) {
 		for (int z = 0; z < CHUNK_DIM; z++) {
 			int world_x = x + position.x;
@@ -29,13 +28,8 @@ GLshort* Biome::generateHeightMap(glm::vec3 position) {
 				amplitude_sum += amplitude[i];
 			}
 			height /= amplitude_sum;
-
-			//float height = (noise.GetNoise((float) world_x, (float) world_z) + 1.0f) / 2.0f;
-
 			height_map[x + CHUNK_DIM * z] = height * (float) height_limit;
-			//std::cout << height_map[x + CHUNK_DIM * z] << " ";
 		}
-		//std::cout << std::endl;
 	}
 
 	return height_map;
