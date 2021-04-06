@@ -59,6 +59,7 @@ int main() {
 
     // Create and compile our GLSL program from the shaders
     GLuint frustum_shader = LoadShaders("../Clonecraft/shaders/frustum.vert", "../Clonecraft/shaders/frustum.frag");
+    GLuint frustum_mvp_uniform = glGetUniformLocation(frustum_shader, "mvp");
 
     // Rendering Loop
     while (!glfwWindowShouldClose(window)) {
@@ -98,8 +99,9 @@ int main() {
         //chunk.render();
 
         //// debug render frustum
+        //glm::mat4 mvp = frustum.getProjection() * frustum.getView();
         //glUseProgram(frustum_shader);
-        //glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+        //glUniformMatrix4fv(frustum_mvp_uniform, 1, GL_FALSE, &mvp[0][0]);
         //frustum.render();
         //glUseProgram(0);
 

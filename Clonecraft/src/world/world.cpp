@@ -12,11 +12,12 @@ World::World() {
 			// height map position determined by x-z coords
 			glm::vec3 position = glm::vec3(x * CHUNK_DIM, 0.0f, z * CHUNK_DIM);
 			GLshort* height_map_ptr = Biome::generateHeightMap(position);
+			GLshort* moisture_map_ptr = Biome::generateMoistureMap(position);
 
 			for (int y = 0; y < MAX_HEIGHT / CHUNK_DIM; y++) {
 				// add chunk to world
 				glm::vec3 chunk_position = position + glm::vec3(0.0f, y * CHUNK_DIM, 0.0f);
-				auto chunk = std::make_shared<Chunk>(chunk_position, height_map_ptr);
+				auto chunk = std::make_shared<Chunk>(chunk_position, height_map_ptr, moisture_map_ptr);
 				chunks.insert({ {chunk_position, chunk} });
 
 				// Flat[x + WIDTH * (y + DEPTH * z)] = Original[x, y, z]
@@ -30,7 +31,7 @@ World::World() {
 	}
 
 	// bind shaders
-	block_shader = LoadShaders("../Clonecraft/shaders/simple.vert", "../Clonecraft/shaders/simple.frag");
+	block_shader = LoadShaders("../Clonecraft/shaders/block.vert", "../Clonecraft/shaders/block.frag");
 	water_shader = LoadShaders("../Clonecraft/shaders/water.vert", "../Clonecraft/shaders/water.frag");
 	glCheckError();
 

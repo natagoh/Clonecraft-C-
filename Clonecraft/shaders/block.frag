@@ -9,7 +9,7 @@ uniform sampler2D texture_sampler;
 
 const vec3 light_color = vec3(1.0, 1.0, 1.0);
 const vec3 light_direction = normalize(vec3(-1.0, 1.0, -1.0));
-const float ambient_strength = 0.1;
+const float ambient_strength = 0.3;
 
 void main() {
 	// ambient

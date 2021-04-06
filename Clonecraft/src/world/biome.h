@@ -17,7 +17,8 @@ private:
 
 public:
 	static GLshort* generateHeightMap(glm::vec3 position);
-	static BlockType getBlockType(int elevation, int height);
+	static GLshort* generateMoistureMap(glm::vec3 position);
+	static BlockType getBlockType(int elevation, int height, int moisture);
 };
 
 #endif

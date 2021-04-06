@@ -58,6 +58,7 @@ private:
 	std::vector<GLfloat> water_normals = {};
 
 	GLshort* height_map;
+	GLshort* moisture_map;
 
 	Mesh mesh;			// solid blocks
 	Mesh water_mesh;	// water
@@ -67,7 +68,7 @@ private:
 	void addVisibleWaterFacesToMesh(int x, int y, int z);
 
 public:
-	Chunk(glm::vec3 position, GLshort* height_map);
+	Chunk(glm::vec3 position, GLshort* height_map, GLshort* moisture_map);
 	//~Chunk();
 
 	Block getBlock(int x, int y, int z);

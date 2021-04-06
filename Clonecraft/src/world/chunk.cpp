@@ -59,9 +59,10 @@ const GLushort Chunk::base_indices[] = {
 };
 
 // constructor
-Chunk::Chunk(glm::vec3 position, GLshort* height_map) {
+Chunk::Chunk(glm::vec3 position, GLshort* height_map, GLshort* moisture_map) {
     this->position = position;
     this->height_map = height_map;
+    this->moisture_map = moisture_map;
 
     //std::cout << "chunk position" << glm::to_string(position) << std::endl;
 
@@ -69,11 +70,12 @@ Chunk::Chunk(glm::vec3 position, GLshort* height_map) {
     for (int x = 0; x < CHUNK_DIM; x++) {
         for (int z = 0; z < CHUNK_DIM; z++) {
             int height = height_map[x + CHUNK_DIM * z];
+            int moisture = moisture_map[x + CHUNK_DIM * z];
             //std::cout << "height" << height << std::endl;std::cout << "height" << height << std::endl;
             for (int y = 0; y < CHUNK_DIM; y++) {
                 int world_y = position.y + y;
                 //std::cout << "height: " << height << " world y: " << world_y << std::endl;
-                setBlock(x, y, z, Biome::getBlockType(world_y, height));
+                setBlock(x, y, z, Biome::getBlockType(world_y, height, moisture));
             }
         }
 
