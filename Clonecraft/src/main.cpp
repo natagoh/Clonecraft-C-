@@ -22,7 +22,10 @@
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
+float m_width, m_height;
+
 GLFWwindow* initWindow();
+void setFullscreenResolution();
 
 int main() {
     GLFWwindow* window = initWindow();
@@ -32,13 +35,14 @@ int main() {
         fprintf(stderr, "Failed to Create OpenGL Context");
         return EXIT_FAILURE;
     }
-
+    
     // camera setup
     glm::vec3 camera_pos = glm::vec3(RENDER_DISTANCE * CHUNK_DIM, 20.0f, RENDER_DISTANCE * CHUNK_DIM);
     glm::vec3 camera_dir = glm::vec3(0.0f, -0.8f, 0.2f);
     glm::vec3 camera_up = glm::vec3(0.0f, 1.0f, 0.0f);
+
     // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), mWidth / mHeight, 0.1f, 1000.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), m_width / m_height, 0.1f, 1000.0f);
 
     Camera camera(camera_pos, camera_dir, camera_up);
 
@@ -133,7 +137,13 @@ GLFWwindow* initWindow() {
     // MSAA
     glfwWindowHint(GLFW_SAMPLES, 8);
 
-    auto window = glfwCreateWindow(mWidth, mHeight, "OpenGL", nullptr, nullptr);
+    // double buffering
+    glfwWindowHint(GLFW_DOUBLEBUFFER, true);
+
+    // fullscreen
+    setFullscreenResolution();
+
+    auto window = glfwCreateWindow(m_width, m_height, "Mycraft", glfwGetPrimaryMonitor(), nullptr);
 
     // Check for Valid Context
     if (window == nullptr) {
@@ -159,4 +169,11 @@ GLFWwindow* initWindow() {
 
     fprintf(stderr, "OpenGL %s\n", glGetString(GL_VERSION));
     return window;
+}
+
+// sets the Window's Size to the Primary Monitor's Resolution
+void setFullscreenResolution() {
+    const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    m_width = mode->width;
+    m_height = mode->height;
 }
