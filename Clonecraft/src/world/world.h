@@ -14,7 +14,7 @@
 class World {
 private:
 	std::unordered_map<glm::vec3, std::shared_ptr<Chunk>> chunks;	// map containing all chunks
-	glm::vec3* chunks_to_render;	// array of chunks to be rendered
+	glm::vec3* chunks_to_render;									// array of chunks to be rendered
 
 	GLuint block_shader;
 	GLuint water_shader;

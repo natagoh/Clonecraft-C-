@@ -41,7 +41,6 @@ World::World() {
 	glCheckError();
 }
 
-
 void World::render(Frustum frustum) {
 	// render all solid blocks first
 	for (int i = 0; i < RENDER_DISTANCE * RENDER_DISTANCE * 4 * MAX_HEIGHT / CHUNK_DIM; i++) {

@@ -41,12 +41,12 @@ const GLfloat Chunk::base_vertices[] = {
 };
 
 const GLfloat Chunk::base_normals[] = {
-    0.0, 0.0, 1.0,  // front
-    0.0, 0.0, -1.0, // back
-    1.0, 0.0, 0.0,  // right
-    -1.0, 0.0, 0.0, // left
-    0.0, 1.0, 0.0,  // top
-    0.0, -1.0, 0.0, // bottom
+    0.0, 0.0, 1.0,      // front
+    0.0, 0.0, -1.0,     // back
+    1.0, 0.0, 0.0,      // right
+    -1.0, 0.0, 0.0,     // left
+    0.0, 1.0, 0.0,      // top
+    0.0, -1.0, 0.0,     // bottom
 };
 
 const GLushort Chunk::base_indices[] = {

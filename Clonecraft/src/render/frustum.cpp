@@ -34,26 +34,31 @@ glm::mat4 Frustum::getProjection() {
 	return projection;
 }
 
-
-// tests if point is inside frustum
-// true = inside, false = outside
-bool Frustum::pointIntersection(glm::vec3 point) {
-	for (int i = FrustumPlane::TOP; i <= FrustumPlane::FAR; i++) {
-		Plane plane = planes[i];
-		float dist = glm::dot(plane.n, point - plane.p);
-		if (dist < 0.0f) return false;
-	}
-	return true;
-}
-
 // for cube to be inside frustum, at least 1 vertex should be inside
+// true = inside, false = outside
 bool Frustum::cubeIntersection(std::vector<glm::vec3> vertices) {
-	for (glm::vec3& vertex : vertices) {
-		if (pointIntersection(vertex)) {
-			return true;
+	for (int i = FrustumPlane::TOP; i <= FrustumPlane::FAR; i++) {
+		int in = 0, out = 0;
+		for (glm::vec3& vertex : vertices) {
+			Plane plane = planes[i];
+			float dist = glm::dot(plane.n, vertex - plane.p);
+			if (dist < 0.0f) {
+				out++;
+			} else {
+				in++;
+			}
+
+			if (in != 0 && out != 0) {
+				break;
+			}
+		}
+
+		// no vertices inside means cube is outside frustum
+		if (in == 0) {
+			return false;
 		}
 	}
-	return false;
+	return true;
 }
 
 void Frustum::generatePlanes() {
