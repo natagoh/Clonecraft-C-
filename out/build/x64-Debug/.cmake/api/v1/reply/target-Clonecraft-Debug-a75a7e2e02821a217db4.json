@@ -1,0 +1,550 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "Clonecraft/Clonecraft.exe"
+		},
+		{
+			"path" : "Clonecraft/Clonecraft.pdb"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries",
+			"add_definitions",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 61,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 64,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 59,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 25,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /W4 /MDd /Zi /Ob0 /Od /RTC1"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 3,
+					"define" : "GLFW_INCLUDE_NONE"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "PROJECT_SOURCE_DIR=\"C:/Users/gohna/Documents/mycraft2\""
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/headers"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/resources"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/vendor/bullet/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/vendor/glad/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/vendor/glfw/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/vendor/glm"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/vendor/stb"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0,
+				3,
+				5,
+				6,
+				8,
+				10,
+				12,
+				14,
+				16,
+				18,
+				20,
+				22
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /W3 /MDd /Zi /Ob0 /Od /RTC1"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 3,
+					"define" : "GLFW_INCLUDE_NONE"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "PROJECT_SOURCE_DIR=\"C:/Users/gohna/Documents/mycraft2\""
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/headers"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/resources"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/vendor/bullet/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/vendor/glad/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/vendor/glfw/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/vendor/glm"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/gohna/Documents/mycraft2/Clonecraft/vendor/stb"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				39
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "glfw::@dc2813d38ab8353c7b90"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "BulletCollision::@39b4fc7fe1a7933f5079"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "BulletDynamics::@b58ae244bf5b2e15cd95"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "LinearMath::@e6d2d6db1d5a0de27ca4"
+		}
+	],
+	"id" : "Clonecraft::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /W4 /MDd /Zi /Ob0 /Od /RTC1",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/machine:x64 /debug /INCREMENTAL /subsystem:console",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "lib\\glfw3_Debug.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "lib\\BulletDynamics_Debug.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "lib\\BulletCollision_Debug.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "lib\\LinearMath_Debug.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Clonecraft",
+	"nameOnDisk" : "Clonecraft.exe",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "src",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23
+			]
+		},
+		{
+			"name" : "resources",
+			"sourceIndexes" : 
+			[
+				24,
+				25,
+				26
+			]
+		},
+		{
+			"name" : "headers",
+			"sourceIndexes" : 
+			[
+				27
+			]
+		},
+		{
+			"name" : "shaders",
+			"sourceIndexes" : 
+			[
+				28,
+				29,
+				30,
+				31,
+				32,
+				33
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				34,
+				35,
+				36,
+				37,
+				38
+			]
+		},
+		{
+			"name" : "vendors",
+			"sourceIndexes" : 
+			[
+				39
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Clonecraft/src/camera.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/src/camera.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/src/debug.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Clonecraft/src/input.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/src/input.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Clonecraft/src/main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Clonecraft/src/render/frustum.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/src/render/frustum.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Clonecraft/src/render/mesh.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/src/render/mesh.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Clonecraft/src/render/shader.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/src/render/shader.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Clonecraft/src/render/texture.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/src/render/texture.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Clonecraft/src/render/texture_atlas.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/src/render/texture_atlas.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Clonecraft/src/world/biome.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/src/world/biome.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Clonecraft/src/world/block.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/src/world/block.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Clonecraft/src/world/chunk.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/src/world/chunk.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Clonecraft/src/world/world.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/src/world/world.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/resources/atlas.png",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/resources/grass.png",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/resources/grass_block_side.png",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/headers/glitter.hpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/shaders/block.frag",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/shaders/block.vert",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/shaders/frustum.frag",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/shaders/frustum.vert",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/shaders/water.frag",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Clonecraft/shaders/water.vert",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".gitattributes",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".gitignore",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 1,
+			"path" : ".gitmodules",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 1,
+			"path" : "CMakeLists.txt",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Readme.md",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "Clonecraft/vendor/glad/src/glad.c",
+			"sourceGroupIndex" : 5
+		}
+	],
+	"type" : "EXECUTABLE"
+}

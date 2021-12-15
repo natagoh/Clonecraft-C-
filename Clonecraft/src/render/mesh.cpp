@@ -107,7 +107,6 @@ void Mesh::render(GLenum mode) {
     // draw mesh
     glBindVertexArray(vao);
 
-
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
     glPointSize(10.0f);
 
@@ -117,7 +116,6 @@ void Mesh::render(GLenum mode) {
     glBindVertexArray(0);
     glFlush();
 }
-
 
 void Mesh::cleanup() {
     glDisableVertexAttribArray(0);

@@ -12,6 +12,7 @@ Frustum::Frustum(Camera* camera, glm::mat4 projection) {
 
 	// extract info from projection matrix
 	fov = 2.0f * atan(1.0f / projection[1][1]); // in radians
+	//fov = 0.436332; // testing purposes: 25 degrees
 	aspect_ratio = projection[1][1] / projection[0][0];
 	near = projection[3][2] / (projection[2][2] - 1.0f);
 	far = projection[3][2] / (projection[2][2] + 1.0f);
@@ -38,17 +39,16 @@ glm::mat4 Frustum::getProjection() {
 // true = inside, false = outside
 bool Frustum::cubeIntersection(std::vector<glm::vec3> vertices) {
 	for (int i = FrustumPlane::TOP; i <= FrustumPlane::FAR; i++) {
-		int in = 0, out = 0;
+		int in = 0;
 		for (glm::vec3& vertex : vertices) {
 			Plane plane = planes[i];
 			float dist = glm::dot(plane.n, vertex - plane.p);
-			if (dist < 0.0f) {
-				out++;
-			} else {
+			if (dist >= 0.0f) {
 				in++;
 			}
 
-			if (in != 0 && out != 0) {
+			// once we have a vertex inside, we know cube cannot be outside
+			if (in != 0) {
 				break;
 			}
 		}

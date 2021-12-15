@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "Clonecraft/vendor/bullet/src/Bullet3Collision",
+		"source" : "Clonecraft/vendor/bullet/src/Bullet3Collision"
+	}
+}

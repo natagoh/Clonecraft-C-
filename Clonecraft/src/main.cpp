@@ -27,7 +27,11 @@ float m_width, m_height;
 GLFWwindow* initWindow();
 void setFullscreenResolution();
 
-int main() {
+int main(int argc, char* argv[]) {
+
+    char* filePath = argv[0];
+
+    std::cout << "path" << filePath << std::endl;
     GLFWwindow* window = initWindow();
 
     // Check for Valid Context
@@ -54,7 +58,7 @@ int main() {
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     // texture for the world
-    TextureAtlas textureAtlas("../Clonecraft/resources/atlas.png");
+    TextureAtlas textureAtlas("../../../../Clonecraft/resources/atlas.png");
 
     World world = World();
 
@@ -62,7 +66,7 @@ int main() {
     chunk.generateMesh();*/
 
     // Create and compile our GLSL program from the shaders
-    GLuint frustum_shader = LoadShaders("../Clonecraft/shaders/frustum.vert", "../Clonecraft/shaders/frustum.frag");
+    GLuint frustum_shader = LoadShaders("../../../../Clonecraft/shaders/frustum.vert", "../../../../Clonecraft/shaders/frustum.frag");
     GLuint frustum_mvp_uniform = glGetUniformLocation(frustum_shader, "mvp");
 
     // Rendering Loop

@@ -36,7 +36,7 @@ Texture::Texture(const char* file_path) {
         else {
             std::cout << "Error: (Texture) unknown number of channels" << std::endl;
         }
-    }
+    } 
     else {
         std::cout << "Error: (Texture) Failed to load texture" << std::endl;
     }

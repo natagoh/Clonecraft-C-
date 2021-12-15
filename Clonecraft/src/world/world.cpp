@@ -30,9 +30,9 @@ World::World() {
 		}
 	}
 
-	// bind shaders
-	block_shader = LoadShaders("../Clonecraft/shaders/block.vert", "../Clonecraft/shaders/block.frag");
-	water_shader = LoadShaders("../Clonecraft/shaders/water.vert", "../Clonecraft/shaders/water.frag");
+	// bind 
+	block_shader = LoadShaders("../../../../Clonecraft/shaders/block.vert", "../../../../Clonecraft/shaders/block.frag");
+	water_shader = LoadShaders("../../../../Clonecraft/shaders/water.vert", "../../../../Clonecraft/shaders/water.frag");
 	glCheckError();
 
 	// shader uniforms

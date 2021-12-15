@@ -1,0 +1,452 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						3
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.0"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						10
+					]
+				},
+				{
+					"build" : "Clonecraft/vendor/glfw",
+					"childIndexes" : 
+					[
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-Clonecraft.vendor.glfw-Debug-cb4076183f01d63f2f88.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "Clonecraft/vendor/glfw",
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"build" : "Clonecraft/vendor/glfw/src",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-Clonecraft.vendor.glfw.src-Debug-041a9cf3862d02e01560.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "Clonecraft/vendor/glfw/src",
+					"targetIndexes" : 
+					[
+						12
+					]
+				},
+				{
+					"build" : "Clonecraft/vendor/bullet",
+					"childIndexes" : 
+					[
+						4
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-Clonecraft.vendor.bullet-Debug-6a984ded0ba321f7d784.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.4.3"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "Clonecraft/vendor/bullet"
+				},
+				{
+					"build" : "Clonecraft/vendor/bullet/src",
+					"childIndexes" : 
+					[
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15
+					],
+					"jsonFile" : "directory-Clonecraft.vendor.bullet.src-Debug-9ace37c47cc006a168f4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.4.3"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 2,
+					"source" : "Clonecraft/vendor/bullet/src"
+				},
+				{
+					"build" : "Clonecraft/vendor/bullet/src/Bullet3OpenCL",
+					"jsonFile" : "directory-Clonecraft.vendor.bullet.src.Bullet3OpenCL-Debug-200ebbc6486b7cd3a200.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.4.3"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "Clonecraft/vendor/bullet/src/Bullet3OpenCL",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "Clonecraft/vendor/bullet/src/Bullet3Serialize/Bullet2FileLoader",
+					"jsonFile" : "directory-Clonecraft.vendor.bullet.src.Bullet3Serialize.Bullet2FileLoader-Debug-d21a8169e844934efcf5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.4.3"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "Clonecraft/vendor/bullet/src/Bullet3Serialize/Bullet2FileLoader",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "Clonecraft/vendor/bullet/src/Bullet3Dynamics",
+					"jsonFile" : "directory-Clonecraft.vendor.bullet.src.Bullet3Dynamics-Debug-19e0e44fda63dd545163.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.4.3"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "Clonecraft/vendor/bullet/src/Bullet3Dynamics",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "Clonecraft/vendor/bullet/src/Bullet3Collision",
+					"jsonFile" : "directory-Clonecraft.vendor.bullet.src.Bullet3Collision-Debug-586a096cc2148fa1ae2b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.4.3"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "Clonecraft/vendor/bullet/src/Bullet3Collision",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "Clonecraft/vendor/bullet/src/Bullet3Geometry",
+					"jsonFile" : "directory-Clonecraft.vendor.bullet.src.Bullet3Geometry-Debug-267204426e543b966b2e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.4.3"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "Clonecraft/vendor/bullet/src/Bullet3Geometry",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "Clonecraft/vendor/bullet/src/BulletInverseDynamics",
+					"jsonFile" : "directory-Clonecraft.vendor.bullet.src.BulletInverseDynamics-Debug-310ab58a9b2387b76482.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.4.3"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "Clonecraft/vendor/bullet/src/BulletInverseDynamics",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "Clonecraft/vendor/bullet/src/BulletSoftBody",
+					"jsonFile" : "directory-Clonecraft.vendor.bullet.src.BulletSoftBody-Debug-cd65356807a8201298bc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.4.3"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "Clonecraft/vendor/bullet/src/BulletSoftBody",
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"build" : "Clonecraft/vendor/bullet/src/BulletCollision",
+					"jsonFile" : "directory-Clonecraft.vendor.bullet.src.BulletCollision-Debug-6f902b78e33334ef4cf6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.4.3"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "Clonecraft/vendor/bullet/src/BulletCollision",
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"build" : "Clonecraft/vendor/bullet/src/BulletDynamics",
+					"jsonFile" : "directory-Clonecraft.vendor.bullet.src.BulletDynamics-Debug-e5dd9b159867f500d5e0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.4.3"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "Clonecraft/vendor/bullet/src/BulletDynamics",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "Clonecraft/vendor/bullet/src/LinearMath",
+					"jsonFile" : "directory-Clonecraft.vendor.bullet.src.LinearMath-Debug-d7f7e15a5ecdfcd0e33a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.4.3"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "Clonecraft/vendor/bullet/src/LinearMath",
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"build" : "Clonecraft/vendor/bullet/src/Bullet3Common",
+					"jsonFile" : "directory-Clonecraft.vendor.bullet.src.Bullet3Common-Debug-1416eee407faf30d4049.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.4.3"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "Clonecraft/vendor/bullet/src/Bullet3Common",
+					"targetIndexes" : 
+					[
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Clonecraft",
+					"targetIndexes" : 
+					[
+						10
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1,
+						2
+					],
+					"name" : "GLFW",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						12,
+						13
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15
+					],
+					"name" : "BULLET_PHYSICS",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						11
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 6,
+					"id" : "Bullet2FileLoader::@37e6b2d881cf1254281d",
+					"jsonFile" : "target-Bullet2FileLoader-Debug-a580608d85dfeb120323.json",
+					"name" : "Bullet2FileLoader",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "Bullet3Collision::@90f96826e36f8aa80d46",
+					"jsonFile" : "target-Bullet3Collision-Debug-e81f09efa0908e9012de.json",
+					"name" : "Bullet3Collision",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "Bullet3Common::@04bd82acec356d375c5d",
+					"jsonFile" : "target-Bullet3Common-Debug-b35bd38fe59344392357.json",
+					"name" : "Bullet3Common",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "Bullet3Dynamics::@eb19beac4e8786a807cc",
+					"jsonFile" : "target-Bullet3Dynamics-Debug-57d724d932a237b5edeb.json",
+					"name" : "Bullet3Dynamics",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "Bullet3Geometry::@90ac9e76483f965ead13",
+					"jsonFile" : "target-Bullet3Geometry-Debug-41174b6c5ff0693bc2ed.json",
+					"name" : "Bullet3Geometry",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "Bullet3OpenCL_clew::@7f42caae2d7d859c2e49",
+					"jsonFile" : "target-Bullet3OpenCL_clew-Debug-fdaaf68df9b0b0f11101.json",
+					"name" : "Bullet3OpenCL_clew",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "BulletCollision::@39b4fc7fe1a7933f5079",
+					"jsonFile" : "target-BulletCollision-Debug-3437e1b448184d501cc3.json",
+					"name" : "BulletCollision",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "BulletDynamics::@b58ae244bf5b2e15cd95",
+					"jsonFile" : "target-BulletDynamics-Debug-c0b72397d14ece637a72.json",
+					"name" : "BulletDynamics",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "BulletInverseDynamics::@0b1e0f187c2c15c6b288",
+					"jsonFile" : "target-BulletInverseDynamics-Debug-28809d811faa00172b8b.json",
+					"name" : "BulletInverseDynamics",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 11,
+					"id" : "BulletSoftBody::@273472e8f6dff4f66ed2",
+					"jsonFile" : "target-BulletSoftBody-Debug-2ef7e0795de81870384f.json",
+					"name" : "BulletSoftBody",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Clonecraft::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Clonecraft-Debug-a75a7e2e02821a217db4.json",
+					"name" : "Clonecraft",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "LinearMath::@e6d2d6db1d5a0de27ca4",
+					"jsonFile" : "target-LinearMath-Debug-84ffa9ca0b8def6afa24.json",
+					"name" : "LinearMath",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "glfw::@dc2813d38ab8353c7b90",
+					"jsonFile" : "target-glfw-Debug-ecb040317fb42d93eca0.json",
+					"name" : "glfw",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "uninstall::@2704dea4972327084b2e",
+					"jsonFile" : "target-uninstall-Debug-5d2c47d20b5a11466d1b.json",
+					"name" : "uninstall",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/gohna/Documents/mycraft2/out/build/x64-Debug",
+		"source" : "C:/Users/gohna/Documents/mycraft2"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}
